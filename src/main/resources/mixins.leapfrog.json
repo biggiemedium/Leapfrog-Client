@@ -1,0 +1,10 @@
+{
+  "required": true,
+  "compatibilityLevel": "JAVA_8",
+  "package": "dev.leap.frog.Mixin",
+  "refmap": "mixins.leapfrog.refmap.json",
+  "mixins": [
+    "MixinMainMenuGUI",
+    "MixinNetworkManager"
+  ]
+}
