@@ -123,7 +123,7 @@ jar {
                 'tweakClass': 'org.spongepowered.asm.launch.MixinTweaker',
                 'TweakOrder': 0,
                 'FMLCorePluginContainsFMLMod': 'true',
-                'FMLCorePlugin': 'me.ionar.salhack.mixin.MixinLoaderForge',
+                'FMLCorePlugin': 'dev.leap.frog.Mixin',
                 'ForceLoadAsMod': 'true',
                 'FMLAT': 'leapfrog_at.cfg'
         )
