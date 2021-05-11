@@ -1,10 +1,8 @@
 package dev.leap.frog.Manager;
 
 import dev.leap.frog.Module.Exploit.XCarry;
-import dev.leap.frog.Module.Misc.FakePlayer;
 import dev.leap.frog.Module.Misc.Test;
 import dev.leap.frog.Module.Module;
-import dev.leap.frog.Module.Render.Capes;
 import dev.leap.frog.Module.Render.FullBright;
 import dev.leap.frog.Module.ui.ClickGUI;
 
@@ -21,15 +19,12 @@ public class ModuleManager {
 
         // Misc
         Add(new Test());
-        Add(new FakePlayer());
 
         // Exploit
         Add(new XCarry());
 
         // Render
         Add(new FullBright());
-
-        Add(new Capes());
     }
 
     public void Add(Module m) {
@@ -66,10 +61,6 @@ public class ModuleManager {
                 m.onUpdate();
             }
         }
-    }
-
-    public static void onRender() {
-        modules.stream().filter(Module::isToggled).forEach(Module::onRender);
     }
 
 }

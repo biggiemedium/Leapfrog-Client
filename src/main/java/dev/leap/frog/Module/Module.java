@@ -136,9 +136,7 @@ public class Module implements Listenable {
 
 
     public void onUpdate() {} // On tick
-    public void onRender() {} // TEXT TO SCREEN
-
-
+    public void onRender() {} // add game render in events
 
     public String keyToString() {
         String bind = "null";

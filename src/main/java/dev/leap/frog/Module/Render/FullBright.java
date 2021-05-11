@@ -1,7 +1,6 @@
 package dev.leap.frog.Module.Render;
 
 import dev.leap.frog.Module.Module;
-import dev.leap.frog.Settings.Settings;
 
 public class FullBright extends Module {
 
@@ -12,7 +11,6 @@ public class FullBright extends Module {
     @Override
     public void onEnable() {
         mc.gameSettings.gammaSetting = 10;
-
     }
 
     @Override

@@ -7,6 +7,7 @@ import net.minecraft.client.gui.Gui;
 import java.awt.*;
 
 public class ModuleButton {
+
     private Module module;
     private Frame frame;
 
@@ -38,8 +39,8 @@ public class ModuleButton {
         Gui.drawRect(this.x, this.y, this.x + width, this.y + this.height, Colour);
         Minecraft.getMinecraft().fontRenderer.drawString(module.getName(), x + 2, y + 2, new Color(255, 255, 255).getRGB());
         if(Dragging == true){
-          //  this.x + this.x - mouseX;
-          //  this.y + this.y - mouseY;
+            //  this.x + this.x - mouseX;
+            //  this.y + this.y - mouseY;
 
         }
     }

@@ -4,7 +4,6 @@ import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Manager.ModuleManager;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -14,7 +13,8 @@ public class EventProcessor {
 
     private Minecraft mc = Minecraft.getMinecraft();
 
-    public EventProcessor() {
+    public EventProcessor()
+    {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -30,14 +30,6 @@ public class EventProcessor {
     public void onEntityJoinWorldEvent(EntityJoinWorldEvent entityJoinWorldEvent)
     {
         LeapFrog.EVENT_BUS.post(entityJoinWorldEvent);
-    }
-
-    @SubscribeEvent
-    public void onRender(RenderGameOverlayEvent event) {
-        if(mc.player == null || mc.world == null)
-            return;
-
-        ModuleManager.onRender();
     }
 
 }

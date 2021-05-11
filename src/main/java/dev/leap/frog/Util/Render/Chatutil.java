@@ -19,11 +19,6 @@ public class Chatutil {
 
     public static void ClientSideMessgage(String message) {
         if (Wrapper.GetMC().ingameGUI != null || Wrapper.GetPlayer() == null)
-            Wrapper.GetMC().ingameGUI.getChatGUI().printChatMessage(new TextComponentString(message));
-    }
-
-    public static void SendLeapFrogMessage(String message) {
-        if (Wrapper.GetMC().ingameGUI != null || Wrapper.GetPlayer() == null)
             Wrapper.GetMC().ingameGUI.getChatGUI().printChatMessage(new TextComponentString( prefix  + message));
     }
 

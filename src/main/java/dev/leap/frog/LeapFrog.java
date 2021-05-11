@@ -37,15 +37,19 @@ public class LeapFrog {
         System.out.println("Starting Client");
         MinecraftForge.EVENT_BUS.register(this);
 
-        //register managers
+      //register managers
         moduleManager = new ModuleManager();
         settingsManager = new SettingsManager();
         fileManager = new FileManager();
 
 
         discordManager.Start();
+        fileManager.createDir();
+
 
     }
+
+
     
     // get classes
     public static ModuleManager moduleManager() {
@@ -56,7 +60,9 @@ public class LeapFrog {
 
     public static FileManager getFileManager() { return fileManager; }
 
-    public static DiscordManager getDiscordManager() { return discordManager; }
+    public static DiscordManager getDiscordManager() {
+        return discordManager;
+    }
 
     @SubscribeEvent
     public void key(InputEvent e) {

@@ -10,6 +10,8 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import java.util.ArrayList;
+
 public class ClickGUI extends GuiScreen {
 
     public static ClickGUI getInstance = new ClickGUI();
@@ -57,5 +59,3 @@ public class ClickGUI extends GuiScreen {
         }
     }
 }
-
-
