@@ -1,6 +1,8 @@
 package dev.leap.frog.Util.Entity;
 
-public class Friendutil {
+import dev.leap.frog.Manager.UtilManager;
+
+public class Friendutil extends UtilManager {
 
     private String name;
 

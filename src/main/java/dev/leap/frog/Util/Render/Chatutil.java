@@ -1,11 +1,12 @@
 package dev.leap.frog.Util.Render;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
+import dev.leap.frog.Manager.UtilManager;
 import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TextComponentString;
 
-public class Chatutil {
+public class Chatutil extends UtilManager {
 
     public static ChatFormatting red = ChatFormatting.RED;
     public static ChatFormatting blue = ChatFormatting.BLUE;

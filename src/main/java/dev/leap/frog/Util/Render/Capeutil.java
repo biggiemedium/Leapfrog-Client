@@ -1,5 +1,7 @@
 package dev.leap.frog.Util.Render;
 
+import dev.leap.frog.Manager.UtilManager;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -7,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Capeutil {
+public class Capeutil extends UtilManager {
 
     final static ArrayList<String> UUIDList = get_uuids();
 

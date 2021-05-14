@@ -1,9 +1,10 @@
 package dev.leap.frog.Util.Render;
 
+import dev.leap.frog.Manager.UtilManager;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 
-public class Drawutil {
+public class Drawutil extends UtilManager {
 
     public static void releaseGL() {
         GlStateManager.enableCull();

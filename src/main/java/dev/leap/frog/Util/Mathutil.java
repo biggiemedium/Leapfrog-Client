@@ -1,5 +1,6 @@
 package dev.leap.frog.Util;
 
+import dev.leap.frog.Manager.UtilManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
@@ -7,7 +8,7 @@ import net.minecraft.util.math.Vec3d;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class Mathutil {
+public class Mathutil extends UtilManager {
 
     public static double degToRad(double deg)
     {

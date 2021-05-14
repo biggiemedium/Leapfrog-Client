@@ -1,12 +1,12 @@
 package dev.leap.frog.Util.Entity;
 
+import dev.leap.frog.Manager.UtilManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.MathHelper;
 
-public class Playerutil {
+public class Playerutil extends UtilManager {
 
-    public static float getSpeedInKM()
-    {
+    public static float getSpeedInKM() {
         final double deltaX = Minecraft.getMinecraft().player.posX - Minecraft.getMinecraft().player.prevPosX;
         final double deltaZ = Minecraft.getMinecraft().player.posZ - Minecraft.getMinecraft().player.prevPosZ;
 

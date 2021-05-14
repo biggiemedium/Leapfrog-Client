@@ -1,5 +1,6 @@
 package dev.leap.frog.Util.Entity;
 
+import dev.leap.frog.Manager.UtilManager;
 import dev.leap.frog.Util.Mathutil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -13,7 +14,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
-public class Entityutil {
+public class Entityutil extends UtilManager {
 
     private static final Minecraft mc = Minecraft.getMinecraft();
 

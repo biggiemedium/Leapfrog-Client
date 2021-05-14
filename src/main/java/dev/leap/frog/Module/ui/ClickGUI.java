@@ -14,12 +14,8 @@ public class ClickGUI extends Module {
     @Override
     public void onEnable() {
         mc.displayGuiScreen(dev.leap.frog.GUI.ClickGUI.getInstance);
+        toggle();
     }
 
-    @Override
-    public void onUpdate() {
-        if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
-            LeapFrog.moduleManager().getModuleName("ClickGUI").setToggled(false);
-        }
-    }
+
 }
