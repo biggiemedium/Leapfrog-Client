@@ -2,9 +2,12 @@ package dev.leap.frog.Module.Misc;
 
 import dev.leap.frog.GUI.HUD.ArrayList;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Settings.Settings;
 import dev.leap.frog.Util.Render.Chatutil;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
+
+import java.util.Set;
 
 public class Test extends Module {
 
@@ -14,6 +17,7 @@ public class Test extends Module {
     }
 
     private static ArrayList arrayList = new ArrayList();
+
 
     @Override
     public void onEnable() {
