@@ -47,7 +47,7 @@ public class Frame {
             }
         }
         for(ModuleButton moduleButton : moduleButton) {
-            moduleButton.draw(mouseX, mouseY);
+            moduleButton.draw(mouseX - 1, mouseY -1);
         }
 
     }
