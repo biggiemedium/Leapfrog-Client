@@ -1,7 +1,7 @@
 package dev.leap.frog.Module;
 
 import dev.leap.frog.LeapFrog;
-import dev.leap.frog.Settings.Settings;
+import dev.leap.frog.Settings.Setting;
 import me.zero.alpine.fork.listener.Listenable;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
@@ -99,44 +99,39 @@ public class Module implements Listenable {
         return toggled;
     }
 
-    public Settings create(String name, String tag, int value, int min, int max) {
-        LeapFrog.getSettingsManager().register(new Settings(this, name, tag, value, min, max));
 
-        return LeapFrog.getSettingsManager().get_setting_with_tag(this, tag);
+    protected Setting.i registerI(final String name, final String configname, final int value, final int min, final int max) {
+        final Setting.i s = new Setting.i(name, configname, this, getType(), value, min, max);
+        LeapFrog.getSettingsManager().addSetting(s);
+        return s;
     }
 
-    public Settings create(String name, String tag, double value, double min, double max) {
-        LeapFrog.getSettingsManager().register(new Settings(this, name, tag, value, min, max));
-
-        return LeapFrog.getSettingsManager().get_setting_with_tag(this, tag);
+    protected Setting.d registerD(final String name, final String configname, final double value, final double min, final double max) {
+        final Setting.d s = new Setting.d(name, configname, this, getType(), value, min, max);
+        LeapFrog.getSettingsManager().addSetting(s);
+        return s;
     }
 
-    public Settings create(String name, String tag, boolean value) {
-        LeapFrog.getSettingsManager().register(new Settings(this, name, tag, value));
-
-        return LeapFrog.getSettingsManager().get_setting_with_tag(this, tag);
+    protected Setting.b registerB(final String name, final String configname, final boolean value) {
+        final Setting.b s = new Setting.b(name, configname, this, getType(), value);
+        LeapFrog.getSettingsManager().addSetting(s);
+        return s;
     }
 
-    public Settings create(String name, String tag, String value) {
-        LeapFrog.getSettingsManager().register(new Settings(this, name, tag, value));
-
-        return LeapFrog.getSettingsManager().get_setting_with_tag(this, tag);
+    protected Setting.mode registerMode(final String name, final String configname, final List<String> modes, final String value) {
+        final Setting.mode s = new Setting.mode(name, configname, this, getType(), modes, value);
+        LeapFrog.getSettingsManager().addSetting(s);
+        return s;
     }
 
-    public Settings create(String name, String tag, String value, List<String> values) {
-        LeapFrog.getSettingsManager().register(new Settings(this, name, tag, values, value));
-
-        return LeapFrog.getSettingsManager().get_setting_with_tag(this, tag);
-    }
-
-    public List<String> combobox(String... item) {
-
-        return new ArrayList<>(Arrays.asList(item));
+    public String getHudInfo() {
+        return "";
     }
 
 
     public void onUpdate() {} // On tick
     public void onRender() {} // add game render in events
+    public void createSetting() {} // to dump settings in
 
     public String keyToString() {
         String bind = "null";
