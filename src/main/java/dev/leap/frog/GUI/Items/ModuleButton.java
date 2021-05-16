@@ -1,8 +1,9 @@
 package dev.leap.frog.GUI.Items;
 
 import dev.leap.frog.LeapFrog;
+import dev.leap.frog.Manager.SettingsManager;
 import dev.leap.frog.Module.Module;
-import dev.leap.frog.Settings.Settings;
+import dev.leap.frog.Settings.Setting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
@@ -38,7 +39,7 @@ public class ModuleButton {
         }else{
             Colour = Color.gray.getRGB();
         }
-        Gui.drawRect(this.x, this.y, this.x + width - 8, this.y + this.height, Colour);
+        Gui.drawRect(this.x, this.y, this.x + width, this.y + this.height, Colour);
         Minecraft.getMinecraft().fontRenderer.drawString(module.getName(), x + 2, y + 2, new Color(255, 255, 255).getRGB());
         if(Dragging == true){
             //  this.x + this.x - mouseX;
@@ -54,15 +55,17 @@ public class ModuleButton {
         if(x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height){
             if(button == 0) {
                 module.toggle();
-                for(Settings settings : LeapFrog.getSettingsManager().get_array_settings()) {
-                    System.out.println(settings);
-                }
+
             }
             if(button == 1){
                 System.out.println("right click" );
-                for(Settings settings : LeapFrog.getSettingsManager().get_array_settings()){
-                    System.out.println(settings);
+                if(LeapFrog.getSettingsManager().getSettingsForMod(module).isEmpty()){
+                    System.out.println("oef");
                 }
+                    for(Setting setting : LeapFrog.getSettingsManager().getSettingsForMod(module)){
+                        System.out.println(setting);
+                    }
+
             }
         }
     }

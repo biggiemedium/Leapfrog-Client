@@ -31,13 +31,13 @@ public class Frame {
 
         for(Module m : LeapFrog.moduleManager().getModuleByType(type)) {
             if(!(m.getName() == "ClickGui"))
-                moduleButton.add(new ModuleButton(m, this.x + 4, this.y + 17 + offsetY * 14, this));
+                moduleButton.add(new ModuleButton(m, this.x, this.y + 17 + offsetY * 14, this));
             offsetY++;
         }
     }
 
     public void render(int mouseX, int mouseY) {
-        Gui.drawRect(x, y, x + width, y + 20, new Color(35,225, 64).getRGB());
+        Gui.drawRect(x, y, x + width, y + 20, new Color(35,194, 12).getRGB());
         Wrapper.GetMC().fontRenderer.drawString(type.getName(), x + 2, y + 2, new Color(255,255, 255).getRGB()); // Name for each frame
         Gui.drawRect(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
         Gui.drawRect(x, y - 2, x + width, y + 1, new Color(12,255, 12).getRGB());
