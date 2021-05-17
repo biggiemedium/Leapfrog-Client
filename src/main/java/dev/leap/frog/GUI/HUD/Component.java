@@ -17,11 +17,4 @@ public class Component(){
     public draw(mouseX, mouseY){
             this.draw(mouseX, mouseY);
         }
-
-
-
-
-
-
-
-        }
+}
