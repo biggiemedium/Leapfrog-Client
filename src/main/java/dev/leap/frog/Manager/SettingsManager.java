@@ -9,44 +9,43 @@ import java.util.stream.Collectors;
 
 public class SettingsManager {
 
-    private final List<Setting> settings;
+    public ArrayList<Setting> array_setting;
 
     public SettingsManager() {
-        this.settings = new ArrayList<Setting>();
+        this.array_setting = new ArrayList<>();
     }
 
-    public List<Setting> getSettings() {
-        return this.settings;
+    public void register(Setting setting) {
+        this.array_setting.add(setting);
     }
 
-    public void addSetting(final Setting setting) {
-        this.settings.add(setting);
+    public ArrayList<Setting> get_array_settings() {
+        return this.array_setting;
     }
 
-    public Setting getSettingByNameAndMod(final String name, final Module parent) {
-        return this.settings.stream().filter(s -> s.getParent().equals(parent)).filter(s -> s.getConfigName().equalsIgnoreCase(name)).findFirst().orElse(null);
-    }
+    public Setting get_setting_with_tag(Module module, String tag) {
+        Setting setting_requested = null;
 
-    public Setting getSettingByNameAndModConfig(final String configname, final Module parent) {
-        return this.settings.stream().filter(s -> s.getParent().equals(parent)).filter(s -> s.getConfigName().equalsIgnoreCase(configname)).findFirst().orElse(null);
-    }
-
-    public List<Setting> getSettingsForMod(final Module parent) {
-        return this.settings.stream().filter(s -> s.getParent().equals(parent)).collect(Collectors.toList());
-    }
-
-    public List<Setting> getSettingsByCategory(final Module.Type category) {
-        return this.settings.stream().filter(s -> s.getCategory().equals(category)).collect(Collectors.toList());
-    }
-
-    public Setting getSettingByName(String name) {
-        for (Setting set : getSettings()) {
-            if (set.getName().equalsIgnoreCase(name)) {
-                return set;
+        for (Setting settings : get_array_settings()) {
+            if (settings.getMaster().equals(module) && settings.getTag().equalsIgnoreCase(tag)) {
+                setting_requested = settings;
             }
         }
-        System.err.println("[LeapFrog] Error Setting NOT found: '" + name + "'!");
-        return null;
+
+        return setting_requested;
     }
+
+    public ArrayList<Setting> get_settings_with_hack(Module module) {
+        ArrayList<Setting> setting_requesteds = new ArrayList<>();
+
+        for (Setting settings : get_array_settings()) {
+            if (settings.getMaster().equals(module)) {
+                setting_requesteds.add(settings);
+            }
+        }
+
+        return setting_requesteds;
+    }
+
 
 }

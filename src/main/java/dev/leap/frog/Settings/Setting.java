@@ -6,144 +6,163 @@ import java.util.List;
 
 public class Setting {
 
-    private final String name;
-    private final String configname;
-    private final Module parent;
-    private final Module.Type category;
-    private final Type type;
+    private Module master;
 
-    public Setting(final String name, final String configname, final Module parent, final Module.Type category, final Type type) {
-        this.name = name;
-        this.configname = configname;
-        this.parent = parent;
-        this.type = type;
-        this.category = category;
+    private String name;
+    private String tag;
+
+    private boolean button;
+
+    private List<String> combobox;
+    private      String  current;
+
+    private String label;
+
+    private double slider;
+    private double min;
+    private double max;
+
+    private String type;
+
+    public Setting(Module master, String name, String tag, boolean value) {
+        this.master = master;
+        this.name   = name;
+        this.tag    = tag;
+        this.button = value;
+        this.type   = "button";
+    }
+
+    public Setting(Module master, String name, String tag, List<String> values, String value) {
+        this.master   = master;
+        this.name     = name;
+        this.tag      = tag;
+        this.combobox = values;
+        this.current  = value;
+        this.type     = "combobox";
+    }
+
+    public Setting(Module master, String name, String tag, String value) {
+        this.master = master;
+        this.name   = name;
+        this.tag    = tag;
+        this.label  = value;
+        this.type   = "label";
+    }
+
+    public Setting(Module master, String name, String tag, double value, double min, double max) {
+        this.master = master;
+        this.name   = name;
+        this.tag    = tag;
+        this.slider = value;
+        this.min    = min;
+        this.max    = max;
+        this.type   = "doubleslider";
+    }
+
+    public Setting(Module master, String name, String tag, int value, int min, int max) {
+        this.master = master;
+        this.name   = name;
+        this.tag    = tag;
+        this.slider = value;
+        this.min    = min;
+        this.max    = max;
+        this.type   = "integerslider";
+    }
+
+    public Module getMaster() {
+        return this.master;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public String getConfigName() {
-        return this.configname;
+    public String getTag() {
+        return this.tag;
     }
 
-    public Module getParent() {
-        return this.parent;
+    public void setValue(boolean value) {
+        this.button = value;
     }
 
-    public Type getType() {
+    public void setCurrentValue(String value) {
+        this.current = value;
+    }
+
+    public void setValue(String value) {
+        this.label = value;
+    }
+
+    public void setValue(double value) {
+        if (value >= getMax(value)) {
+            this.slider = getMax(value);
+        } else if (value <= getMin(value)) {
+            this.slider = getMin(value);
+        } else {
+            this.slider = value;
+        }
+    }
+
+    public void setValue(int value) {
+        if (value >= this.getMax(value)) {
+            this.slider = this.getMax(value);
+        } else if (value <= this.getMin(value)) {
+            this.slider = this.getMin(value);
+        } else {
+            this.slider = value;
+        }
+    }
+
+    public boolean isInfo() {
+        return this.name.equalsIgnoreCase("info");
+    }
+
+    public boolean in(String value) {
+        return this.current.equalsIgnoreCase(value);
+    }
+
+    public boolean getValue(boolean type) {
+        return this.button;
+    }
+
+    public List<String> get_values() {
+        return this.combobox;
+    }
+
+    public String getCurrentValue() {
+        return this.current;
+    }
+
+    public String getValue(String type) {
+        return this.label;
+    }
+
+    public double getValue(double type) {
+        return this.slider;
+    }
+
+    public int getValue(int type) {
+        return ((int) Math.round(this.slider));
+    }
+
+    public double getMin(double type) {
+        return this.min;
+    }
+
+    public double getMax(double type) {
+        return this.max;
+    }
+
+    public int getMin(int type) {
+        return ((int) this.min);
+    }
+
+    public int getMax(int type) {
+        return ((int) this.max);
+    }
+
+    public String getType() {
         return this.type;
-    }
-
-    public Module.Type getCategory() {
-        return this.category;
-    }
-
-    public enum Type {
-        I,
-        D,
-        B,
-        STRING,
-        M
-    }
-
-    public static class i extends Setting {
-        private final int min;
-        private final int max;
-        private int value;
-
-        public i(final String name, final String configname, final Module parent, final Module.Type category, final int value, final int min, final int max) {
-            super(name, configname, parent, category, Type.I);
-            this.value = value;
-            this.min = min;
-            this.max = max;
-        }
-
-        public int getValue() {
-            return this.value;
-        }
-
-        public void setValue(final int value) {
-            this.value = value;
-        }
-
-        public int getMin() {
-            return this.min;
-        }
-
-        public int getMax() {
-            return this.max;
-        }
-    }
-
-    public static class d extends Setting {
-        private final double min;
-        private final double max;
-        private double value;
-
-        public d(final String name, final String configname, final Module parent, final Module.Type category, final double value, final double min, final double max) {
-            super(name, configname, parent, category, Type.D);
-            this.value = value;
-            this.min = min;
-            this.max = max;
-        }
-
-        public double getValue() {
-            return this.value;
-        }
-
-        public void setValue(final double value) {
-            this.value = value;
-        }
-
-        public double getMin() {
-            return this.min;
-        }
-
-        public double getMax() {
-            return this.max;
-        }
-    }
-
-    public static class b extends Setting {
-        private boolean value;
-
-        public b(final String name, final String configname, final Module parent, final Module.Type category, final boolean value) {
-            super(name, configname, parent, category, Type.B);
-            this.value = value;
-        }
-
-        public boolean getValue() {
-            return this.value;
-        }
-
-        public void setValue(final boolean value) {
-            this.value = value;
-        }
-    }
-
-    public static class mode extends Setting {
-        private final java.util.List<String> modes;
-        private String value;
-
-        public mode(final String name, final String configname, final Module parent, final Module.Type category, final java.util.List<String> modes, final String value) {
-            super(name, configname, parent, category, Type.M);
-            this.value = value;
-            this.modes = modes;
-        }
-
-        public String getValue() {
-            return this.value;
-        }
-
-        public void setValue(final String value) {
-            this.value = value;
-        }
-
-        public List<String> getModes() {
-            return this.modes;
-        }
     }
 
 }

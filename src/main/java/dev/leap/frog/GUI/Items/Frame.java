@@ -31,15 +31,17 @@ public class Frame {
 
         for(Module m : LeapFrog.moduleManager().getModuleByType(type)) {
             if(!(m.getName() == "ClickGui"))
-                moduleButton.add(new ModuleButton(m, this.x + 2, this.y + 10 + offsetY * 14, this));
+                moduleButton.add(new ModuleButton(m, this.x, this.y + 17 + offsetY * 14, this));
             offsetY++;
         }
     }
 
     public void render(int mouseX, int mouseY) {
-        Gui.drawRect(x, y, x + width, y + 20, Color.green.getRGB());
+        Gui.drawRect(x, y, x + width, y + 20, new Color(12,255, 12).getRGB()); // main top part
         Wrapper.GetMC().fontRenderer.drawString(type.getName(), x + 2, y + 2, new Color(255,255, 255).getRGB()); // Name for each frame
-        Gui.drawRect(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB()); // Rectangle drawn for each catogory
+        Gui.drawRect(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB()); // dont change value
+        Gui.drawRect(x, y - 2, x + width, y + 1, new Color(12,255, 12).getRGB()); // top green part
+        // Rectangle drawn for each catogory
         if(mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + 20){
             if(dragging == true){
                 this.x = mouseX - 10;

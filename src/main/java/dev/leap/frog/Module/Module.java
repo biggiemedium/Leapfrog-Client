@@ -18,6 +18,7 @@ public class Module implements Listenable {
     public Type type;
     public int key;
     public boolean toggled;
+    public List<Setting> settingsList = new ArrayList<>();
     protected Minecraft mc = Minecraft.getMinecraft();
 
     public boolean widgetUsed;
@@ -100,32 +101,43 @@ public class Module implements Listenable {
     }
 
 
-    protected Setting.i registerI(final String name, final String configname, final int value, final int min, final int max) {
-        final Setting.i s = new Setting.i(name, configname, this, getType(), value, min, max);
-        LeapFrog.getSettingsManager().addSetting(s);
-        return s;
+    public List<Setting> getSettingsList() {
+        return settingsList;
     }
 
-    protected Setting.d registerD(final String name, final String configname, final double value, final double min, final double max) {
-        final Setting.d s = new Setting.d(name, configname, this, getType(), value, min, max);
-        LeapFrog.getSettingsManager().addSetting(s);
-        return s;
+    public Setting create(String name, String tag, int value, int min, int max) {
+        LeapFrog.getSettingsManager().register(new Setting(this, name, tag, value, min, max));
+
+        return LeapFrog.getSettingsManager().get_setting_with_tag(this, tag);
     }
 
-    protected Setting.b registerB(final String name, final String configname, final boolean value) {
-        final Setting.b s = new Setting.b(name, configname, this, getType(), value);
-        LeapFrog.getSettingsManager().addSetting(s);
-        return s;
+    public Setting create(String name, String tag, double value, double min, double max) {
+        LeapFrog.getSettingsManager().register(new Setting(this, name, tag, value, min, max));
+
+        return LeapFrog.getSettingsManager().get_setting_with_tag(this, tag);
     }
 
-    protected Setting.mode registerMode(final String name, final String configname, final List<String> modes, final String value) {
-        final Setting.mode s = new Setting.mode(name, configname, this, getType(), modes, value);
-        LeapFrog.getSettingsManager().addSetting(s);
-        return s;
+    public Setting create(String name, String tag, boolean value) {
+        LeapFrog.getSettingsManager().register(new Setting(this, name, tag, value));
+
+        return LeapFrog.getSettingsManager().get_setting_with_tag(this, tag);
     }
 
-    public String getHudInfo() {
-        return "";
+    public Setting create(String name, String tag, String value) {
+        LeapFrog.getSettingsManager().register(new Setting(this, name, tag, value));
+
+        return LeapFrog.getSettingsManager().get_setting_with_tag(this, tag);
+    }
+
+    public Setting create(String name, String tag, String value, List<String> values) {
+        LeapFrog.getSettingsManager().register(new Setting(this, name, tag, values, value));
+
+        return LeapFrog.getSettingsManager().get_setting_with_tag(this, tag);
+    }
+
+    public List<String> combobox(String... item) {
+
+        return new ArrayList<>(Arrays.asList(item));
     }
 
 
