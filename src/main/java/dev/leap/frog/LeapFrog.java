@@ -1,9 +1,6 @@
 package dev.leap.frog;
 
-import dev.leap.frog.Manager.DiscordManager;
-import dev.leap.frog.Manager.FileManager;
-import dev.leap.frog.Manager.ModuleManager;
-import dev.leap.frog.Manager.SettingsManager;
+import dev.leap.frog.Manager.*;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Util.Wrapper;
 import me.zero.alpine.fork.bus.EventBus;
@@ -31,6 +28,7 @@ public class LeapFrog {
     private static SettingsManager settingsManager;
     private static DiscordManager discordManager = new DiscordManager();
     private static FileManager fileManager;
+    private static HudManager hudManager;
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
@@ -38,6 +36,7 @@ public class LeapFrog {
         MinecraftForge.EVENT_BUS.register(this);
 
       //register managers
+        hudManager = new HudManager();
         moduleManager = new ModuleManager();
         settingsManager = new SettingsManager();
         fileManager = new FileManager();

@@ -1,27 +1,23 @@
 package dev.leap.frog.GUI.HUD;
 
-private int x;
-private int y;
+public class Component {
+    private int x;
+    private int y;
 
-private String name;
+    private String name;
 
-
-public class Component(){
-
-    public Component(int X, int Y, String Name){
-        this.x = X;
-        this.y = Y;
+    public Component(int width, int height, String Name){
+        this.x = width;
+        this.y = height;
         this.name = Name;
+
+    }
+    public void Render(int mouseX, int mouseY){
+        this.Render(mouseX,mouseY);
+
+    }
+    public void Click(int mouseX, int mouseY, int mouseButton){
+
     }
 
-    public draw(mouseX, mouseY){
-            this.draw(mouseX, mouseY);
-        }
-
-
-
-
-
-
-
-        }
+}

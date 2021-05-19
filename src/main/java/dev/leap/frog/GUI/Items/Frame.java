@@ -30,8 +30,9 @@ public class Frame {
         int offsetY = 0;
 
         for(Module m : LeapFrog.moduleManager().getModuleByType(type)) {
-            if(!(m.getName() == "ClickGui"))
+            if(this.type == m.type) {
                 moduleButton.add(new ModuleButton(m, this.x, this.y + 17 + offsetY * 14, this));
+            }
             offsetY++;
         }
     }
@@ -58,6 +59,7 @@ public class Frame {
         for(ModuleButton moduleButton : moduleButton) {
             moduleButton.OnClick(x, y, button, this.type);
         }
+
     }
     public void OnMouseReleased(int x, int y){
         for(ModuleButton moduleButton : moduleButton) {

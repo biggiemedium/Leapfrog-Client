@@ -32,6 +32,8 @@ public class Test extends Module {
 
     @Override
     public void onEnable() {
+        this.testSetting = registerB("Boolean example", "Boolean example", true); // name, configname, value: T/F
+        this.intSetting = registerI("Int example", "Int example", 255, 0, 255);
         Chatutil.ClientSideMessgage("On");
         MinecraftForge.EVENT_BUS.register(arrayList);
     }

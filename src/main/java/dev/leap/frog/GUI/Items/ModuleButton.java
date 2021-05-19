@@ -22,14 +22,16 @@ public class ModuleButton {
     private int width;
     private int height;
     private int Colour;
+    private int offset;
 
-    public ModuleButton(Module module, int x, int y,Frame frame) {
+    public ModuleButton(Module module, int x, int y,Frame frame, int Offset) {
         this.module = module;
         this.x = x;
         this.y = y + 2;
         this.frame = frame;
         this.width = frame.width;
         this.height = 14;
+        this.offset = Offset;
 
     }
 
@@ -71,9 +73,7 @@ public class ModuleButton {
     }
 
     public void MouseReleased(int x, int y, Module.Type type){
-        if(module.getType() == type){
 
-        }
 
     }
 }
