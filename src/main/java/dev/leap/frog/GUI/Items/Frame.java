@@ -38,10 +38,10 @@ public class Frame {
     }
 
     public void render(int mouseX, int mouseY) {
-        Gui.drawRect(x, y, x + width, y + 20, new Color(12,255, 12).getRGB());
+        Gui.drawRect(x, y, x + width, y + 20, new Color(12,255, 12).getRGB()); // main top part
         Wrapper.GetMC().fontRenderer.drawString(type.getName(), x + 2, y + 2, new Color(255,255, 255).getRGB()); // Name for each frame
-        Gui.drawRect(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
-        Gui.drawRect(x, y - 2, x + width, y + 1, new Color(12,255, 12).getRGB());
+        Gui.drawRect(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB()); // dont change value
+        Gui.drawRect(x, y - 2, x + width, y + 1, new Color(12,255, 12).getRGB()); // top green part
         // Rectangle drawn for each catogory
         if(mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + 20){
             if(dragging == true){

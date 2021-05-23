@@ -68,7 +68,7 @@ public class DiscordManager { // skidded from myself :)
 
 
         if(mc.player == null)
-            return "Loading...";
+            return "Idle";
 
         if(mc.player != null && mc.player.onGround) {
             return "Moving " + getSpeedInKM() + " KMH";

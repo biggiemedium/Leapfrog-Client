@@ -4,6 +4,7 @@ import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Manager.SettingsManager;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
+import dev.leap.frog.Util.Render.Colorutil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 
@@ -37,9 +38,9 @@ public class ModuleButton {
 
     public void draw(int mouseX, int mouseY) {
         if(module.isToggled()){
-            Colour = Color.green.getRGB();
+            Colour = Colorutil.getToggledColor();
         }else{
-            Colour = Color.gray.getRGB();
+            Colour = Colorutil.getOffColor();
         }
         Gui.drawRect(this.x, this.y, this.x + width, this.y + this.height, Colour);
         Minecraft.getMinecraft().fontRenderer.drawString(module.getName(), x + 2, y + 2, new Color(255, 255, 255).getRGB());
@@ -61,10 +62,10 @@ public class ModuleButton {
             }
             if(button == 1){
                 System.out.println("right click" );
-                if(LeapFrog.getSettingsManager().getSettingsForMod(module).isEmpty()){
+                if(LeapFrog.getSettingsManager().get_settings_with_hack(module).isEmpty()){
                     System.out.println("oef");
                 }
-                    for(Setting setting : LeapFrog.getSettingsManager().getSettingsForMod(module)){
+                    for(Setting setting : LeapFrog.getSettingsManager().get_settings_with_hack(module)){
                         System.out.println(setting);
                     }
 

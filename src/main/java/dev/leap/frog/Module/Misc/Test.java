@@ -12,8 +12,7 @@ import java.util.Set;
 
 public class Test extends Module {
 
-    Setting.b testSetting;
-    Setting.i intSetting;
+     // note: settings still return null
 
     public Test() {
         super("Test", "Test", Type.RENDER);
@@ -21,14 +20,6 @@ public class Test extends Module {
     }
 
     private static ArrayList arrayList = new ArrayList();
-
-
-
-    public void createSetting() {
-        this.testSetting = registerB("Boolean example", "Boolean example", true); // name, configname, value: T/F
-        this.intSetting = registerI("Int example", "Int example", 255, 0, 255); // name, configname, default value, min, max
-        LeapFrog.getSettingsManager().getSettingsForMod(this).add(testSetting);
-    }
 
     @Override
     public void onEnable() {
