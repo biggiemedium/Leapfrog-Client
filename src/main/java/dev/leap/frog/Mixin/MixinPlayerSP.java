@@ -14,9 +14,8 @@ public class MixinPlayerSP {
     @Inject(method = "onUpdateWalkingPlayer", at = @At("HEAD"), cancellable = true)
     public void preWalkingPlayer(CallbackInfo ci) {
         PlayerMotionUpdateEvent event = new PlayerMotionUpdateEvent(0);
-
         LeapFrog.EVENT_BUS.post(event);
-
+        System.out.println("posted event!");
         if(event.isCancelled()) {
             ci.cancel();
         }

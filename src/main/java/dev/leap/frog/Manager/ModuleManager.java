@@ -1,5 +1,6 @@
 package dev.leap.frog.Manager;
 
+import dev.leap.frog.Module.Exploit.ElytraBypass;
 import dev.leap.frog.Module.Exploit.XCarry;
 import dev.leap.frog.Module.Misc.Test;
 import dev.leap.frog.Module.Module;
@@ -25,6 +26,8 @@ public class ModuleManager {
 
         // Render
         Add(new FullBright());
+        //Movement
+        Add(new ElytraBypass());
     }
 
     public void Add(Module m) {

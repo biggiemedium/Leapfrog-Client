@@ -31,7 +31,7 @@ public class Frame {
 
         for(Module m : LeapFrog.moduleManager().getModuleByType(type)) {
             if(this.type == m.type) {
-                moduleButton.add(new ModuleButton(m, this.x, this.y + 17 + offsetY * 14, this));
+                moduleButton.add(new ModuleButton(m, this.x, this.y + 17 + offsetY * 14, this, offsetY));
             }
             offsetY++;
         }

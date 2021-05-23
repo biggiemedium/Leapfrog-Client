@@ -5,6 +5,8 @@
   "refmap": "mixins.leapfrog.refmap.json",
   "mixins": [
     "MixinMainMenuGUI",
-    "MixinNetworkManager"
+    "MixinNetworkManager",
+    "MixinPlayerSP",
+    "SessionUtil"
   ]
 }
