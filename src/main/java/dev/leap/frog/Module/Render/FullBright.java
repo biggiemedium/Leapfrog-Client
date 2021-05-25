@@ -8,6 +8,8 @@ public class FullBright extends Module {
         super("FullBright", "Shows full brightness", Type.RENDER);
     }
 
+    private float oldSetting = mc.gameSettings.gammaSetting;
+
     @Override
     public void onEnable() {
         mc.gameSettings.gammaSetting = 10;
@@ -15,6 +17,6 @@ public class FullBright extends Module {
 
     @Override
     public void onDisable() {
-        mc.gameSettings.gammaSetting = 1;
+        mc.gameSettings.gammaSetting = oldSetting;
     }
 }

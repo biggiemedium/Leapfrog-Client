@@ -1,7 +1,9 @@
 package dev.leap.frog.GUI;
 
+import dev.leap.frog.GUI.HUD.Component;
 import dev.leap.frog.GUI.Items.Frame;
 import dev.leap.frog.GUI.Items.ModuleButton;
+import dev.leap.frog.Manager.HudManager;
 import dev.leap.frog.Module.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -31,7 +33,9 @@ public class ClickGUI extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-
+        for(Component c : HudManager.HUDComponent){
+            c.Render(mouseX, mouseY);
+        }
         for(Frame f : frame) {
             f.render(mouseX, mouseY);
 

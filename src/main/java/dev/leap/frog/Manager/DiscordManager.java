@@ -46,8 +46,7 @@ public class DiscordManager { // skidded from myself :)
         _thread.start();
     }
 
-    public static float getSpeedInKM()
-    {
+    public static float getSpeedInKM() {
         final double deltaX = Minecraft.getMinecraft().player.posX - Minecraft.getMinecraft().player.prevPosX;
         final double deltaZ = Minecraft.getMinecraft().player.posZ - Minecraft.getMinecraft().player.prevPosZ;
 
@@ -68,7 +67,7 @@ public class DiscordManager { // skidded from myself :)
 
 
         if(mc.player == null)
-            return "Idle";
+            return "Main menu";
 
         if(mc.player != null && mc.player.onGround) {
             return "Moving " + getSpeedInKM() + " KMH";

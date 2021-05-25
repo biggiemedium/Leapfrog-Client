@@ -4,7 +4,7 @@ import dev.leap.frog.Module.Module;
 
 import java.util.List;
 
-public class Setting {
+public class Settings {
 
     private Module master;
 
@@ -24,7 +24,7 @@ public class Setting {
 
     private String type;
 
-    public Setting(Module master, String name, String tag, boolean value) {
+    public Settings(Module master, String name, String tag, boolean value) {
         this.master = master;
         this.name   = name;
         this.tag    = tag;
@@ -32,7 +32,7 @@ public class Setting {
         this.type   = "button";
     }
 
-    public Setting(Module master, String name, String tag, List<String> values, String value) {
+    public Settings(Module master, String name, String tag, List<String> values, String value) {
         this.master   = master;
         this.name     = name;
         this.tag      = tag;
@@ -41,7 +41,7 @@ public class Setting {
         this.type     = "combobox";
     }
 
-    public Setting(Module master, String name, String tag, String value) {
+    public Settings(Module master, String name, String tag, String value) {
         this.master = master;
         this.name   = name;
         this.tag    = tag;
@@ -49,7 +49,7 @@ public class Setting {
         this.type   = "label";
     }
 
-    public Setting(Module master, String name, String tag, double value, double min, double max) {
+    public Settings(Module master, String name, String tag, double value, double min, double max) {
         this.master = master;
         this.name   = name;
         this.tag    = tag;
@@ -59,7 +59,7 @@ public class Setting {
         this.type   = "doubleslider";
     }
 
-    public Setting(Module master, String name, String tag, int value, int min, int max) {
+    public Settings(Module master, String name, String tag, int value, int min, int max) {
         this.master = master;
         this.name   = name;
         this.tag    = tag;

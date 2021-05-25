@@ -1,10 +1,13 @@
 package dev.leap.frog.Manager;
 
+import dev.leap.frog.Module.Combat.Velocity;
+import dev.leap.frog.Module.Movement.ElytraBypass;
 import dev.leap.frog.Module.Exploit.XCarry;
 import dev.leap.frog.Module.Misc.Test;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Module.Render.FullBright;
 import dev.leap.frog.Module.ui.ClickGUI;
+import dev.leap.frog.Module.ui.FakePlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +17,12 @@ public class ModuleManager {
 
     public ModuleManager() {
 
+        // Combat
+        Add(new Velocity());
+
         //GUI
         Add(new ClickGUI());
+        Add(new FakePlayer());
 
         // Misc
         Add(new Test());
@@ -25,6 +32,8 @@ public class ModuleManager {
 
         // Render
         Add(new FullBright());
+        //Movement
+        Add(new ElytraBypass());
     }
 
     public void Add(Module m) {

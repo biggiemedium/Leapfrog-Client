@@ -1,7 +1,7 @@
 package dev.leap.frog.Module;
 
 import dev.leap.frog.LeapFrog;
-import dev.leap.frog.Settings.Setting;
+import dev.leap.frog.Settings.Settings;
 import me.zero.alpine.fork.listener.Listenable;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,7 +18,7 @@ public class Module implements Listenable {
     public Type type;
     public int key;
     public boolean toggled;
-    public List<Setting> settingsList = new ArrayList<>();
+    public List<Settings> settingsList = new ArrayList<>();
     protected Minecraft mc = Minecraft.getMinecraft();
 
     public boolean widgetUsed;
@@ -101,38 +101,38 @@ public class Module implements Listenable {
     }
 
 
-    public List<Setting> getSettingsList() {
+    public List<Settings> getSettingsList() {
         return settingsList;
     }
 
-    public Setting create(String name, String tag, int value, int min, int max) {
-        LeapFrog.getSettingsManager().register(new Setting(this, name, tag, value, min, max));
+    public Settings create(String name, String tag, int value, int min, int max) {
+        LeapFrog.getSettingsManager().register(new Settings(this, name, tag, value, min, max));
 
-        return LeapFrog.getSettingsManager().get_setting_with_tag(this, tag);
+        return LeapFrog.getSettingsManager().getSettingsbyTag(this, tag);
     }
 
-    public Setting create(String name, String tag, double value, double min, double max) {
-        LeapFrog.getSettingsManager().register(new Setting(this, name, tag, value, min, max));
+    public Settings create(String name, String tag, double value, double min, double max) {
+        LeapFrog.getSettingsManager().register(new Settings(this, name, tag, value, min, max));
 
-        return LeapFrog.getSettingsManager().get_setting_with_tag(this, tag);
+        return LeapFrog.getSettingsManager().getSettingsbyTag(this, tag);
     }
 
-    public Setting create(String name, String tag, boolean value) {
-        LeapFrog.getSettingsManager().register(new Setting(this, name, tag, value));
+    public Settings create(String name, String tag, boolean value) {
+        LeapFrog.getSettingsManager().register(new Settings(this, name, tag, value));
 
-        return LeapFrog.getSettingsManager().get_setting_with_tag(this, tag);
+        return LeapFrog.getSettingsManager().getSettingsbyTag(this, tag);
     }
 
-    public Setting create(String name, String tag, String value) {
-        LeapFrog.getSettingsManager().register(new Setting(this, name, tag, value));
+    public Settings create(String name, String tag, String value) {
+        LeapFrog.getSettingsManager().register(new Settings(this, name, tag, value));
 
-        return LeapFrog.getSettingsManager().get_setting_with_tag(this, tag);
+        return LeapFrog.getSettingsManager().getSettingsbyTag(this, tag);
     }
 
-    public Setting create(String name, String tag, String value, List<String> values) {
-        LeapFrog.getSettingsManager().register(new Setting(this, name, tag, values, value));
+    public Settings create(String name, String tag, String value, List<String> values) {
+        LeapFrog.getSettingsManager().register(new Settings(this, name, tag, values, value));
 
-        return LeapFrog.getSettingsManager().get_setting_with_tag(this, tag);
+        return LeapFrog.getSettingsManager().getSettingsbyTag(this, tag);
     }
 
     public List<String> combobox(String... item) {

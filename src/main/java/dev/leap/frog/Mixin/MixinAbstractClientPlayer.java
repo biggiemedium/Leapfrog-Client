@@ -28,12 +28,10 @@ public abstract class MixinAbstractClientPlayer {
             NetworkPlayerInfo info = this.getPlayerInfo();
             assert info != null;
 
-            if(!Capeutil.is_uuid_valid(info.getGameProfile().getId())) {
+            if(!Capeutil.isUuidValid(info.getGameProfile().getId())) {
                 return;
             }
-
-
-
         }
     }
+
 }

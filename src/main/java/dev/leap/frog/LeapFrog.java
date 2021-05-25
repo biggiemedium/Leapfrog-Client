@@ -1,10 +1,8 @@
 package dev.leap.frog;
 
-import dev.leap.frog.Manager.DiscordManager;
-import dev.leap.frog.Manager.FileManager;
-import dev.leap.frog.Manager.ModuleManager;
-import dev.leap.frog.Manager.SettingsManager;
+import dev.leap.frog.Manager.*;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Util.Network.Sessionutil;
 import dev.leap.frog.Util.Wrapper;
 import me.zero.alpine.fork.bus.EventBus;
 import me.zero.alpine.fork.bus.EventManager;
@@ -31,38 +29,35 @@ public class LeapFrog {
     private static SettingsManager settingsManager;
     private static DiscordManager discordManager = new DiscordManager();
     private static FileManager fileManager;
+    private static HudManager hudManager;
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
+
+        Sessionutil.getInstance().setUser("halop56yt@gmail.com", "@s93dm87dhwy&SKSK^@$*");
         System.out.println("Starting Client");
         MinecraftForge.EVENT_BUS.register(this);
 
       //register managers
+        settingsManager = new SettingsManager(); // settings manager must come BEFORE module manager
+        hudManager = new HudManager();
         moduleManager = new ModuleManager();
-        settingsManager = new SettingsManager();
         fileManager = new FileManager();
 
 
         discordManager.Start();
         fileManager.createDir();
 
-
     }
 
-
-    
     // get classes
-    public static ModuleManager moduleManager() {
-        return moduleManager;
-    }
+    public static ModuleManager moduleManager() { return moduleManager; }
 
     public static SettingsManager getSettingsManager() { return settingsManager;}
 
     public static FileManager getFileManager() { return fileManager; }
 
-    public static DiscordManager getDiscordManager() {
-        return discordManager;
-    }
+    public static DiscordManager getDiscordManager() { return discordManager; }
 
     @SubscribeEvent
     public void key(InputEvent e) {

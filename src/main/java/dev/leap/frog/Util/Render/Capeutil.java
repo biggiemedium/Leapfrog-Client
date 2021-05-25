@@ -11,11 +11,11 @@ import java.util.UUID;
 
 public class Capeutil extends UtilManager {
 
-    final static ArrayList<String> UUIDList = get_uuids();
+    final static ArrayList<String> UUIDList = getUuids();
 
-    public static ArrayList<String> get_uuids() {
+    public static ArrayList<String> getUuids() {
         try {
-            URL url = new URL("https://www.needcoolshoes.com/banner?=aapvpkaqjFaGaG");
+            URL url = new URL(""); // inset names of who gets cape here (in pastebin) by id
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             final ArrayList<String> uuid_list = new ArrayList<>();
 
@@ -31,7 +31,7 @@ public class Capeutil extends UtilManager {
         }
     }
 
-    public static boolean is_uuid_valid(UUID uuid) {
+    public static boolean isUuidValid(UUID uuid) {
         for (String u : Objects.requireNonNull(UUIDList)) {
             if (u.equals(uuid.toString())) {
                 return true;

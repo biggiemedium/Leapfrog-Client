@@ -1,9 +1,8 @@
 package dev.leap.frog.GUI.Items;
 
 import dev.leap.frog.LeapFrog;
-import dev.leap.frog.Manager.SettingsManager;
 import dev.leap.frog.Module.Module;
-import dev.leap.frog.Settings.Setting;
+import dev.leap.frog.Settings.Settings;
 import dev.leap.frog.Util.Render.Colorutil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -23,14 +22,16 @@ public class ModuleButton {
     private int width;
     private int height;
     private int Colour;
+    private int offset;
 
-    public ModuleButton(Module module, int x, int y,Frame frame) {
+    public ModuleButton(Module module, int x, int y,Frame frame, int Offset) {
         this.module = module;
         this.x = x;
         this.y = y + 2;
         this.frame = frame;
         this.width = frame.width;
         this.height = 14;
+        this.offset = Offset;
 
     }
 
@@ -56,25 +57,21 @@ public class ModuleButton {
         if(x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height){
             if(button == 0) {
                 module.toggle();
-
             }
             if(button == 1){
                 System.out.println("right click" );
-                if(LeapFrog.getSettingsManager().get_settings_with_hack(module).isEmpty()){
+                if(LeapFrog.getSettingsManager().getSettingByModule(module).isEmpty()){
                     System.out.println("oef");
                 }
-                    for(Setting setting : LeapFrog.getSettingsManager().get_settings_with_hack(module)){
+                    for(Settings setting : LeapFrog.getSettingsManager().getSettingByModule(module)){
                         System.out.println(setting);
                     }
-
             }
         }
     }
 
     public void MouseReleased(int x, int y, Module.Type type){
-        if(module.getType() == type){
 
-        }
 
     }
 }
