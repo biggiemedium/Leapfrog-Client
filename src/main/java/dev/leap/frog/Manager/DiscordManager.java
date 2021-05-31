@@ -3,6 +3,7 @@ package dev.leap.frog.Manager;
 import club.minnced.discord.rpc.DiscordEventHandlers;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
+import dev.leap.frog.LeapFrog;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.MathHelper;
 
@@ -25,7 +26,7 @@ public class DiscordManager { // skidded from myself :)
         lib.Discord_Initialize(applicationId, handlers, true, steamId);
 
         lib.Discord_UpdatePresence(presence);
-        presence.largeImageKey = "leapfrog";
+        presence.largeImageKey = "leapfrog512";
         _thread = new Thread(() ->
         {
             while (!Thread.currentThread().isInterrupted())
@@ -69,11 +70,11 @@ public class DiscordManager { // skidded from myself :)
         if(mc.player == null)
             return "Main menu";
 
-        if(mc.player != null && mc.player.onGround) {
+        if(mc.player.onGround) {
             return "Moving " + getSpeedInKM() + " KMH";
         }
 
-        if(!mc.player.onGround && mc.player != null) {
+        if(!mc.player.onGround) {
             return "Chilling in " + mc.world.getBiome(mc.player.getPosition()).getBiomeName();
         }
 

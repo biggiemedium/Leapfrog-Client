@@ -1,11 +1,16 @@
 package dev.leap.frog.Manager;
 
 import dev.leap.frog.Module.Combat.Velocity;
+import dev.leap.frog.Module.Misc.Announcer;
+import dev.leap.frog.Module.Misc.AutoReply;
+import dev.leap.frog.Module.Misc.FastUse;
 import dev.leap.frog.Module.Movement.ElytraBypass;
 import dev.leap.frog.Module.Exploit.XCarry;
 import dev.leap.frog.Module.Misc.Test;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Module.Movement.NoSlow;
 import dev.leap.frog.Module.Render.FullBright;
+import dev.leap.frog.Module.Render.NoRender;
 import dev.leap.frog.Module.ui.ClickGUIModule;
 import dev.leap.frog.Module.ui.FakePlayer;
 
@@ -26,14 +31,20 @@ public class ModuleManager {
 
         // Misc
         Add(new Test());
+        Add(new FastUse());
+        Add(new AutoReply());
+        Add(new Announcer());
 
         // Exploit
         Add(new XCarry());
 
         // Render
         Add(new FullBright());
+        Add(new NoRender());
+
         //Movement
         Add(new ElytraBypass());
+        Add(new NoSlow());
     }
 
     public void Add(Module m) {

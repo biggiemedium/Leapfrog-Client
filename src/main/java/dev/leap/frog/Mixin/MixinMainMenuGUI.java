@@ -1,9 +1,11 @@
 package dev.leap.frog.Mixin;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
+import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiMainMenu;
+import net.minecraft.client.gui.ScaledResolution;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -16,11 +18,9 @@ public class MixinMainMenuGUI {
     public void drawScreen(int mouseX, int mouseY, float partialTicks, CallbackInfo ci) {
 
         FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
+        ScaledResolution sc = new ScaledResolution(Wrapper.GetMC());
 
-        fr.drawStringWithShadow(ChatFormatting.GREEN + "LeapFrog Client ", 1, 2, 0xffffff);
-
-    // + ChatFormatting.GOLD + "Boncorde " +
-        //                ChatFormatting.GREEN + "and" + ChatFormatting.LIGHT_PURPLE + " PX"
+        fr.drawStringWithShadow(ChatFormatting.GREEN + "LeapFrog Client ", sc.getScaledWidth() - Wrapper.GetMC().fontRenderer.getStringWidth("LeapFrog Client"), 2, 0xffffff);
 
     }
 

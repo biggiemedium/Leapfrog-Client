@@ -1,5 +1,6 @@
 package dev.leap.frog;
 
+import dev.leap.frog.Event.EventProcessor;
 import dev.leap.frog.GUI.ClickGUI;
 import dev.leap.frog.Manager.*;
 import dev.leap.frog.Module.Module;
@@ -30,6 +31,7 @@ public class LeapFrog {
     private static ModuleManager moduleManager;
     private static SettingsManager settingsManager;
     private static DiscordManager discordManager = new DiscordManager();
+    private static EventProcessor eventManager;
     private static FileManager fileManager;
     private static HudManager hudManager;
 
@@ -46,6 +48,7 @@ public class LeapFrog {
         moduleManager = new ModuleManager();
         fileManager = new FileManager();
         clickGUI = new ClickGUI();
+        eventManager = new EventProcessor();
 
         discordManager.Start();
         fileManager.createDir();
@@ -61,6 +64,8 @@ public class LeapFrog {
     public static FileManager getFileManager() { return fileManager; }
 
     public static DiscordManager getDiscordManager() { return discordManager; }
+
+    public static EventProcessor getEventManager() { return eventManager; }
 
     @SubscribeEvent
     public void key(InputEvent e) {

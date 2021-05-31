@@ -26,9 +26,5 @@ public class ElytraBypass extends Module {
        mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(mc.player.posX + mc.player.motionX, mc.player.posY - 1337, mc.player.posZ + mc.player.motionZ, mc.player.rotationYaw, mc.player.rotationPitch, true));
 
 
-
-
-
-
    });
 }

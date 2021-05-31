@@ -16,7 +16,7 @@ public class Test extends Module {
     Settings combobox = create("combobox example", "combobox example", "default combo", combobox("1", "2", "3")); // combobox setting - default value - item - item- item
 
     public Test() {
-        super("Test", "Test", Type.RENDER);
+        super("Test", "Test", Type.MISC);
         setKey(Keyboard.KEY_N);
     }
 
@@ -39,6 +39,8 @@ public class Test extends Module {
 
     @Override
     public void onUpdate() {
+
+        System.out.println("Tick");
 
     }
 }
