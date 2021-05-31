@@ -1,148 +1,103 @@
 package dev.leap.frog.Util.Render;
 
 import dev.leap.frog.Manager.UtilManager;
+import dev.px.turok.Turok;
+import dev.px.turok.draw.RenderHelp;
+import dev.px.turok.task.Rect;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 
+import java.awt.*;
+import java.util.Arrays;
+
 public class Drawutil extends UtilManager {
+    private static FontRenderer font_renderer = Minecraft.getMinecraft().fontRenderer;
+    private static FontRenderer custom_font   = Minecraft.getMinecraft().fontRenderer;
 
-    public static void releaseGL() {
-        GlStateManager.enableCull();
-        GlStateManager.depthMask(true);
-        GlStateManager.enableTexture2D();
+    private float size;
+
+    public Drawutil(float size) {
+        this.size = size;
+    }
+
+    public static void drawRect(int x, int y, int w, int h, int r, int g, int b, int a) {
+        Gui.drawRect(x, y, w, h, new PXColor(r, g, b, a).hex());
+    }
+
+    public static void drawRect(int x, int y, int w, int h, int r, int g, int b, int a, int size, String type) {
+        if (Arrays.asList(type.split("-")).contains("up")) {
+            drawRect(x, y, x + w, y + size, r, g, b, a);
+        }
+
+        if (Arrays.asList(type.split("-")).contains("down")) {
+            drawRect(x, y + h - size, x + w, y + h, r, g, b, a);
+        }
+
+        if (Arrays.asList(type.split("-")).contains("left")) {
+            drawRect(x, y, x + size, y + h, r, g, b, a);
+        }
+
+        if (Arrays.asList(type.split("-")).contains("right")) {
+            drawRect(x + w - size, y, x + w, y + h, r, g, b, a);
+        }
+    }
+
+    public static void drawRect(Rect rect, int r, int g, int b, int a) {
+        Gui.drawRect(rect.get_x(), rect.get_y(), rect.get_screen_width(), rect.get_screen_height(), new PXColor(r, g, b, a).hex());
+    }
+
+    public static void drawString(String string, int x, int y, int r, int g, int b, int a) {
+        font_renderer.drawStringWithShadow(string, x, y, new PXColor(r, g, b, a).hex());
+    }
+
+    public void draw_string_gl(String string, int x, int y, int r, int g, int b) {
+        Turok resize_gl = new Turok("Resize");
+
+        resize_gl.resize(x, y, this.size);
+
+        font_renderer.drawString(string, x, y, new PXColor(r, g, b).hex());
+
+        resize_gl.resize(x, y, this.size, "end");
+
+        GL11.glPushMatrix();
+
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_BLEND);
+
         GlStateManager.enableBlend();
-        GlStateManager.enableDepth();
+
+        GL11.glPopMatrix();
+
+        RenderHelp.release_gl();
     }
 
-    // static classes below this line
+    public int getStringHeight() {
+        FontRenderer fontRenderer = font_renderer;
 
-    public static class Rect {
-        private String tag;
-
-        private int x;
-        private int y;
-
-        private int width;
-        private int height;
-
-        public Rect(String tag, int width, int height) {
-            this.tag    = tag;
-            this.width  = width;
-            this.height = height;
-        }
-
-        public void transform(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-
-        public void transform(int x, int y, int width, int height) {
-            this.x      = x;
-            this.y      = y;
-            this.width  = width;
-            this.height = height;
-        }
-
-        public boolean event_mouse(int mx, int my) {
-            if (mx >= get_x() && my >= get_y() && mx <= get_screen_width() && my <= get_screen_height()) {
-                return true;
-            }
-
-            return false;
-        }
-
-        public String get_tag() {
-            return this.tag;
-        }
-
-        public int get_x() {
-            return this.x;
-        }
-
-        public int get_y() {
-            return this.y;
-        }
-
-        public int get_width() {
-            return this.width;
-        }
-
-        public int get_height() {
-            return this.height;
-        }
-
-        public int get_screen_width() {
-            return ((int) this.x + this.width);
-        }
-
-        public int get_screen_height() {
-            return ((int) this.y + this.height);
-        }
+        return (int) (fontRenderer.FONT_HEIGHT * this.size);
     }
 
-    public static class GL {
-        public static void color(float r, float g, float b, float a) {
-            GL11.glColor4f(r / 255, g / 255, b / 255, a / 255);
-        }
+    public int getStringWidth(String string) {
+        FontRenderer fontRenderer = font_renderer;
 
-        public static void start() {
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-        }
-
-        public static void finish() {
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            GL11.glDisable(GL11.GL_BLEND);
-        }
-
-        public static void draw_rect(int x, int y, int width, int height) {
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-
-            GL11.glBegin(GL11.GL_QUADS); {
-                GL11.glVertex2d(x + width, y);
-                GL11.glVertex2d(x, y);
-                GL11.glVertex2d(x, y + height);
-                GL11.glVertex2d(x + width, y + height);
-            }
-
-            GL11.glEnd();
-        }
-
-        public static void resize(int x, int y, float size) {
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glTranslatef(x, y, 0);
-            GL11.glScalef(size, size, 1);
-            GL11.glColor4f(1, 1, 1, 1);
-        }
-
-        public static void resize(int x, int y, float size, String tag) {
-            GL11.glScalef(1f / size, 1f / size, 1);
-            GL11.glTranslatef(- x, - y, 0);
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-        }
+        return (int) (fontRenderer.getStringWidth(string) * this.size);
     }
 
-    public static class Turok {
-        private String tag;
-
-        //private Font font_manager;
-
-        public Turok(String tag) {
-            this.tag = tag;
+    public static class PXColor extends Color {
+        public PXColor(int r, int g, int b, int a) {
+            super(r, g, b, a);
         }
 
-        public void resize(int x, int y, float size) {
-            GL.resize(x, y, size);
+        public PXColor(int r, int g, int b) {
+            super(r, g, b);
         }
 
-        public void resize(int x, int y, float size, String tag) {
-            GL.resize(x, y, size, "end");
+        public int hex() {
+            return getRGB();
         }
-
-        //public Font get_font_manager() {
-       //     return this.font_manager;
-       // }
     }
 
 }

@@ -1,5 +1,6 @@
 package dev.leap.frog;
 
+import dev.leap.frog.GUI.ClickGUI;
 import dev.leap.frog.Manager.*;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Util.Network.Sessionutil;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.Display;
 
 @Mod(modid = LeapFrog.MODID, version = LeapFrog.VERSION)
 public class LeapFrog {
@@ -24,7 +26,7 @@ public class LeapFrog {
     public static final EventBus EVENT_BUS = new EventManager();
 
     public static final Logger log = LogManager.getLogger("leap");
-
+    public static ClickGUI clickGUI;
     private static ModuleManager moduleManager;
     private static SettingsManager settingsManager;
     private static DiscordManager discordManager = new DiscordManager();
@@ -39,14 +41,15 @@ public class LeapFrog {
         MinecraftForge.EVENT_BUS.register(this);
 
       //register managers
-        settingsManager = new SettingsManager(); // settings manager must come BEFORE module manager
+        settingsManager = new SettingsManager(); // settings manager must come BEFORE module manager or returns null
         hudManager = new HudManager();
         moduleManager = new ModuleManager();
         fileManager = new FileManager();
-
+        clickGUI = new ClickGUI();
 
         discordManager.Start();
         fileManager.createDir();
+        Display.setTitle("LeapFrog Client");
 
     }
 

@@ -6,7 +6,7 @@ import dev.leap.frog.Module.Exploit.XCarry;
 import dev.leap.frog.Module.Misc.Test;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Module.Render.FullBright;
-import dev.leap.frog.Module.ui.ClickGUI;
+import dev.leap.frog.Module.ui.ClickGUIModule;
 import dev.leap.frog.Module.ui.FakePlayer;
 
 import java.util.ArrayList;
@@ -21,7 +21,7 @@ public class ModuleManager {
         Add(new Velocity());
 
         //GUI
-        Add(new ClickGUI());
+        Add(new ClickGUIModule());
         Add(new FakePlayer());
 
         // Misc

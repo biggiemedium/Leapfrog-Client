@@ -3,36 +3,36 @@ package dev.leap.frog.GUI;
 public abstract class AbstractWidget {
 
     // Setters.
-    public void set_x(int x) {}
-    public void set_y(int y) {}
+    public void setX(int x) {}
+    public void setY(int y) {}
 
-    public void set_width(int width) {}
-    public void set_height(int height) {}
+    public void setWidth(int width) {}
+    public void setHeight(int height) {}
 
     // Getters.
-    public int get_x() {
+    public int getX() {
         return 0;
     }
 
-    public int get_y() {
+    public int getY() {
         return 0;
     }
 
-    public int get_width() {
+    public int getWidth() {
         return 0;
     }
 
-    public int get_height() {
+    public int getHeight() {
         return 0;
     }
 
     // Binding.
-    public boolean is_binding() {
+    public boolean isBinding() {
         return false;
     }
 
     // Motion.
-    public boolean motion_pass(int mx, int my) {
+    public boolean motionPass(int mx, int my) {
         return false;
     }
 
@@ -40,7 +40,7 @@ public abstract class AbstractWidget {
     public void bind(char char_, int key) {}
 
     // Can.
-    public void does_can(boolean value) {}
+    public void doesCan(boolean value) {}
 
     // Mouse click.
     public void mouse(int mx, int my, int mouse) {}

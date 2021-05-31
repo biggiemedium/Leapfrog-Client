@@ -145,7 +145,7 @@ public class Module implements Listenable {
     public void onRender() {} // add game render in events
     public void createSetting() {} // to dump settings in
 
-    public String keyToString() {
+    public String keyToString(String info) {
         String bind = "null";
 
         if(getKey() < -1 || getKey() < 0) {
