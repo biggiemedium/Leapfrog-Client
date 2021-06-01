@@ -1,6 +1,7 @@
 package dev.leap.frog.GUI;
 
-import dev.leap.frog.GUI.Items.Frame;
+import dev.leap.frog.GUI.Click.Frame;
+import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -87,7 +88,7 @@ public class ClickGUI extends GuiScreen {
     @Override
     public void onGuiClosed() {
 
-        //Wurstplus.get_config_manager().save_settings();
+        LeapFrog.getFileManager().saveConfig();
     }
 
     @Override

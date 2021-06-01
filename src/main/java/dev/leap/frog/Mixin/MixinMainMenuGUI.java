@@ -20,7 +20,7 @@ public class MixinMainMenuGUI {
         FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
         ScaledResolution sc = new ScaledResolution(Wrapper.GetMC());
 
-        fr.drawStringWithShadow(ChatFormatting.GREEN + "LeapFrog Client ", sc.getScaledWidth() - Wrapper.GetMC().fontRenderer.getStringWidth("LeapFrog Client"), 2, 0xffffff);
+        fr.drawStringWithShadow(ChatFormatting.GREEN + "LeapFrog Client ", sc.getScaledWidth() - Wrapper.GetMC().fontRenderer.getStringWidth("LeapFrog Client") - 5, 2, 0xffffff);
 
     }
 

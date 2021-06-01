@@ -3,7 +3,6 @@ package dev.leap.frog.Manager;
 import club.minnced.discord.rpc.DiscordEventHandlers;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
-import dev.leap.frog.LeapFrog;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.MathHelper;
 
@@ -14,7 +13,7 @@ public class DiscordManager { // skidded from myself :)
     private  String user = mc.getSession().getUsername();
 
     private DiscordRichPresence presence = new DiscordRichPresence();
-    private Thread _thread = null;
+    private Thread thread = null;
 
     public void Start() {
 
@@ -27,7 +26,7 @@ public class DiscordManager { // skidded from myself :)
 
         lib.Discord_UpdatePresence(presence);
         presence.largeImageKey = "leapfrog512";
-        _thread = new Thread(() ->
+        thread = new Thread(() ->
         {
             while (!Thread.currentThread().isInterrupted())
             {
@@ -44,7 +43,7 @@ public class DiscordManager { // skidded from myself :)
             }
         }, "RPC-Callback-Handler");
 
-        _thread.start();
+        thread.start();
     }
 
     public static float getSpeedInKM() {

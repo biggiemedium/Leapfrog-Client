@@ -1,4 +1,4 @@
-package dev.leap.frog.GUI.Items;
+package dev.leap.frog.GUI.Click;
 
 
 import dev.leap.frog.GUI.AbstractWidget;

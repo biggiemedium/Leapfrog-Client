@@ -1,19 +1,20 @@
-package dev.leap.frog.GUI.Items;
+package dev.leap.frog.GUI.Click;
 
 import dev.leap.frog.GUI.AbstractWidget;
 import dev.leap.frog.LeapFrog;
+import dev.leap.frog.Settings.Settings;
 import dev.leap.frog.Util.Render.Drawutil;
-import org.lwjgl.input.Keyboard;
+import dev.px.turok.draw.RenderHelp;
+import net.minecraft.client.renderer.GlStateManager;
+import org.lwjgl.opengl.GL11;
 
-import java.awt.*;
-
-public class SetBind extends AbstractWidget {
+public class Label extends AbstractWidget {
 
     private Frame        frame;
     private ModuleButton master;
+    private Settings setting;
 
-    private String button_name;
-    private String points;
+    private String label_name;
 
     private int x;
     private int y;
@@ -23,18 +24,17 @@ public class SetBind extends AbstractWidget {
 
     private int save_y;
 
-    private float tick;
-
     private boolean can;
-    private boolean waiting;
+    private boolean info;
 
-    private Drawutil font = new Drawutil(1);
+    private final Drawutil font = new Drawutil(1);
 
     private int border_size = 0;
 
-    public SetBind(Frame frame, ModuleButton master, String tag, int update_postion) {
+    public Label(Frame frame, ModuleButton master, String tag, int update_postion) {
         this.frame   = frame;
         this.master  = master;
+        this.setting = LeapFrog.getSettingsManager().getSettingsbyTag(master.getModule(), tag);
 
         this.x = master.getX();
         this.y = update_postion;
@@ -44,11 +44,17 @@ public class SetBind extends AbstractWidget {
         this.width  = master.getWidth();
         this.height = font.getStringHeight();
 
-        this.button_name = tag;
+        this.label_name = this.setting.getName();
 
-        this.can    = true;
-        this.points = ".";
-        this.tick   = 0;
+        if (this.setting.getName().equalsIgnoreCase("info")) {
+            this.info = true;
+        }
+
+        this.can  = true;
+    }
+
+    public Settings get_setting() {
+        return this.setting;
     }
 
     @Override
@@ -118,46 +124,10 @@ public class SetBind extends AbstractWidget {
     }
 
     @Override
-    public boolean isBinding() {
-        return this.waiting;
-    }
-
-    @Override
-    public void bind(char char_, int key) {
-        if (this.waiting) {
-            switch (key) {
-                case Keyboard.KEY_ESCAPE: {
-                    this.waiting = false;
-
-                    break;
-                }
-
-                case Keyboard.KEY_DELETE: {
-                    this.master.getModule().setKey(-1);
-
-                    this.waiting = false;
-
-                    break;
-                }
-
-                default : {
-                    this.master.getModule().setKey(key);
-
-                    this.waiting = false;
-
-                    break;
-                }
-            }
-        }
-    }
-
-    @Override
     public void mouse(int mx, int my, int mouse) {
         if (mouse == 0) {
             if (motion(mx, my) && this.master.isOpen() && can()) {
                 this.frame.doesCan(false);
-
-                this.waiting = true;
             }
         }
     }
@@ -166,38 +136,7 @@ public class SetBind extends AbstractWidget {
     public void render(int master_y, int separe, int absolute_x, int absolute_y) {
         setWidth(this.master.getWidth() - separe);
 
-        float[] tick_color = {
-                (System.currentTimeMillis() % (360 * 32)) / (360f * 32)
-        };
-
-        int color_a = Color.HSBtoRGB(tick_color[0], 1, 1);
-
-        int bd_a = (color_a);
-
-        if ((color_a) <= 100) {
-            bd_a = 100;
-        } else if ((color_a) >= 200) {
-            bd_a = 200;
-        } else {
-            bd_a = (color_a);
-        }
-
-        if (this.waiting) {
-            if (this.tick >= 15) {
-                this.points = "..";
-            }
-
-            if (this.tick >= 30) {
-                this.points = "...";
-            }
-
-            if (this.tick >= 45) {
-                this.points = ".";
-                this.tick   = 0.0f;
-            }
-        }
-
-        boolean zbob = true;
+        String s = "me";
 
         this.save_y = this.y + master_y;
 
@@ -214,18 +153,30 @@ public class SetBind extends AbstractWidget {
         int bd_r = LeapFrog.clickGUI.themeWidgetBorderR;
         int bd_g = LeapFrog.clickGUI.themeWidgetBorderG;
         int bd_b = LeapFrog.clickGUI.themeWidgetBorderB;
+        int bd_a = 100;
 
-        if (this.waiting) {
-            Drawutil.drawRect(getX(), this.save_y, getX() + this.width, this.save_y + this.height, bg_r, bg_g, bg_b, bg_a);
+        if (motion(absolute_x, absolute_y)) {
+            if (this.setting.getMaster().widgetUsed()) {
+                this.setting.getMaster().eventWidget();
 
-            this.tick += 0.5f;
+                GL11.glPushMatrix();
 
-            Drawutil.drawString("Listening " + this.points, this.x + 2, this.save_y, ns_r, ns_g, ns_b, ns_a);
-        } else {
-            Drawutil.drawString("Bind <" + this.master.getModule().keyToString("string") + ">", this.x + 2, this.save_y, ns_r, ns_g, ns_b, ns_a);
+                GL11.glEnable(GL11.GL_TEXTURE_2D);
+                GL11.glEnable(GL11.GL_BLEND);
+
+                GlStateManager.enableBlend();
+
+                GL11.glPopMatrix();
+
+                RenderHelp.release_gl();
+            }
         }
 
-        tick_color[0] += 5;
+        if (this.info) {
+            Drawutil.drawString(this.setting.getValue(s), this.x + 2, this.save_y, ns_r, ns_g, ns_b, ns_a);
+        } else {
+            Drawutil.drawString(this.label_name + " \"" + this.setting.getValue(s) + "\"", this.x + 2, this.save_y, ns_r, ns_g, ns_b, ns_a);
+        }
     }
 
 }
