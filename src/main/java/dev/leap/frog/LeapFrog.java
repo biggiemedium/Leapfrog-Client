@@ -38,17 +38,16 @@ public class LeapFrog {
     private static HudManager hudManager;
 
     @EventHandler
-    public void init(FMLInitializationEvent event) {
+    public void init(FMLInitializationEvent event) { //' ahdjflaifhjafjd;afdsd
 
-        Sessionutil.getInstance().setUser("halop56yt@gmail.com", "@s93dm87dhwy&SKSK^@$*");
         System.out.println("Starting Client");
         MinecraftForge.EVENT_BUS.register(this);
 
         //register managers
         settingsManager = new SettingsManager(); // settings manager must come BEFORE module manager or returns null
+        fileManager = new FileManager();
         hudManager = new HudManager();
         moduleManager = new ModuleManager();
-        fileManager = new FileManager();
         clickGUI = new ClickGUI();
         eventManager = new EventProcessor();
 

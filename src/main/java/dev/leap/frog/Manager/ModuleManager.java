@@ -13,7 +13,7 @@ import dev.leap.frog.Module.Movement.NoSlow;
 import dev.leap.frog.Module.Render.FullBright;
 import dev.leap.frog.Module.Render.NoRender;
 import dev.leap.frog.Module.ui.ClickGUIModule;
-import dev.leap.frog.Module.ui.FakePlayer;
+import dev.leap.frog.Module.World.FakePlayer;
 import dev.leap.frog.Util.Mathutil;
 import dev.leap.frog.Util.Wrapper;
 import dev.px.turok.draw.RenderHelp;

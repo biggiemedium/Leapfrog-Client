@@ -25,7 +25,7 @@ apply plugin: 'org.spongepowered.mixin'
 
 version = "1.0"
 group = "dev.leap.frog"
-archivesBaseName = "modid"
+archivesBaseName = "LeapFrog"
 
 sourceCompatibility = targetCompatibility = '1.8'
 compileJava {
@@ -52,7 +52,6 @@ minecraft {
     runDir = "run"
     coreMod = "dev.leap.frog.Mixin.MixinLoaderForge"
     mappings = "snapshot_20171003"
-    makeObfSourceJar = true
 }
 
 dependencies {
@@ -69,28 +68,6 @@ dependencies {
     compile 'club.minnced:java-discord-rpc:2.0.2'
     compile group: 'net.jodah', name: 'typetools', version: '0.5.0'
 
-}
-
-shadowJar {
-    dependencies {
-        include(dependency('com.github.biggiemedium:Alpine'))
-        include(dependency("org.javassist:javassist"))
-        include(dependency("org.spongepowered:mixin"))
-        include(dependency("net.jodah:typetools"))
-        include(dependency('club.minnced:java-discord-rpc:2.0.1'))
-    }
-}
-
-mixin {
-    defaultObfuscationEnv searge
-    add sourceSets.main, "mixins.leapfrog.refmap.json"
-}
-
-reobf {
-    shadowJar {
-        mappingType = 'SEARGE'
-        classpath   = sourceSets.main.compileClasspath
-    }
 }
 
 processResources {
@@ -112,19 +89,3 @@ processResources {
 
     rename "(.+_at.cfg)", 'META-INF/$1';
 }
-
-jar {
-    manifest {
-        attributes (
-                "FMLCorePluginContainsFMLMod" : "true",
-                "ForceLoadAsMod"              : "true",
-                "FMLCorePlugin"               : "dev.leap.frog.Mixin.MixinLoaderForge",
-                "MixinConfigs"                : "mixins.leapfrog.json",
-                "tweakClass"                  : "org.spongepowered.asm.launch.MixinTweaker",
-                "TweakOrder"                  : 0,
-                "FMLAT"                       : "leapfrog_at.cfg"
-        )
-    }
-}
-
-build.dependsOn(shadowJar)

@@ -1,4 +1,4 @@
-package dev.leap.frog.Module.ui;
+package dev.leap.frog.Module.World;
 
 import com.mojang.authlib.GameProfile;
 import dev.leap.frog.Module.Module;
