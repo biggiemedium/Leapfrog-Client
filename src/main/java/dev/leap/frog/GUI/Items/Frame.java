@@ -59,10 +59,10 @@ public class Frame {
         this.move_x = 0;
         this.move_y = 0;
 
-        int size  = LeapFrog.moduleManager().getModuleByType(category).size();
+        int size  = LeapFrog.getModuleManager().getModuleByType(category).size();
         int count = 0;
 
-        for (Module modules : LeapFrog.moduleManager().getModuleByType(category)) {
+        for (Module modules : LeapFrog.getModuleManager().getModuleByType(category)) {
             ModuleButton buttons = new ModuleButton(modules, this);
 
             buttons.setY(this.height);
@@ -86,7 +86,7 @@ public class Frame {
 
         this.height = 25;
 
-        int size  = LeapFrog.moduleManager().getModuleByType(this.category).size();
+        int size  = LeapFrog.getModuleManager().getModuleByType(this.category).size();
         int count = 0;
 
         for (ModuleButton buttons : this.module_button) {

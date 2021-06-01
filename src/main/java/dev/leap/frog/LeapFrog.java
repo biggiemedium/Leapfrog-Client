@@ -19,6 +19,8 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
+import java.io.IOException;
+
 @Mod(modid = LeapFrog.MODID, version = LeapFrog.VERSION)
 public class LeapFrog {
     public static final String MODID = "leapfrog";
@@ -50,14 +52,13 @@ public class LeapFrog {
         clickGUI = new ClickGUI();
         eventManager = new EventProcessor();
 
+        fileManager.loadConfig(); // file saves after client shutsdown in MixinMinecraft
         discordManager.Start();
-        fileManager.createDir();
         Display.setTitle("LeapFrog Client");
-
     }
 
     // get classes
-    public static ModuleManager moduleManager() { return moduleManager; }
+    public static ModuleManager getModuleManager() { return moduleManager; }
 
     public static SettingsManager getSettingsManager() { return settingsManager;}
 

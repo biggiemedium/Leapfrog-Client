@@ -1,5 +1,6 @@
 package dev.leap.frog.Module;
 
+import dev.leap.frog.Event.Render.RenderEvent;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Settings.Settings;
 import me.zero.alpine.fork.listener.Listenable;
@@ -143,6 +144,7 @@ public class Module implements Listenable {
 
     public void onUpdate() {} // On tick
     public void onRender() {} // add game render in events
+    public void onRender(RenderEvent event) {}
 
     public String keyToString(String info) {
         String bind = "null";
@@ -165,12 +167,14 @@ public class Module implements Listenable {
 
 
     public enum Type {
+        CHAT("Chat", false),
         COMBAT("Combat",false),
         MOVEMENT("Movement",false),
         MISC("Misc",false),
         EXPLOIT("Exploit",false),
         RENDER("Render",false),
-        GUI("Ui",false);
+        GUI("Ui",false),
+        WORLD("World", false);
 
         String name;
         boolean isHidden;

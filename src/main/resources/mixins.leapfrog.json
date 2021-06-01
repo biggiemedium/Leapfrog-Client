@@ -7,6 +7,7 @@
     "MixinMainMenuGUI",
     "MixinNetworkManager",
     "MixinPlayerSP",
-    "SessionUtil"
+    "SessionUtil",
+    "MixinMinecraft"
   ]
 }

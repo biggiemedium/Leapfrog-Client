@@ -23,7 +23,7 @@ public abstract class MixinAbstractClientPlayer {
     @Inject(method = "getLocationCape", at = @At(value = "RETURN"), cancellable = true)
     public void drawCapes(CallbackInfoReturnable<ResourceLocation> cir) {
 
-        if(LeapFrog.moduleManager().getModuleName("Capes").isToggled()) {
+        if(LeapFrog.getModuleManager().getModuleName("Capes").isToggled()) {
 
             NetworkPlayerInfo info = this.getPlayerInfo();
             assert info != null;

@@ -1,8 +1,9 @@
 package dev.leap.frog.Manager;
 
+import dev.leap.frog.Event.Render.RenderEvent;
 import dev.leap.frog.Module.Combat.Velocity;
-import dev.leap.frog.Module.Misc.Announcer;
-import dev.leap.frog.Module.Misc.AutoReply;
+import dev.leap.frog.Module.Chat.Announcer;
+import dev.leap.frog.Module.Chat.AutoReply;
 import dev.leap.frog.Module.Misc.FastUse;
 import dev.leap.frog.Module.Movement.ElytraBypass;
 import dev.leap.frog.Module.Exploit.XCarry;
@@ -13,6 +14,13 @@ import dev.leap.frog.Module.Render.FullBright;
 import dev.leap.frog.Module.Render.NoRender;
 import dev.leap.frog.Module.ui.ClickGUIModule;
 import dev.leap.frog.Module.ui.FakePlayer;
+import dev.leap.frog.Util.Mathutil;
+import dev.leap.frog.Util.Wrapper;
+import dev.px.turok.draw.RenderHelp;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.math.Vec3d;
+import net.minecraftforge.client.event.RenderWorldLastEvent;
+import org.lwjgl.opengl.GL11;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +81,56 @@ public class ModuleManager {
             }
         }
         return modulestype;
+    }
+
+    public static void onRender(RenderWorldLastEvent event) {
+
+        Wrapper.GetMC().mcProfiler.startSection("wurstplus");
+        Wrapper.GetMC().mcProfiler.startSection("setup");
+
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
+        GlStateManager.shadeModel(GL11.GL_SMOOTH);
+        GlStateManager.disableDepth();
+
+        GlStateManager.glLineWidth(1f);
+
+        Vec3d pos = Mathutil.getInterpolatedPos(Wrapper.GetPlayer(), event.getPartialTicks());
+
+        RenderEvent event_render = new RenderEvent(RenderHelp.INSTANCE, pos);
+
+        event_render.reset_translation();
+
+        Wrapper.GetMC().mcProfiler.endSection();
+
+        for (Module modules : modules) {
+            if (modules.isToggled()) {
+                Wrapper.GetMC().mcProfiler.startSection(modules.getName());
+
+                modules.onRender(event_render);
+
+                Wrapper.GetMC().mcProfiler.endSection();
+            }
+        }
+
+        Wrapper.GetMC().mcProfiler.startSection("release");
+
+        GlStateManager.glLineWidth(1f);
+
+        GlStateManager.shadeModel(GL11.GL_FLAT);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
+        GlStateManager.enableDepth();
+        GlStateManager.enableCull();
+
+        RenderHelp.release_gl();
+
+        Wrapper.GetMC().mcProfiler.endSection();
+        Wrapper.GetMC().mcProfiler.endSection();
+
     }
 
     public static void onUpdate() {

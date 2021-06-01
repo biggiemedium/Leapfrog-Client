@@ -1,10 +1,11 @@
-package dev.leap.frog.Module.Misc;
+package dev.leap.frog.Module.Chat;
 
 import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Settings;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 public class Announcer extends Module {
 
@@ -24,6 +25,8 @@ public class Announcer extends Module {
 
 
     });
+
+
 
 
 

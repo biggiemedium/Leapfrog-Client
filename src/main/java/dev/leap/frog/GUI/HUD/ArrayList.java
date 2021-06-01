@@ -5,7 +5,6 @@ import dev.leap.frog.Module.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
@@ -38,12 +37,12 @@ public class ArrayList {
 
         ScaledResolution sc = new ScaledResolution(mc);
         final int[] counter = {1};
-        Collections.sort(LeapFrog.moduleManager().modules, new ModuleCompare());
+        Collections.sort(LeapFrog.getModuleManager().modules, new ModuleCompare());
         FontRenderer fr = mc.fontRenderer;
 
         if(event.getType() == RenderGameOverlayEvent.ElementType.TEXT) {
             int y = 2;
-            for (Module m : LeapFrog.moduleManager().getModules()) {
+            for (Module m : LeapFrog.getModuleManager().getModules()) {
                 if (!m.getName().equals("") && m.isToggled()) {
                     fr.drawStringWithShadow(m.getName(), sc.getScaledWidth() - fr.getStringWidth(m.getName()) - 2, y, Rainbow(counter[0] * 300));
                     counter[0]++;
