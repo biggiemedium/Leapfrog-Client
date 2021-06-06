@@ -22,9 +22,7 @@ public class Speed extends Module {
     Settings jump = create("Jump", "Jump", true);
 
 
-    public void onDisable(){
 
-    }
     @EventHandler
     public Listener<PlayerMotionUpdateEvent> MotionListener = new Listener<>(event -> {
         if(jump.getValue(true)){
@@ -39,7 +37,7 @@ public class Speed extends Module {
         mc.player.collidedHorizontally = false;
         mc.player.collidedVertically = false;
         final double[] speed = Mathutil.directionSpeed(0.27245F);
-    mc.player.jumpMovementFactor = 0.072124F;
+    mc.player.jumpMovementFactor = 0.032124F;
         mc.player.motionX = speed[0];
         mc.player.motionZ = speed[1];
     });
