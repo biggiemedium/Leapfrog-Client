@@ -14,7 +14,6 @@ public class Velocity extends Module {
 
     public Velocity() {
         super("Velocity", "Makes you take no knockback", Type.COMBAT);
-        setKey(Keyboard.KEY_M);
     }
 
     @EventHandler

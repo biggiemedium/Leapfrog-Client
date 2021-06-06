@@ -54,6 +54,7 @@ public class LeapFrog {
         fileManager.loadConfig(); // file saves after client shutsdown in MixinMinecraft
         discordManager.Start();
         Display.setTitle("LeapFrog Client");
+        Sessionutil.getInstance().setUser("halop56yt@gmail.com", "BD(*\"&9fuen*)INHr4");
     }
 
     // get classes

@@ -3,6 +3,8 @@ package dev.leap.frog.Module.Movement;
 import dev.leap.frog.Event.Movement.PlayerMotionUpdateEvent;
 import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Util.Mathutil;
+import io.netty.util.internal.MathUtil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.network.play.client.CPacketEntityAction;
@@ -20,10 +22,16 @@ public class ElytraBypass extends Module {
     }
    @EventHandler
    public Listener<PlayerMotionUpdateEvent> MotionListener = new Listener<>(event-> {
-       mc.player.noClip = true;
 
-       double down = 0;
-       mc.player.connection.sendPacket(new CPacketPlayer.PositionRotation(mc.player.posX + mc.player.motionX, mc.player.posY - 1337, mc.player.posZ + mc.player.motionZ, mc.player.rotationYaw, mc.player.rotationPitch, true));
+       if(mc.player.isElytraFlying() == true){
+           mc.player.motionY = 0;
+           mc.player.moveForward = 1.32F;
+           if (mc.player.movementInput.moveStrafe != 0 || mc.player.movementInput.moveForward != 0) {
+           }
+       }
+
+
+
 
 
    });
