@@ -6,6 +6,21 @@ import net.minecraft.util.math.Vec3d;
 
 public class Mathutil extends UtilManager {
 
+    public static float[] getMovement(float speed, float yaw){
+        float moveX = 0;
+        float moveZ = 0;
+        float timesby;
+        if(yaw >= 270 && yaw <= 360) {
+            moveZ = ((yaw - 270) * (speed / 90));
+            moveX =  speed - moveZ;
+        }else if(yaw > 360 && yaw <= 90){
+            moveZ = ((yaw) * (speed / 90));
+            moveX = -1*(speed - moveZ);
+        }
+
+
+        return new float[]{moveX, moveZ};
+    }
     public static double degToRad(double deg)
     {
         return deg * (float) (Math.PI / 180.0f);

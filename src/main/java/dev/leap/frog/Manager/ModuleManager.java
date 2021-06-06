@@ -11,6 +11,7 @@ import dev.leap.frog.Module.Exploit.XCarry;
 import dev.leap.frog.Module.Misc.Test;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Module.Movement.NoSlow;
+import dev.leap.frog.Module.Movement.Speed;
 import dev.leap.frog.Module.Render.FullBright;
 import dev.leap.frog.Module.Render.HoleESP;
 import dev.leap.frog.Module.Render.NoRender;
@@ -58,6 +59,7 @@ public class ModuleManager {
         Add(new HoleESP());
 
         //Movement
+        Add(new Speed());
         Add(new ElytraBypass());
         Add(new NoSlow());
     }

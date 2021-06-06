@@ -2,6 +2,7 @@ package dev.leap.frog.Module.Misc;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.leap.frog.GUI.HUD.ArrayList;
+import dev.leap.frog.GUI.HUD.HUDITEM.Yaw;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Settings;
 import dev.leap.frog.Util.Render.Chatutil;
@@ -21,11 +22,13 @@ public class Test extends Module {
     }
 
     private static ArrayList arrayList = new ArrayList();
+    private static Yaw yaw = new Yaw();
 
     @Override
     public void onEnable() {
         Chatutil.ClientSideMessgage("On");
         MinecraftForge.EVENT_BUS.register(arrayList);
+        MinecraftForge.EVENT_BUS.register(yaw);
         if(s.getValue(true)) {
             System.out.println("Hi");
         }
@@ -35,6 +38,7 @@ public class Test extends Module {
     public void onDisable() {
         Chatutil.ClientSideMessgage("OFF");
         MinecraftForge.EVENT_BUS.unregister(arrayList);
+        MinecraftForge.EVENT_BUS.unregister(yaw);
     }
 
     @Override

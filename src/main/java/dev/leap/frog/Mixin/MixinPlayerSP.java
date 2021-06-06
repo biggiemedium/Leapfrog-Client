@@ -2,6 +2,7 @@ package dev.leap.frog.Mixin;
 
 import dev.leap.frog.Event.Movement.PlayerMotionUpdateEvent;
 import dev.leap.frog.LeapFrog;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,7 +17,6 @@ public class MixinPlayerSP {
     public void preWalkingPlayer(CallbackInfo ci) {
         PlayerMotionUpdateEvent event = new PlayerMotionUpdateEvent(0);
         LeapFrog.EVENT_BUS.post(event);
-        System.out.println("posted event!");
         if(event.isCancelled()) {
             ci.cancel();
         }
