@@ -12,7 +12,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 public class AutoReply extends Module { // saw future had it and wanted it
 
     public AutoReply() {
-        super("AutoReply", "Automatically replys to dms", Type.MISC);
+        super("AutoReply", "Automatically replys to dms", Type.CHAT);
     }
 
     @EventHandler

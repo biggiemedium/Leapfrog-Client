@@ -3,6 +3,7 @@ package dev.leap.frog.Module;
 import dev.leap.frog.Event.Render.RenderEvent;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Settings.Settings;
+import dev.leap.frog.Util.Render.Chatutil;
 import me.zero.alpine.fork.listener.Listenable;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;

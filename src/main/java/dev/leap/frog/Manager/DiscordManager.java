@@ -3,10 +3,11 @@ package dev.leap.frog.Manager;
 import club.minnced.discord.rpc.DiscordEventHandlers;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
+import dev.leap.frog.Util.Entity.Playerutil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.MathHelper;
 
-public class DiscordManager { // skidded from myself :)
+public class DiscordManager {
 
     private  DiscordRichPresence discordRichPresence = new DiscordRichPresence();
     private  Minecraft mc = Minecraft.getMinecraft();
@@ -33,6 +34,7 @@ public class DiscordManager { // skidded from myself :)
                 lib.Discord_RunCallbacks();
                 presence.details = setDetails();
                 presence.state = setState();
+
                 lib.Discord_UpdatePresence(presence);
                 try
                 {
@@ -46,22 +48,6 @@ public class DiscordManager { // skidded from myself :)
         thread.start();
     }
 
-    public static float getSpeedInKM() {
-        final double deltaX = Minecraft.getMinecraft().player.posX - Minecraft.getMinecraft().player.prevPosX;
-        final double deltaZ = Minecraft.getMinecraft().player.posZ - Minecraft.getMinecraft().player.prevPosZ;
-
-        float distance = MathHelper.sqrt(deltaX * deltaX + deltaZ * deltaZ);
-
-        double floor = Math.floor(( distance/1000.0f ) / ( 0.05f/3600.0f ));
-
-        String formatter = String.valueOf(floor);
-
-        if (!formatter.contains("."))
-            formatter += ".0";
-
-        return Float.valueOf(formatter);
-    }
-
     private String setState() { // mc.player != null will run first
         String back = discordRichPresence.state;
 
@@ -69,8 +55,12 @@ public class DiscordManager { // skidded from myself :)
         if(mc.player == null)
             return "Main menu";
 
+        if(mc.player != null && mc.getCurrentServerData().serverIP.equalsIgnoreCase("2b2t.org")) {
+            return "Playing 2b2t";
+        }
+
         if(mc.player.onGround) {
-            return "Moving " + getSpeedInKM() + " KMH";
+            return "Moving " + Playerutil.getSpeedInKM() + " KM/H";
         }
 
         if(!mc.player.onGround) {

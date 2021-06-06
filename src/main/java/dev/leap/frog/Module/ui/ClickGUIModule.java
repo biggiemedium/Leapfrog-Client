@@ -76,8 +76,9 @@ public class ClickGUIModule extends Module {
     @Override
     public void onEnable() {
         System.out.println("GUI Enabled");
-        mc.displayGuiScreen(dev.leap.frog.GUI.ClickGUI.getInstance);
-        toggle();
+        if(mc.player != null && mc.world != null) {
+            mc.displayGuiScreen(dev.leap.frog.GUI.ClickGUI.getInstance);
+        }
     }
 
 

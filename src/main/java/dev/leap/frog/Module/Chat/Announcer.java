@@ -10,7 +10,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 public class Announcer extends Module {
 
     public Announcer() {
-        super("Announcer", "gets you muted", Type.MISC);
+        super("Announcer", "gets you muted", Type.CHAT);
     }
 
     Settings clientSide = create("Client sided", "Client sided", true);
@@ -19,11 +19,8 @@ public class Announcer extends Module {
 
     @EventHandler
     private Listener<EventPacket.SendPacket> send = new Listener<>(event -> {
-
         if(mc.world == null)
             return;
-
-
     });
 
 

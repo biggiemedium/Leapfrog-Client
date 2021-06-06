@@ -38,7 +38,7 @@ public class LeapFrog {
     private static HudManager hudManager;
 
     @EventHandler
-    public void init(FMLInitializationEvent event) { //' ahdjflaifhjafjd;afdsd
+    public void init(FMLInitializationEvent event) {
 
         System.out.println("Starting Client");
         MinecraftForge.EVENT_BUS.register(this);
