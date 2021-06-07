@@ -12,10 +12,9 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
-public class FriendManager { // EDIT AFTER FILE SAVE IS MADE!!!
+public class FriendManager {
 
     public static ArrayList<Friend> friends = new ArrayList<>();
 
@@ -41,11 +40,11 @@ public class FriendManager { // EDIT AFTER FILE SAVE IS MADE!!!
         }
     }
 
-    public static FriendManager.Friend get_friend_object(String name) {
+    public static FriendManager.Friend getFriendObject(String name) {
         ArrayList<NetworkPlayerInfo> infoMap = new ArrayList<NetworkPlayerInfo>(Minecraft.getMinecraft().getConnection().getPlayerInfoMap());
         NetworkPlayerInfo profile = infoMap.stream().filter(networkPlayerInfo -> networkPlayerInfo.getGameProfile().getName().equalsIgnoreCase(name)).findFirst().orElse(null);
         if (profile == null) {
-            String s = request_ids("[\"" + name + "\"]");
+            String s = requestIds("[\"" + name + "\"]");
             if (s == null || s.isEmpty()) {
                 // cant find
             } else {
@@ -65,7 +64,7 @@ public class FriendManager { // EDIT AFTER FILE SAVE IS MADE!!!
         return new Friend(profile.getGameProfile().getName(), profile.getGameProfile().getId());
     }
 
-    private static String request_ids(String data) {
+    private static String requestIds(String data) {
         try{
             String query = "https://api.mojang.com/profiles/minecraft";
 

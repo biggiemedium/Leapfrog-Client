@@ -55,9 +55,6 @@ public class DiscordManager {
         if(mc.player == null)
             return "Main menu";
 
-        if(mc.player != null && mc.getCurrentServerData().serverIP.equalsIgnoreCase("2b2t.org")) {
-            return "Playing 2b2t";
-        }
 
         if(mc.player.onGround) {
             return "Moving " + Playerutil.getSpeedInKM() + " KM/H";

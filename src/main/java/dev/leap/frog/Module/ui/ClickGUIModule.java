@@ -18,14 +18,16 @@ public class ClickGUIModule extends Module {
     Settings name_frame_g = create("Name G", "ClickGUINameFrameG", 255, 0, 255);
     Settings name_frame_b = create("Name B", "ClickGUINameFrameB", 255, 0, 255);
 
-    Settings background_frame_r = create("Background R", "ClickGUIBackgroundFrameR", 230, 0, 255);
-    Settings background_frame_g = create("Background G", "ClickGUIBackgroundFrameG", 100, 0, 255);
-    Settings background_frame_b = create("Background B", "ClickGUIBackgroundFrameB", 50, 0, 255);
-    Settings background_frame_a = create("Background A", "ClickGUIBackgroundFrameA", 210, 0, 255);
-
+    Settings background_frame_r = create("Background R", "ClickGUIBackgroundFrameR", 186, 0, 255);
+    Settings background_frame_g = create("Background G", "ClickGUIBackgroundFrameG", 151, 0, 255);
+    Settings background_frame_b = create("Background B", "ClickGUIBackgroundFrameB", 231, 0, 255);
+    Settings background_frame_a = create("Background A", "ClickGUIBackgroundFrameA", 104, 0, 255);
+/*
     Settings border_frame_r = create("Border R", "ClickGUIBorderFrameR", 255, 0, 255);
     Settings border_frame_g = create("Border G", "ClickGUIBorderFrameG", 255, 0, 255);
     Settings border_frame_b = create("Border B", "ClickGUIBorderFrameB", 255, 0, 255);
+
+ */
 
     Settings label_widget = create("info", "ClickGUIInfoWidget", "Widgets");
 
@@ -37,10 +39,6 @@ public class ClickGUIModule extends Module {
     Settings background_widget_g = create("Background G", "ClickGUIBackgroundWidgetG", 255, 0, 255);
     Settings background_widget_b = create("Background B", "ClickGUIBackgroundWidgetB", 255, 0, 255);
     Settings background_widget_a = create("Background A", "ClickGUIBackgroundWidgetA", 100, 0, 255);
-
-    Settings border_widget_r = create("Border R", "ClickGUIBorderWidgetR", 255, 0, 255);
-    Settings border_widget_g = create("Border G", "ClickGUIBorderWidgetG", 255, 0, 255);
-    Settings border_widget_b = create("Border B", "ClickGUIBorderWidgetB", 255, 0, 255);
 
     @Override
     public void onUpdate() {
@@ -54,9 +52,12 @@ public class ClickGUIModule extends Module {
         LeapFrog.clickGUI.themeFrameBackgroundB = background_frame_b.getValue(1);
         LeapFrog.clickGUI.themeFrameBackgroundA = background_frame_a.getValue(1);
 
+        /*
         LeapFrog.clickGUI.themeFrameBorderR = border_frame_r.getValue(1);
         LeapFrog.clickGUI.themeFrameBorderG = border_frame_g.getValue(1);
         LeapFrog.clickGUI.themeFrameBorderB = border_frame_b.getValue(1);
+
+         */
 
         LeapFrog.clickGUI.themeWidgetNameR = name_widget_r.getValue(1);
         LeapFrog.clickGUI.themeWidgetNameG = name_widget_g.getValue(1);
@@ -67,9 +68,6 @@ public class ClickGUIModule extends Module {
         LeapFrog.clickGUI.themeWidgetBackgroundB = background_widget_b.getValue(1);
         LeapFrog.clickGUI.themeWidgetBackgroundA = background_widget_a.getValue(1);
 
-        LeapFrog.clickGUI.themeWidgetBorderR = border_widget_r.getValue(1);
-        LeapFrog.clickGUI.themeWidgetBorderG = border_widget_g.getValue(1);
-        LeapFrog.clickGUI.themeWidgetBorderB = border_widget_b.getValue(1);
     }
 
 

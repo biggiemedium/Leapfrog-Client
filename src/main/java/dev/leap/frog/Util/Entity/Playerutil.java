@@ -2,6 +2,7 @@ package dev.leap.frog.Util.Entity;
 
 import dev.leap.frog.Manager.UtilManager;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.MathHelper;
 
 public class Playerutil extends UtilManager {
@@ -22,5 +23,8 @@ public class Playerutil extends UtilManager {
         return Float.valueOf(formatter);
     }
 
+    public static boolean isMoving(EntityLivingBase entity) {
+        return entity.moveForward != 0 || entity.moveStrafing != 0;
+    }
 
 }

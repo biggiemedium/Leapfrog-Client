@@ -1,16 +1,20 @@
 package dev.leap.frog.Manager;
 
 import dev.leap.frog.Event.Render.RenderEvent;
-import dev.leap.frog.Module.Chat.ToggleMessage;
+import dev.leap.frog.Module.Combat.AutoTotem;
+import dev.leap.frog.Module.Combat.CrystalAura;
 import dev.leap.frog.Module.Combat.Velocity;
 import dev.leap.frog.Module.Chat.Announcer;
 import dev.leap.frog.Module.Chat.AutoReply;
+import dev.leap.frog.Module.Exploit.Pingspoof;
 import dev.leap.frog.Module.Misc.FastUse;
+import dev.leap.frog.Module.Misc.MiddleClickFriends;
 import dev.leap.frog.Module.Movement.ElytraBypass;
 import dev.leap.frog.Module.Exploit.XCarry;
 import dev.leap.frog.Module.Misc.Test;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Module.Movement.NoSlow;
+import dev.leap.frog.Module.Movement.Speed;
 import dev.leap.frog.Module.Render.FullBright;
 import dev.leap.frog.Module.Render.HoleESP;
 import dev.leap.frog.Module.Render.NoRender;
@@ -33,13 +37,13 @@ public class ModuleManager {
     public ModuleManager() {
 
         // Chat
-        Add(new ToggleMessage());
-
         Add(new AutoReply());
         Add(new Announcer());
 
         // Combat
         Add(new Velocity());
+        Add(new CrystalAura());
+        Add(new AutoTotem());
 
         //GUI
         Add(new ClickGUIModule());
@@ -49,7 +53,10 @@ public class ModuleManager {
         Add(new Test());
         Add(new FastUse());
 
+        Add(new MiddleClickFriends());
+
         // Exploit
+        Add(new Pingspoof());
         Add(new XCarry());
 
         // Render
@@ -58,6 +65,7 @@ public class ModuleManager {
         Add(new HoleESP());
 
         //Movement
+        Add(new Speed());
         Add(new ElytraBypass());
         Add(new NoSlow());
     }

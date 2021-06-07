@@ -1,5 +1,6 @@
 package dev.leap.frog.Module.Combat;
 
+import dev.leap.frog.Event.Movement.EventEntityCollision;
 import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Settings;
@@ -14,21 +15,30 @@ public class Velocity extends Module {
 
     public Velocity() {
         super("Velocity", "Makes you take no knockback", Type.COMBAT);
-        setKey(Keyboard.KEY_M);
     }
+
+    Settings push = create("Push", "Push", true);
+    Settings explosion = create("explosion", "explosion", true);
 
     @EventHandler
     private Listener<EventPacket.ReceivePacket> move = new Listener<>(event -> {
 
-        if(event.getPacket() instanceof SPacketEntityVelocity) {
-            if(((SPacketEntityVelocity) event.getPacket()).getEntityID() == mc.player.getEntityId()) {
-                event.cancel();
-            }
+        if(explosion.getValue(true) && event.getPacket() instanceof SPacketExplosion) {
+            event.cancel();
         }
 
-      if(event.getPacket() instanceof SPacketExplosion) {
-         event.cancel();
-      }
+        if(explosion.getValue(true) && event.getPacket() instanceof SPacketEntityVelocity) {
+            event.cancel();
+        }
 
     });
+
+    @EventHandler
+    private Listener<EventEntityCollision> collision = new Listener<>(event-> { // broken
+
+        if(push.getValue(true))
+            event.cancel();
+
+    });
+
 }

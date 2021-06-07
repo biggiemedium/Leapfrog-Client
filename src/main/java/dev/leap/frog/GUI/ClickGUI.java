@@ -34,9 +34,9 @@ public class ClickGUI extends GuiScreen {
     public int themeFrameBackgroundB = 0;
     public int themeFrameBackgroundA = 0;
 
-    public int themeFrameBorderR = 0;
-    public int themeFrameBorderG = 0;
-    public int themeFrameBorderB = 0;
+    public int themeFrameBorderR = 255;
+    public int themeFrameBorderG = 255;
+    public int themeFrameBorderB = 255;
 
     // Module.
     public int themeWidgetNameR = 0;
@@ -49,9 +49,9 @@ public class ClickGUI extends GuiScreen {
     public int themeWidgetBackgroundB = 0;
     public int themeWidgetBackgroundA = 0;
 
-    public int themeWidgetBorderR = 0;
-    public int themeWidgetBorderG = 0;
-    public int themeWidgetBorderB = 0;
+    public int themeWidgetBorderR = 255;
+    public int themeWidgetBorderG = 255;
+    public int themeWidgetBorderB = 255;
 
     private final Minecraft mc = Minecraft.getMinecraft();
 
@@ -98,6 +98,7 @@ public class ClickGUI extends GuiScreen {
 
             if (key == Keyboard.KEY_ESCAPE && !frame.isBinding()) {
                 mc.displayGuiScreen(null);
+                LeapFrog.getModuleManager().getModuleName("ClickGUI").setToggled(false);
             }
 
             if (key == Keyboard.KEY_DOWN || key == 200) {

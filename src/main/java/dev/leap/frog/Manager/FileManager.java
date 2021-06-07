@@ -1,11 +1,14 @@
 package dev.leap.frog.Manager;
 
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.*;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Settings;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,6 +26,7 @@ public class FileManager {
     private String doubledirModule = directoryleapfrog + directoryModule;
     private String doubledirGUI = directoryleapfrog + directoryGUI;
     private String doubledirBinds = directoryleapfrog + directoryBinds;
+    private String doubledFriends = directoryleapfrog + directoryFriends;
 
     private String friendsFile = "friends.json";
     private String bindsFile = "binds.txt";
@@ -155,6 +159,26 @@ public class FileManager {
         br.close();
     }
 
+    private void saveFriends() throws IOException {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(FriendManager.friends);
+        OutputStreamWriter file;
+
+        file = new OutputStreamWriter(new FileOutputStream(doubledFriends), StandardCharsets.UTF_8);
+        file.write(json);
+        file.close();
+    }
+
+    private void loadFriends() throws IOException {
+        Gson gson = new Gson();
+        Reader reader = Files.newBufferedReader(Paths.get(doubledFriends));
+
+        FriendManager.friends = gson.fromJson(reader, new TypeToken<ArrayList<FriendManager.Friend>>(){}.getType());
+
+        reader.close();
+    }
+
+
 
     public void saveConfig() {
         try {
@@ -164,6 +188,7 @@ public class FileManager {
             verifyDir(pathFriends);
             verifyDir(pathBinds);
 
+            saveFriends();
             saveModule();
             saveBinds();
         } catch (IOException e) {
@@ -176,6 +201,7 @@ public class FileManager {
         try {
             loadModule();
             loadBinds();
+            loadFriends();
         } catch (IOException e) {
             e.printStackTrace();
         }

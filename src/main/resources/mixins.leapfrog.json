@@ -4,6 +4,7 @@
   "package": "dev.leap.frog.Mixin",
   "refmap": "mixins.leapfrog.refmap.json",
   "mixins": [
+    "MixinAbstractClientPlayer",
     "MixinMainMenuGUI",
     "MixinNetworkManager",
     "MixinPlayerSP",

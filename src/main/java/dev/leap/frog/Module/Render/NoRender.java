@@ -23,7 +23,6 @@ public class NoRender extends Module {
         if(potions.getValue(true) && mc.player.isPotionActive(MobEffects.NAUSEA)) {
             mc.player.removeActivePotionEffect(MobEffects.NAUSEA);
         }
-
     }
 
 
