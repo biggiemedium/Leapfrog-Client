@@ -29,15 +29,16 @@ public class Speed extends Module {
             if (mc.player.movementInput.moveStrafe != 0 || mc.player.movementInput.moveForward != 0) {
                 if (mc.player.onGround) {
                     mc.player.jump();
-                    mc.player.motionX *= 1.04F;
-                    mc.player.motionZ *= 1.04F;
+                    mc.player.motionX *= 1.07F;
+                    mc.player.motionZ *= 1.07F;
                 }
             }
         }
+        mc.player.motionY -= 0.0043F;
         mc.player.collidedHorizontally = false;
         mc.player.collidedVertically = false;
-        final double[] speed = Mathutil.directionSpeed(0.27245F);
-    mc.player.jumpMovementFactor = 0.032124F;
+        final double[] speed = Mathutil.directionSpeed(0.30245F);
+    mc.player.jumpMovementFactor = 0.012124F;
         mc.player.motionX = speed[0];
         mc.player.motionZ = speed[1];
     });
