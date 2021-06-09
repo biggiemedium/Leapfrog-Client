@@ -44,10 +44,10 @@ public class LeapFrog {
         //register managers
         settingsManager = new SettingsManager(); // settings manager must come BEFORE module manager or returns null
         fileManager = new FileManager();
-        hudManager = new HudManager();
         moduleManager = new ModuleManager();
         clickGUI = new ClickGUI();
         eventManager = new EventProcessor();
+        hudManager = new HudManager();
 
         fileManager.loadConfig(); // file saves after client shutsdown in MixinMinecraft
         discordManager.Start();

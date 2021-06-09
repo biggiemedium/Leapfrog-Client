@@ -1,9 +1,7 @@
 package dev.leap.frog.Manager;
 
 import dev.leap.frog.Event.Render.RenderEvent;
-import dev.leap.frog.Module.Combat.AutoTotem;
-import dev.leap.frog.Module.Combat.CrystalAura;
-import dev.leap.frog.Module.Combat.Velocity;
+import dev.leap.frog.Module.Combat.*;
 import dev.leap.frog.Module.Chat.Announcer;
 import dev.leap.frog.Module.Chat.AutoReply;
 import dev.leap.frog.Module.Exploit.Pingspoof;
@@ -15,6 +13,7 @@ import dev.leap.frog.Module.Misc.Test;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Module.Movement.NoSlow;
 import dev.leap.frog.Module.Movement.Speed;
+import dev.leap.frog.Module.Render.Capes;
 import dev.leap.frog.Module.Render.FullBright;
 import dev.leap.frog.Module.Render.HoleESP;
 import dev.leap.frog.Module.Render.NoRender;
@@ -44,6 +43,8 @@ public class ModuleManager {
         Add(new Velocity());
         Add(new CrystalAura());
         Add(new AutoTotem());
+        Add(new OffHand());
+        Add(new AutoXP());
 
         //GUI
         Add(new ClickGUIModule());
@@ -63,6 +64,7 @@ public class ModuleManager {
         Add(new FullBright());
         Add(new NoRender());
         Add(new HoleESP());
+        Add(new Capes());
 
         //Movement
         Add(new Speed());

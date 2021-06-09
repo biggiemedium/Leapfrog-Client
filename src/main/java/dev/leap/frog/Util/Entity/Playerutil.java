@@ -1,8 +1,10 @@
 package dev.leap.frog.Util.Entity;
 
 import dev.leap.frog.Manager.UtilManager;
+import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 
 public class Playerutil extends UtilManager {
@@ -25,6 +27,14 @@ public class Playerutil extends UtilManager {
 
     public static boolean isMoving(EntityLivingBase entity) {
         return entity.moveForward != 0 || entity.moveStrafing != 0;
+    }
+
+    public static float getPlayerHealth() {
+        return Wrapper.GetMC().player.getHealth() + Wrapper.GetMC().player.getAbsorptionAmount();
+    }
+
+    public static BlockPos GetLocalPlayerPosFloored() {
+        return new BlockPos(Math.floor(Wrapper.GetMC().player.posX), Math.floor(Wrapper.GetMC().player.posY), Math.floor(Wrapper.GetMC().player.posZ));
     }
 
 }

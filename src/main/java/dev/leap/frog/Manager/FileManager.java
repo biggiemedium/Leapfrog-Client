@@ -159,25 +159,6 @@ public class FileManager {
         br.close();
     }
 
-    private void saveFriends() throws IOException {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        String json = gson.toJson(FriendManager.friends);
-        OutputStreamWriter file;
-
-        file = new OutputStreamWriter(new FileOutputStream(doubledFriends), StandardCharsets.UTF_8);
-        file.write(json);
-        file.close();
-    }
-
-    private void loadFriends() throws IOException {
-        Gson gson = new Gson();
-        Reader reader = Files.newBufferedReader(Paths.get(doubledFriends));
-
-        FriendManager.friends = gson.fromJson(reader, new TypeToken<ArrayList<FriendManager.Friend>>(){}.getType());
-
-        reader.close();
-    }
-
 
 
     public void saveConfig() {
@@ -188,7 +169,6 @@ public class FileManager {
             verifyDir(pathFriends);
             verifyDir(pathBinds);
 
-            saveFriends();
             saveModule();
             saveBinds();
         } catch (IOException e) {
@@ -201,7 +181,6 @@ public class FileManager {
         try {
             loadModule();
             loadBinds();
-            loadFriends();
         } catch (IOException e) {
             e.printStackTrace();
         }

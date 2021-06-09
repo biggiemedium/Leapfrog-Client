@@ -20,7 +20,7 @@ public abstract class MixinAbstractClientPlayer {
     @Nullable
     protected abstract NetworkPlayerInfo getPlayerInfo();
 
-    @Inject(method = "getLocationCape", at = @At(value = "RETURN"), cancellable = true)
+    @Inject(method = "getLocationCape", at = @At(value = "HEAD"), cancellable = true)
     public void drawCapes(CallbackInfoReturnable<ResourceLocation> cir) {
 
         if(LeapFrog.getModuleManager().getModuleName("Capes").isToggled()) {
@@ -31,7 +31,14 @@ public abstract class MixinAbstractClientPlayer {
             if(!Capeutil.isUuidValid(info.getGameProfile().getId())) {
                 return;
             }
-        }
-    }
 
+            ResourceLocation r;
+            r = new ResourceLocation("IMG/Leapfrog.PNG");
+
+            cir.setReturnValue(r);
+        }
+
+    }
 }
+
+

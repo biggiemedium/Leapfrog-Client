@@ -9,6 +9,8 @@
     "MixinNetworkManager",
     "MixinPlayerSP",
     "SessionUtil",
-    "MixinMinecraft"
+    "MixinMinecraft",
+    "MixinEntity",
+    "MixinEntityPlayerSP"
   ]
 }

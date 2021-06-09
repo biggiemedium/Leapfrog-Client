@@ -34,7 +34,7 @@ public class Velocity extends Module {
     });
 
     @EventHandler
-    private Listener<EventEntityCollision> collision = new Listener<>(event-> { // broken
+    private Listener<EventEntityCollision> collision = new Listener<>(event-> {
 
         if(push.getValue(true))
             event.cancel();

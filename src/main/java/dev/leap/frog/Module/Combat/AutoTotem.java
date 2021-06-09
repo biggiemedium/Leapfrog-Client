@@ -1,11 +1,15 @@
 package dev.leap.frog.Module.Combat;
 
+import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Settings;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ClickType;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.Potion;
+import net.minecraft.util.datafix.fixes.PotionItems;
 
 public class AutoTotem extends Module {
 
@@ -13,15 +17,15 @@ public class AutoTotem extends Module {
         super("Auto Totem", "Puts totem in offhand", Type.COMBAT);
     }
 
-    Settings delay = create("Delay", "Delay", 0, 0, 100);
     Settings soft = create("Soft", "Soft", true);
+
     public int totems;
     boolean moving = false;
     boolean returnI = false;
 
     @Override
-    public void onUpdate() {
-        if(mc.currentScreen instanceof GuiContainer) {
+    public void onUpdate() { // if you change the instace of current screen it will slow down
+        if (mc.currentScreen instanceof GuiContainer) {
             return;
         }
 
@@ -42,8 +46,7 @@ public class AutoTotem extends Module {
         totems = mc.player.inventory.mainInventory.stream().filter(itemStack -> itemStack.getItem() == Items.TOTEM_OF_UNDYING).mapToInt(ItemStack::getCount).sum();
         if (mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING) {
             totems++;
-        }
-        else {
+        } else {
             if (soft.getValue(true) && !mc.player.getHeldItemOffhand().isEmpty()) {
                 return;
             }
@@ -86,6 +89,5 @@ public class AutoTotem extends Module {
                 mc.playerController.windowClick(0, t < 9 ? t + 36 : t, 0, ClickType.PICKUP, mc.player);
             }
         }
-
     }
 }
