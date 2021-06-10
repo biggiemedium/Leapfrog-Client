@@ -32,7 +32,7 @@ public class LeapFrog {
     private static ModuleManager moduleManager;
     private static SettingsManager settingsManager;
     private static DiscordManager discordManager = new DiscordManager();
-    public static CapeManager capeManager = new CapeManager();
+    private static CapeManager capeManager = new CapeManager();
     private static EventProcessor eventManager;
     private static FileManager fileManager;
     private static HudManager hudManager;

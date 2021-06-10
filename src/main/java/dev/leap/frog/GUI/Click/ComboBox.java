@@ -25,13 +25,13 @@ public class ComboBox extends AbstractWidget {
 
     private int comboboxActualValue;
 
-    private int save_y;
+    private int saveY;
 
     private boolean can;
 
     private Drawutil font = new Drawutil(1);
 
-    private int border_size = 0;
+    private int borderSize = 0;
 
     public ComboBox(Frame frame, ModuleButton master, String tag, int updatePostion) {
         this.values  = new ArrayList<>();
@@ -42,7 +42,7 @@ public class ComboBox extends AbstractWidget {
         this.x = master.getX();
         this.y = updatePostion;
 
-        this.save_y = this.y;
+        this.saveY = this.y;
 
         this.width  = master.getWidth();
         this.height = font.getStringHeight();
@@ -118,7 +118,7 @@ public class ComboBox extends AbstractWidget {
     }
 
     public int get_save_y() {
-        return this.save_y;
+        return this.saveY;
     }
 
     @Override
@@ -157,7 +157,7 @@ public class ComboBox extends AbstractWidget {
 
         String zbob = "me";
 
-        this.save_y = this.y + master_y;
+        this.saveY = this.y + master_y;
 
         int ns_r = LeapFrog.clickGUI.themeWidgetNameR;
         int ns_g = LeapFrog.clickGUI.themeWidgetNameG;
@@ -174,7 +174,7 @@ public class ComboBox extends AbstractWidget {
         int bd_b = LeapFrog.clickGUI.themeWidgetBorderB;
         int bd_a = 100;
 
-        Drawutil.drawString(this.comboboxName + " " + this.setting.getCurrentValue(), this.x + 2, this.save_y, ns_r, ns_g, ns_b, ns_a);
+        Drawutil.drawString(this.comboboxName + " " + this.setting.getCurrentValue(), this.x + 2, this.saveY, ns_r, ns_g, ns_b, ns_a);
 
         if (this.comboboxActualValue >= this.values.size()) {
             this.comboboxActualValue = 0;
