@@ -5,6 +5,7 @@ import dev.leap.frog.GUI.ClickGUI;
 import dev.leap.frog.Manager.*;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Util.Network.Sessionutil;
+import dev.leap.frog.Manager.CapeManager;
 import dev.leap.frog.Util.Wrapper;
 import me.zero.alpine.fork.bus.EventBus;
 import me.zero.alpine.fork.bus.EventManager;
@@ -31,6 +32,7 @@ public class LeapFrog {
     private static ModuleManager moduleManager;
     private static SettingsManager settingsManager;
     private static DiscordManager discordManager = new DiscordManager();
+    public static CapeManager capeManager = new CapeManager();
     private static EventProcessor eventManager;
     private static FileManager fileManager;
     private static HudManager hudManager;
@@ -48,6 +50,7 @@ public class LeapFrog {
         clickGUI = new ClickGUI();
         eventManager = new EventProcessor();
         hudManager = new HudManager();
+        capeManager = new CapeManager();
 
         fileManager.loadConfig(); // file saves after client shutsdown in MixinMinecraft
         discordManager.Start();
@@ -65,6 +68,8 @@ public class LeapFrog {
     public static DiscordManager getDiscordManager() { return discordManager; }
 
     public static EventProcessor getEventManager() { return eventManager; }
+
+    public static CapeManager getCapeManager() { return capeManager; }
 
     @SubscribeEvent
     public void key(InputEvent e) {

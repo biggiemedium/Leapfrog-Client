@@ -11,6 +11,7 @@
     "SessionUtil",
     "MixinMinecraft",
     "MixinEntity",
-    "MixinEntityPlayerSP"
+    "MixinEntityPlayerSP",
+    "MixinEntityRenderer"
   ]
 }

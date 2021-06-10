@@ -53,7 +53,6 @@ public class ModuleManager {
         // Misc
         Add(new Test());
         Add(new FastUse());
-
         Add(new MiddleClickFriends());
 
         // Exploit

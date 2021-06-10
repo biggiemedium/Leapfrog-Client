@@ -33,6 +33,19 @@ public class SettingsManager {
         return setting_requested;
     }
 
+    public Settings getSettingWithTag(String tag, String tag_) {
+        Settings setting_requested = null;
+
+        for (Settings settings : getArraySettings()) {
+            if (settings.getMaster().getName().equalsIgnoreCase(tag) && settings.getTag().equalsIgnoreCase(tag_)) {
+                setting_requested = settings;
+                break;
+            }
+        }
+
+        return setting_requested;
+    }
+
     public ArrayList<Settings> getSettingByModule(Module module) {
         ArrayList<Settings> setting_requesteds = new ArrayList<>();
 

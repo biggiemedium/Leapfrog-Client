@@ -14,5 +14,4 @@ public class Wrapper {
     public static EntityPlayerSP GetPlayer() {
         return mc.player;
     }
-
 }

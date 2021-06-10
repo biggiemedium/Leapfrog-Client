@@ -4,6 +4,7 @@ import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Settings;
 import dev.leap.frog.Util.Entity.Playerutil;
+import dev.leap.frog.Util.Render.Chatutil;
 import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.entity.item.EntityEnderCrystal;
@@ -99,12 +100,18 @@ public class OffHand extends Module {
         }
 
         if(msgUser.getValue(true)) {
+
         }
     }
 
     @Override
     public void onEnable() {
         LeapFrog.getModuleManager().getModuleName("Auto Totem").setToggled(false);
+
+        if(msgUser.getValue(true)) {
+            Chatutil.removeableMessage("Enabled");
+        }
+
     }
 
     @Override
@@ -117,6 +124,11 @@ public class OffHand extends Module {
             mc.playerController.windowClick(0, 45, 0, ClickType.PICKUP, mc.player);
             mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
         }
+
+        if(msgUser.getValue(true)) {
+            Chatutil.removeableMessage("Disabled");
+        }
+
     }
 
     private boolean shouldTotem() {
