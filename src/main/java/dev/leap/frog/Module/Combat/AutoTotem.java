@@ -1,15 +1,11 @@
 package dev.leap.frog.Module.Combat;
 
-import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Settings;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ClickType;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.Potion;
-import net.minecraft.util.datafix.fixes.PotionItems;
 
 public class AutoTotem extends Module {
 

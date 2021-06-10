@@ -30,7 +30,7 @@ public class OffHand extends Module {
 
     @Override
     public void onUpdate() { // keep only GUI screen of GUIContainer or it will be slow
-        if(mc.currentScreen instanceof GuiContainer || mc.world == null || mc.player == null)
+        if(mc.currentScreen instanceof GuiContainer || mc.world == null || mc.player == null || mc.player.ticksExisted < 10)
             return;
 
         if(LeapFrog.getModuleManager().getModuleName("Auto Totem").isToggled()) {
@@ -99,7 +99,6 @@ public class OffHand extends Module {
         }
 
         if(msgUser.getValue(true)) {
-
         }
     }
 
@@ -111,13 +110,20 @@ public class OffHand extends Module {
     @Override
     public void onDisable() {
         LeapFrog.getModuleManager().getModuleName("Auto Totem").setToggled(true);
+
+        final int slot = getTotemSlot() < 9 ? getTotemSlot() + 36 : getTotemSlot();
+        if (getTotemSlot() != -1) {
+            mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
+            mc.playerController.windowClick(0, 45, 0, ClickType.PICKUP, mc.player);
+            mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
+        }
     }
 
     private boolean shouldTotem() {
         if (mc.player != null) {
             return (mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == Items.ELYTRA || mc.player.getHealth() + mc.player.getAbsorptionAmount() <= health.getValue(1) || (lethalCrystal.getValue(true) && isGapplesAABBEmpty()));
         }
-        return (mc.player.getHealth() + mc.player.getAbsorptionAmount()) <= health.getValue(1) || mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == Items.ELYTRA || (lethalCrystal.getValue(true) && isGapplesAABBEmpty());
+        return (Playerutil.getPlayerHealth()) <= health.getValue(1) || mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == Items.ELYTRA || (lethalCrystal.getValue(true) && isGapplesAABBEmpty());
     }
 
     private boolean isEmpty(BlockPos pos) {
