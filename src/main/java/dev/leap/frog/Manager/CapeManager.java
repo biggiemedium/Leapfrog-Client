@@ -19,7 +19,7 @@ public class CapeManager extends UtilManager { // https://pastebin.com/bcq5U5Bp
 
     public void userCapes() {
         try {
-            URL capesList = new URL("https://pastebin.com/raw/PwU3D8vx");
+            URL capesList = new URL("https://pastebin.com/raw/dg8qiLY8");
             BufferedReader in = new BufferedReader(new InputStreamReader(capesList.openStream()));
             String inputLine;
             while ((inputLine = in.readLine()) != null) {

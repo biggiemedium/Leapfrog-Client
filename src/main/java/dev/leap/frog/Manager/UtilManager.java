@@ -8,15 +8,15 @@ public class UtilManager {
 
     private static Minecraft mc = Minecraft.getMinecraft();
 
-    public Minecraft getMc() {
+    public static Minecraft getMc() {
         return mc;
     }
 
-    public World getWorld() {
+    public static World getWorld() {
         return mc.world;
     }
 
-    public EntityPlayerSP getPlayer() {
+    public static EntityPlayerSP getPlayer() {
         return mc.player;
     }
 

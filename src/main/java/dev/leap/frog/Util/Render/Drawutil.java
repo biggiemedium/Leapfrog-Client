@@ -1,13 +1,17 @@
 package dev.leap.frog.Util.Render;
 
 import dev.leap.frog.Manager.UtilManager;
+import dev.leap.frog.Util.Wrapper;
 import dev.px.turok.Turok;
 import dev.px.turok.draw.RenderHelp;
 import dev.px.turok.task.Rect;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -84,6 +88,21 @@ public class Drawutil extends UtilManager {
         FontRenderer fontRenderer = font_renderer;
 
         return (int) (fontRenderer.getStringWidth(string) * this.size);
+    }
+
+    public static void drawLine(double posx, double posy, double posz, double posx2, double posy2, double posz2, float red, float green, float blue, float alpha){
+        GlStateManager.glLineWidth(1.0f);
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
+        GL11.glColor4f(red, green, blue, alpha);
+        bufferbuilder.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION);
+        vertex(posx,posy,posz,bufferbuilder);
+        vertex(posx2,posy2,posz2,bufferbuilder);
+        tessellator.draw();
+    }
+
+    private static void vertex (double x, double y, double z, BufferBuilder bufferbuilder) {
+        bufferbuilder.pos(x- Wrapper.GetMC().getRenderManager().viewerPosX,y-Wrapper.GetMC().getRenderManager().viewerPosY,z-Wrapper.GetMC().getRenderManager().viewerPosZ).endVertex();
     }
 
     public static class PXColor extends Color {

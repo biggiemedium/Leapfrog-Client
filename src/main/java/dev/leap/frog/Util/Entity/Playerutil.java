@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 
 public class Playerutil extends UtilManager {
 
@@ -37,4 +38,21 @@ public class Playerutil extends UtilManager {
         return new BlockPos(Math.floor(Wrapper.GetMC().player.posX), Math.floor(Wrapper.GetMC().player.posY), Math.floor(Wrapper.GetMC().player.posZ));
     }
 
+
+    public static Vec3d[] offsetsDefault = new Vec3d[] {
+                    new Vec3d(0.0, 0.0, -1.0),
+                    new Vec3d(1.0, 0.0, 0.0),
+                    new Vec3d(0.0, 0.0, 1.0),
+                    new Vec3d(-1.0, 0.0, 0.0),
+                    new Vec3d(0.0, 1.0, -1.0),
+                    new Vec3d(1.0, 1.0, 0.0),
+                    new Vec3d(0.0, 1.0, 1.0),
+                    new Vec3d(-1.0, 1.0, 0.0),
+                    new Vec3d(0.0, 2.0, -1.0),
+                    new Vec3d(1.0, 2.0, 0.0),
+                    new Vec3d(0.0, 2.0, 1.0),
+                    new Vec3d(-1.0, 2.0, 0.0),
+                    new Vec3d(0.0, 3.0, -1.0),
+                    new Vec3d(0.0, 3.0, 0.0)
+            };
 }

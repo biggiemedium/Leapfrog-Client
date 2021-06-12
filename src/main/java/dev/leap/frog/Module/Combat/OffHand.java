@@ -109,7 +109,7 @@ public class OffHand extends Module {
         LeapFrog.getModuleManager().getModuleName("Auto Totem").setToggled(false);
 
         if(msgUser.getValue(true)) {
-            Chatutil.removeableMessage("Enabled");
+            Chatutil.setModuleMessage(this);
         }
 
     }
@@ -126,7 +126,7 @@ public class OffHand extends Module {
         }
 
         if(msgUser.getValue(true)) {
-            Chatutil.removeableMessage("Disabled");
+            Chatutil.setModuleMessage(this);
         }
 
     }

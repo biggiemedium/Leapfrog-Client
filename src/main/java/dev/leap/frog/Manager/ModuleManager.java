@@ -13,10 +13,7 @@ import dev.leap.frog.Module.Misc.Test;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Module.Movement.NoSlow;
 import dev.leap.frog.Module.Movement.Speed;
-import dev.leap.frog.Module.Render.Capes;
-import dev.leap.frog.Module.Render.FullBright;
-import dev.leap.frog.Module.Render.HoleESP;
-import dev.leap.frog.Module.Render.NoRender;
+import dev.leap.frog.Module.Render.*;
 import dev.leap.frog.Module.ui.ClickGUIModule;
 import dev.leap.frog.Module.World.FakePlayer;
 import dev.leap.frog.Util.Mathutil;
@@ -45,6 +42,7 @@ public class ModuleManager {
         Add(new AutoTotem());
         Add(new OffHand());
         Add(new AutoXP());
+        Add(new AutoTrap());
 
         //GUI
         Add(new ClickGUIModule());
@@ -64,6 +62,7 @@ public class ModuleManager {
         Add(new NoRender());
         Add(new HoleESP());
         Add(new Capes());
+        Add(new Tracers());
 
         //Movement
         Add(new Speed());
