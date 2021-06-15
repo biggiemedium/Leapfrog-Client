@@ -9,9 +9,13 @@ import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.play.server.SPacketPlayerListItem;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
+import net.minecraftforge.client.event.InputUpdateEvent;
+import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.commons.io.IOUtils;
@@ -38,8 +42,7 @@ public class EventProcessor {
     }
 
     @SubscribeEvent
-    public void onEntityJoinWorldEvent(EntityJoinWorldEvent entityJoinWorldEvent)
-    {
+    public void onEntityJoinWorldEvent(EntityJoinWorldEvent entityJoinWorldEvent) {
         LeapFrog.EVENT_BUS.post(entityJoinWorldEvent);
     }
 
@@ -49,6 +52,26 @@ public class EventProcessor {
         if(event.isCanceled()) return;
 
         ModuleManager.onRender(event);
+    }
+
+    @SubscribeEvent
+    public void onRenderBlockOverlay(RenderBlockOverlayEvent event) {
+        LeapFrog.EVENT_BUS.post(event);
+    }
+
+    @SubscribeEvent
+    public void InputEvent(InputUpdateEvent event) {
+        LeapFrog.EVENT_BUS.post(event);
+    }
+
+    @SubscribeEvent
+    public void onChatReceived(ClientChatReceivedEvent event){
+        LeapFrog.EVENT_BUS.post(event);
+    }
+
+    @SubscribeEvent
+    public void onJump(LivingEvent event) {
+        LeapFrog.EVENT_BUS.post(event);
     }
 
 }

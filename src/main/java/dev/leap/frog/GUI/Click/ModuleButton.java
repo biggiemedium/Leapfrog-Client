@@ -6,6 +6,8 @@ import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Settings;
 import dev.leap.frog.Util.Render.Drawutil;
+import dev.leap.frog.Util.Wrapper;
+import net.minecraft.client.gui.ScaledResolution;
 
 import java.util.ArrayList;
 
@@ -184,15 +186,15 @@ public class ModuleButton {
     }
 
     public boolean isBinding() {
-        boolean value_requested = false;
+        boolean valueRequested = false;
 
         for (AbstractWidget widgets : this.widget) {
             if (widgets.isBinding()) {
-                value_requested = true;
+                valueRequested = true;
             }
         }
 
-        return value_requested;
+        return valueRequested;
     }
 
     public boolean motion(int mx, int my) {
@@ -280,7 +282,9 @@ public class ModuleButton {
             boolean is_passing_in_widget = this.opened ? widgets.motionPass(mx, my) : false;
 
             if (motion(mx, my) || is_passing_in_widget) {
-                Drawutil.drawRect(this.master.getX() - 1, this.save_y, this.master.getWidth() + 1, this.opened_height, bd_r, bd_g, bd_b, border_a, this.border_size, "right-left");
+                ScaledResolution sc = new ScaledResolution(Wrapper.GetMC());
+                //Drawutil.drawRect(this.master.getX() - 1, this.save_y, this.master.getWidth() + 1, this.opened_height, bd_r, bd_g, bd_b, border_a, this.border_size, "right-left");
+                Wrapper.GetMC().fontRenderer.drawStringWithShadow(this.module.getDescription(), 1, sc.getScaledHeight() - 10, 0xffffff);
             }
 
             if (this.opened) {

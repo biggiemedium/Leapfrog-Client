@@ -46,6 +46,7 @@ public class Test extends Module {
     public void onUpdate() {
 
 
+        if(mc.player.ticksExisted < 20) return;
 
     }
 }

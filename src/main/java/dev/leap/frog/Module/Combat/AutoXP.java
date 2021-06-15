@@ -45,14 +45,14 @@ public class AutoXP extends Module {
     });
 
     int getXPSlot() {
-        int gapSlot = -1;
+        int XPSlot = -1;
         for (int i = 45; i > 0; i--) {
             if (mc.player.inventory.getStackInSlot(i).getItem() == Items.EXPERIENCE_BOTTLE) {
-                gapSlot = i;
+                XPSlot = i;
                 break;
             }
         }
-        return gapSlot;
+        return XPSlot;
     }
 
     public String getMode() {

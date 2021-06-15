@@ -1,8 +1,7 @@
 package dev.leap.frog.Module.Movement;
 
-import dev.leap.frog.Event.Movement.EventPlayerJump;
 import dev.leap.frog.Event.Movement.EventPlayerMove;
-import dev.leap.frog.Event.Movement.PlayerMotionUpdateEvent;
+import dev.leap.frog.Event.Movement.EventPlayerMotionUpdate;
 import dev.leap.frog.Module.Module;
 
 import dev.leap.frog.Settings.Settings;
@@ -52,7 +51,7 @@ public class Speed extends Module {
     }
 
     @EventHandler
-    public Listener<PlayerMotionUpdateEvent> MotionListener = new Listener<>(event -> {
+    public Listener<EventPlayerMotionUpdate> MotionListener = new Listener<>(event -> {
 
         if(mode.in("leap")) {
             if(mc.player.isInLava() || mc.player.isRiding() || mc.player.isOnLadder() || mc.player.isInWeb || mc.player.isInWater()) {

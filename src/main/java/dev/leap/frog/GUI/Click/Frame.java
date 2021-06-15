@@ -24,8 +24,8 @@ public class Frame {
     private int width_name;
     private int width_abs;
 
-    private String frame_name;
-    private String frame_tag;
+    private String frameName;
+    private String frameTag;
 
     private Drawutil font = new Drawutil(1);
 
@@ -53,8 +53,8 @@ public class Frame {
         this.width_name = font.getStringWidth(this.category.getName());
         this.width_abs  = this.width_name;
 
-        this.frame_name = category.getName();
-        this.frame_tag  = category.getName();
+        this.frameName = category.getName();
+        this.frameTag = category.getName();
 
         this.move_x = 0;
         this.move_y = 0;
@@ -146,11 +146,11 @@ public class Frame {
     }
 
     public String getName() {
-        return this.frame_name;
+        return this.frameName;
     }
 
     public String getTag() {
-        return this.frame_tag;
+        return this.frameTag;
     }
 
     public boolean isMoving() {
@@ -281,14 +281,14 @@ public class Frame {
         int bd_b = LeapFrog.clickGUI.themeFrameBorderB;
         int bd_a = border_a;
 
-        this.frame_name = this.category.getName();
+        this.frameName = this.category.getName();
         this.width_name = font.getStringWidth(this.category.getName());
 
         Drawutil.drawRect(this.x, this.y, this.x + this.width, this.y + this.height, bg_r, bg_g, bg_b, bg_a);
         int border_size = 1;
         Drawutil.drawRect(this.x - 1, this.y, this.width + 1, this.height, bd_r, bd_g, bd_b, bd_a, border_size, "left-right");
 
-        Drawutil.drawString(this.frame_name, this.x + 4, this.y + 4, nc_r, nc_g, nc_b, nc_a);
+        Drawutil.drawString(this.frameName, this.x + 4, this.y + 4, nc_r, nc_g, nc_b, nc_a);
 
         if (isMoving()) {
             crush(mx, my);

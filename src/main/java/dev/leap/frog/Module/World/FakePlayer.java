@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class FakePlayer extends Module {
     public FakePlayer() {
-        super("Fake player", "Summons fake player to world", Type.GUI);
+        super("Fake player", "Summons fake player to world", Type.WORLD);
     }
 
     private EntityOtherPlayerMP player;

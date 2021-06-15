@@ -124,8 +124,7 @@ public class AutoTrap extends Module {
             }
         }
 
-        if (toggle.getValue(true))
-        {
+        if (toggle.getValue(true)) {
             if (Entityutil.IsEntityTrapped(target)) {
                 toggle();
                 return;

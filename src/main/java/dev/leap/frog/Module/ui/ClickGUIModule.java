@@ -8,7 +8,7 @@ import org.lwjgl.input.Keyboard;
 public class ClickGUIModule extends Module {
 
     public ClickGUIModule() {
-        super("ClickGUI", "CGUI", Type.GUI);
+        super("ClickGUI", "CGUI", Type.RENDER);
         setKey(Keyboard.KEY_RSHIFT);
     }
 

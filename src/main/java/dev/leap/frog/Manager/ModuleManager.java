@@ -43,6 +43,7 @@ public class ModuleManager {
         Add(new OffHand());
         Add(new AutoXP());
         Add(new AutoTrap());
+        Add(new BedAura());
 
         //GUI
         Add(new ClickGUIModule());
@@ -56,6 +57,8 @@ public class ModuleManager {
         // Exploit
         Add(new Pingspoof());
         Add(new XCarry());
+
+        // World
 
         // Render
         Add(new FullBright());

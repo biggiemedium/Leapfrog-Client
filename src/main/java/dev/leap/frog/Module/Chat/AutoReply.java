@@ -18,11 +18,11 @@ public class AutoReply extends Module { // saw future had it and wanted it
     @EventHandler
     private final Listener<ClientChatReceivedEvent> listener = new Listener<>(event -> {
         if (event.getMessage().getUnformattedText().contains("whispers: ") && !event.getMessage().getUnformattedText().startsWith(mc.player.getName())) {
-            if (event.getMessage().getUnformattedText().contains("I don't speak to newfags!")) {
+            if (event.getMessage().getUnformattedText().contains("I don't speak to newfags!") || event.getMessage().getUnformattedText().contains("Keep popping!")) {
                 return;
             }
 
-            mc.player.connection.sendPacket(new CPacketChatMessage("/r " + "This is a message from leapfrog"));
+            mc.player.sendChatMessage("/r " + mc.player.getName() + " " + "is currently unavailable send a message later to them - LeapFrog");
         }
     });
 

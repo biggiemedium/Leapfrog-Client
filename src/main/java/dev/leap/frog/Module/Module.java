@@ -66,7 +66,6 @@ public class Module implements Listenable {
         } else {
             this.onDisable();
         }
-
     }
 
     public void toggle() {
@@ -174,7 +173,6 @@ public class Module implements Listenable {
         MISC("Misc",false),
         EXPLOIT("Exploit",false),
         RENDER("Render",false),
-        GUI("Ui",false),
         WORLD("World", false);
 
         String name;

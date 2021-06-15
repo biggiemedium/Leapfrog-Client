@@ -26,7 +26,7 @@ public class MiddleClickFriends extends Module {
     @Override
     public void onUpdate() {
 
-        if (mc.currentScreen != null) {
+        if (!(mc.currentScreen == null)) {
             return;
         }
 
