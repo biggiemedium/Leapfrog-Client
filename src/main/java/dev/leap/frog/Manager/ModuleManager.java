@@ -14,6 +14,7 @@ import dev.leap.frog.Module.Module;
 import dev.leap.frog.Module.Movement.NoSlow;
 import dev.leap.frog.Module.Movement.Speed;
 import dev.leap.frog.Module.Render.*;
+import dev.leap.frog.Module.World.StrengthDetect;
 import dev.leap.frog.Module.ui.ClickGUIModule;
 import dev.leap.frog.Module.World.FakePlayer;
 import dev.leap.frog.Util.Mathutil;
@@ -59,6 +60,7 @@ public class ModuleManager {
         Add(new XCarry());
 
         // World
+        Add(new StrengthDetect());
 
         // Render
         Add(new FullBright());
@@ -66,6 +68,8 @@ public class ModuleManager {
         Add(new HoleESP());
         Add(new Capes());
         Add(new Tracers());
+        Add(new NameTags());
+        Add(new ESP());
 
         //Movement
         Add(new Speed());

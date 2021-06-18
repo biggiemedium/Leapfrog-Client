@@ -8,6 +8,7 @@ import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.network.play.server.SPacketSoundEffect;
@@ -23,18 +24,18 @@ public class CrystalAura extends Module {
     Settings placeCrystal = create("Place", "Place", true);
     Settings swing = create("Swing", "Swing", "MainHand", combobox("MainHand", "OffHand", "Both"));
     Settings rotation = create("Rotation", "Rotation", "Norotate", combobox("Norotate", "Off"));
+    Settings delay = create("Delay", "Delay", 1, 0, 10);
+
+    Settings stopWhileSneak = create("Sneak Stop", "Sneak Stop", false);
+
+    Settings displayBlockPlace = create("Show place", "Show place", true);
+    Settings chams = create("Chams", "Chams", true);
 
     private boolean isPlacing = false;
     private boolean mainHand = false;
     private boolean offHand = false;
 
-    @Override
-    public void onEnable(){
-        if(mc.player == null || mc.world == null)
-            return;
 
-
-    }
 
     @EventHandler
     private Listener<EventPacket.ReceivePacket> packetListener = new Listener<>(event -> {
@@ -56,9 +57,6 @@ public class CrystalAura extends Module {
 
     @EventHandler
     public Listener<EventPlayerMotionUpdate> MotionListener = new Listener<>(event -> {
-
-
-
     });
 
     int getCrystalSlot() {
@@ -70,6 +68,38 @@ public class CrystalAura extends Module {
             }
         }
         return crystalSlot;
+    }
+
+    private void placeCrystals() {
+
+    }
+
+    class Timer {
+        private long time;
+
+        public Timer() {
+            time = -1;
+        }
+
+        public boolean passed(double ms) {
+            return System.currentTimeMillis() - this.time >= ms;
+        }
+
+        public void reset() {
+            this.time = System.currentTimeMillis();
+        }
+
+        public void resetTimeSkipTo(long p_MS) {
+            this.time = System.currentTimeMillis() + p_MS;
+        }
+
+        public long getTime() {
+            return time;
+        }
+
+        public void setTime(long time) {
+            this.time = time;
+        }
     }
 
 }

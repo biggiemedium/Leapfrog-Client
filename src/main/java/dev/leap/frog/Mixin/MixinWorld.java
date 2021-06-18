@@ -21,7 +21,6 @@ public class MixinWorld {
             cir.cancel();
             cir.setReturnValue(0.0f);
         }
-
     }
 
 }

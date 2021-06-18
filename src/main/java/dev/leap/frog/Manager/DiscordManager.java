@@ -3,6 +3,7 @@ package dev.leap.frog.Manager;
 import club.minnced.discord.rpc.DiscordEventHandlers;
 import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
+import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Util.Entity.Playerutil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.math.MathHelper;
@@ -11,7 +12,6 @@ public class DiscordManager {
 
     private  DiscordRichPresence discordRichPresence = new DiscordRichPresence();
     private  Minecraft mc = Minecraft.getMinecraft();
-    private  String user = mc.getSession().getUsername();
 
     private DiscordRichPresence presence = new DiscordRichPresence();
     private Thread thread = null;
@@ -55,6 +55,9 @@ public class DiscordManager {
         if(mc.player == null)
             return "Main menu";
 
+        if(mc.player != null && LeapFrog.getModuleManager().getModuleName("ClickGUI").isToggled()) {
+            return "Configuring Client";
+        }
 
         if(mc.player.onGround) {
             return "Moving " + Playerutil.getSpeedInKM() + " KM/H";
@@ -76,14 +79,14 @@ public class DiscordManager {
         String detail = discordRichPresence.details;
 
         if(mc.player == null)
-            return user + " | " + "In menu";
+            return "Hopping into a game!";
 
         if(mc.player != null || mc.isSingleplayer()) {
-            return user + " | " + "Singleplayer";
+            return mc.player.getName() + " | " + "Singleplayer";
         }
 
         if(mc.player != null || !mc.isSingleplayer() || mc.getCurrentServerData().isOnLAN() || mc.getCurrentServerData().serverIP.contains("9")) {
-            return user + " | " + "Multiplayer";
+            return mc.player.getName() + " | " + "Multiplayer";
         }
 
         return detail;

@@ -12,6 +12,8 @@ public class ClickGUIModule extends Module {
         setKey(Keyboard.KEY_RSHIFT);
     }
 
+    Settings tag = create("Description", "Description", "side", combobox("Hover", "side"));
+
     Settings label_frame = create("info", "ClickGUIInfoFrame", "Frames");
 
     Settings name_frame_r = create("Name R", "ClickGUINameFrameR", 255, 0, 255);

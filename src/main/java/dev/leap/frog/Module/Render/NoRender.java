@@ -1,9 +1,6 @@
 package dev.leap.frog.Module.Render;
 
-import dev.leap.frog.Event.Render.EventRenderArmor;
-import dev.leap.frog.Event.Render.EventRenderBossBar;
-import dev.leap.frog.Event.Render.EventRenderHurtCam;
-import dev.leap.frog.Event.Render.EventRenderRain;
+import dev.leap.frog.Event.Render.*;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Settings;
 import me.zero.alpine.fork.listener.EventHandler;
@@ -24,6 +21,7 @@ public class NoRender extends Module {
     Settings pumpkin = create("pumpkin", "pumpkin", true);
     Settings bossbar = create("BossBar", "BossBar", true);
     Settings weather = create("Weather", "Weather", true);
+    Settings nametags = create("NameTags", "Nametags", false);
 
     @Override
     public void onUpdate() {
@@ -85,6 +83,15 @@ public class NoRender extends Module {
     private Listener<EventRenderArmor> armorListener = new Listener<>(event -> {
 
         if(armor.getValue(true)) {
+            event.cancel();
+        }
+
+    });
+
+    @EventHandler
+    private Listener<EventRenderNameTag> tagListener = new Listener<>(event -> {
+
+        if(nametags.getValue(true)) {
             event.cancel();
         }
 

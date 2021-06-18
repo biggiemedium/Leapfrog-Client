@@ -4,6 +4,7 @@ import dev.leap.frog.Event.Movement.EventPlayerMotionUpdate;
 import dev.leap.frog.Manager.FriendManager;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Settings;
+import dev.leap.frog.Util.Render.Chatutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.block.Block;
@@ -53,6 +54,12 @@ public class BedAura extends Module {
     @Override
     public void onUpdate() {
         if(mc.player == null) return;
+
+        if(!(mc.world.getWorldType().getId() == 0)) {
+            Chatutil.ClientSideMessgage("Can't use bedaura in overworld");
+            toggle();
+            return;
+        }
 
         List<EntityPlayer> entityPlayers = new ArrayList<>(mc.world.playerEntities.stream().filter(e -> !FriendManager.isFriend(e.getName()) && !(e.getHealth() > 0) && !(e == mc.player) && !e.isDead).collect(Collectors.toList()));
 

@@ -49,6 +49,42 @@ public class Drawutil extends UtilManager {
         }
     }
 
+    public static void drawRect(final float x, final float y, final float w, final float h, final int color) {
+        final float alpha = (color >> 24 & 0xFF) / 255.0f;
+        final float red = (color >> 16 & 0xFF) / 255.0f;
+        final float green = (color >> 8 & 0xFF) / 255.0f;
+        final float blue = (color & 0xFF) / 255.0f;
+        final Tessellator tessellator = Tessellator.getInstance();
+        final BufferBuilder bufferbuilder = tessellator.getBuffer();
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        bufferbuilder.pos(x, h, 0.0).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(w, h, 0.0).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(w, y, 0.0).color(red, green, blue, alpha).endVertex();
+        bufferbuilder.pos(x, y, 0.0).color(red, green, blue, alpha).endVertex();
+        tessellator.draw();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+
+    public static void drawRect(final float x, final float y, final float w, final float h, final float r, final float g, final float b, final float a) {
+        final Tessellator tessellator = Tessellator.getInstance();
+        final BufferBuilder bufferbuilder = tessellator.getBuffer();
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        bufferbuilder.pos(x, h, 0.0).color(r / 255, g / 255, b / 255, a).endVertex();
+        bufferbuilder.pos(w, h, 0.0).color(r / 255, g / 255, b / 255, a).endVertex();
+        bufferbuilder.pos(w, y, 0.0).color(r / 255, g / 255, b / 255, a).endVertex();
+        bufferbuilder.pos(x, y, 0.0).color(r / 255, g / 255, b / 255, a).endVertex();
+        tessellator.draw();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+
     public static void drawRect(Rect rect, int r, int g, int b, int a) {
         Gui.drawRect(rect.get_x(), rect.get_y(), rect.get_screen_width(), rect.get_screen_height(), new PXColor(r, g, b, a).hex());
     }

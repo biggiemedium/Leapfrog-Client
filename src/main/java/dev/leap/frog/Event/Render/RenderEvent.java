@@ -21,31 +21,31 @@ public class RenderEvent extends LeapFrogEvent {
         this.render_pos  = pos;
     }
 
-    public Tessellator get_tessellator() {
+    public Tessellator getTessellator() {
         return this.tessellator;
     }
 
-    public Vec3d get_render_pos() {
+    public Vec3d getRenderPos() {
         return render_pos;
     }
 
-    public BufferBuilder get_buffer_build() {
+    public BufferBuilder getBufferBuild() {
         return this.tessellator.getBuffer();
     }
 
-    public void set_translation(Vec3d pos) {
-        get_buffer_build().setTranslation(- pos.x, - pos.y, - pos.z);
+    public void setTranslation(Vec3d pos) {
+        getBufferBuild().setTranslation(- pos.x, - pos.y, - pos.z);
     }
 
     public void reset_translation() {
-        set_translation(render_pos);
+        setTranslation(render_pos);
     }
 
-    public double get_screen_width() {
+    public double getScreenWidth() {
         return res.getScaledWidth_double();
     }
 
-    public double get_screen_height() {
+    public double getScreenHeight() {
         return res.getScaledHeight_double();
     }
 

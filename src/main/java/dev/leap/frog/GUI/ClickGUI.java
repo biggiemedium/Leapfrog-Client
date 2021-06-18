@@ -76,6 +76,7 @@ public class ClickGUI extends GuiScreen {
             this.frameX += frames.getWidth() + 5;
 
             this.current = frames;
+
         }
     }
 

@@ -4,8 +4,13 @@ import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Settings;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemEndCrystal;
 import net.minecraft.item.ItemExpBottle;
+import net.minecraft.network.play.client.CPacketEntityAction;
+import net.minecraft.network.play.client.CPacketPlayerDigging;
+import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
+import net.minecraft.util.math.BlockPos;
 
 public class FastUse extends Module {
 
@@ -15,7 +20,6 @@ public class FastUse extends Module {
 
     Settings xp = create("XP", "XP", true);
     Settings crystals = create("Crystal", "Crystal", true);
-
 
     @Override
     public void onUpdate() {
