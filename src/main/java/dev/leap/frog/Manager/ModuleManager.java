@@ -1,6 +1,7 @@
 package dev.leap.frog.Manager;
 
 import dev.leap.frog.Event.Render.RenderEvent;
+import dev.leap.frog.Module.Chat.Suffix;
 import dev.leap.frog.Module.Combat.*;
 import dev.leap.frog.Module.Chat.Announcer;
 import dev.leap.frog.Module.Chat.AutoReply;
@@ -11,9 +12,11 @@ import dev.leap.frog.Module.Movement.ElytraBypass;
 import dev.leap.frog.Module.Exploit.XCarry;
 import dev.leap.frog.Module.Misc.Test;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Module.Movement.NoRotate;
 import dev.leap.frog.Module.Movement.NoSlow;
 import dev.leap.frog.Module.Movement.Speed;
 import dev.leap.frog.Module.Render.*;
+import dev.leap.frog.Module.World.LawnMower;
 import dev.leap.frog.Module.World.StrengthDetect;
 import dev.leap.frog.Module.ui.ClickGUIModule;
 import dev.leap.frog.Module.World.FakePlayer;
@@ -36,6 +39,7 @@ public class ModuleManager {
         // Chat
         Add(new AutoReply());
         Add(new Announcer());
+        Add(new Suffix());
 
         // Combat
         Add(new Velocity());
@@ -61,6 +65,7 @@ public class ModuleManager {
 
         // World
         Add(new StrengthDetect());
+        Add(new LawnMower());
 
         // Render
         Add(new FullBright());
@@ -70,11 +75,13 @@ public class ModuleManager {
         Add(new Tracers());
         Add(new NameTags());
         Add(new ESP());
+        Add(new FreeCam());
 
         //Movement
         Add(new Speed());
         Add(new ElytraBypass());
         Add(new NoSlow());
+        Add(new NoRotate());
     }
 
     public void Add(Module m) {
@@ -107,7 +114,7 @@ public class ModuleManager {
 
     public static void onRender(RenderWorldLastEvent event) {
 
-        Wrapper.GetMC().mcProfiler.startSection("wurstplus");
+        Wrapper.GetMC().mcProfiler.startSection("leapfrog");
         Wrapper.GetMC().mcProfiler.startSection("setup");
 
         GlStateManager.disableTexture2D();

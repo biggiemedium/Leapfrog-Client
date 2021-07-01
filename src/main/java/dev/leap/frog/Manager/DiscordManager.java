@@ -5,8 +5,17 @@ import club.minnced.discord.rpc.DiscordRPC;
 import club.minnced.discord.rpc.DiscordRichPresence;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Util.Entity.Playerutil;
+import dev.leap.frog.Util.Render.Chatutil;
+import me.zero.alpine.fork.listener.EventHandler;
+import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreenServerList;
 import net.minecraft.util.math.MathHelper;
+import net.minecraftforge.client.event.ClientChatEvent;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
+
+import javax.annotation.Nullable;
+import java.util.Objects;
 
 public class DiscordManager {
 
@@ -15,6 +24,7 @@ public class DiscordManager {
 
     private DiscordRichPresence presence = new DiscordRichPresence();
     private Thread thread = null;
+    private String lastChat;
 
     public void Start() {
 
@@ -35,6 +45,7 @@ public class DiscordManager {
                 presence.details = setDetails();
                 presence.state = setState();
 
+
                 lib.Discord_UpdatePresence(presence);
                 try
                 {
@@ -52,24 +63,33 @@ public class DiscordManager {
         String back = discordRichPresence.state;
 
 
+
         if(mc.player == null)
             return "Main menu";
+
 
         if(mc.player != null && LeapFrog.getModuleManager().getModuleName("ClickGUI").isToggled()) {
             return "Configuring Client";
         }
+        /* fucks up entire rpc
+        if(Objects.requireNonNull(mc.getCurrentServerData()).serverIP.contains("2b2t") && mc.world.getBiome(mc.player.getPosition()).getBiomeName().toLowerCase().contains("end") && mc.player.getPosition().getZ() == 0) {
+            return "In queue";
+        }
+
+         */
 
         if(mc.player.onGround) {
             return "Moving " + Playerutil.getSpeedInKM() + " KM/H";
         }
 
-        if(!mc.player.onGround) {
+        if(!mc.player.onGround && !mc.getCurrentServerData().serverIP.contains("2b2t")) {
             return "Chilling in " + mc.world.getBiome(mc.player.getPosition()).getBiomeName();
         }
 
         if(mc.player.isElytraFlying()) {
             return "Zooming";
         }
+
 
 
         return back;
@@ -81,11 +101,11 @@ public class DiscordManager {
         if(mc.player == null)
             return "Hopping into a game!";
 
-        if(mc.player != null || mc.isSingleplayer()) {
+        if(mc.isSingleplayer()) {
             return mc.player.getName() + " | " + "Singleplayer";
         }
 
-        if(mc.player != null || !mc.isSingleplayer() || mc.getCurrentServerData().isOnLAN() || mc.getCurrentServerData().serverIP.contains("9")) {
+        if(mc.player != null && !mc.isSingleplayer() && !(Objects.requireNonNull(mc.getCurrentServerData()).serverIP == null)) {
             return mc.player.getName() + " | " + "Multiplayer";
         }
 

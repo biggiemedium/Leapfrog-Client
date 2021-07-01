@@ -26,8 +26,8 @@ public class Mathutil extends UtilManager {
 
         return new float[]{moveX, moveZ};
     }
-    public static double[] directionSpeed(double speed)
-    {
+
+    public static double[] directionSpeed(double speed) {
         final Minecraft mc = Minecraft.getMinecraft();
         float forward = mc.player.movementInput.moveForward;
         float side = mc.player.movementInput.moveStrafe;

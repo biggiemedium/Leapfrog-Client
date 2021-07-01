@@ -28,9 +28,9 @@ public class ModuleButton {
     private int width;
     private int height;
 
-    private int opened_height;
+    private int openedHeight;
 
-    private int save_y;
+    private int saveY;
 
     private Drawutil font = new Drawutil(1);
 
@@ -62,9 +62,9 @@ public class ModuleButton {
         this.width  = font.getStringWidth(module.getName()) + 5;
         this.height = font.getStringHeight();
 
-        this.opened_height = this.height;
+        this.openedHeight = this.height;
 
-        this.save_y = 0;
+        this.saveY = 0;
 
         this.opened = false;
 
@@ -178,7 +178,7 @@ public class ModuleButton {
     }
 
     public int getSaveY() {
-        return this.save_y;
+        return this.saveY;
     }
 
     public boolean isOpen() {
@@ -252,7 +252,7 @@ public class ModuleButton {
     public void render(int mx, int my, int separe) {
         setWidth(this.master.getWidth() - separe);
 
-        this.save_y = this.y + this.master.getY() - 10;
+        this.saveY = this.y + this.master.getY() - 10;
 
         int nm_r = LeapFrog.clickGUI.themeWidgetNameR;
         int nm_g = LeapFrog.clickGUI.themeWidgetNameG;
@@ -269,11 +269,11 @@ public class ModuleButton {
         int bd_b = LeapFrog.clickGUI.themeWidgetBorderB;
 
         if (this.module.isToggled()) {
-            Drawutil.drawRect(this.x, this.save_y, this.x + this.width - separe, this.save_y + this.height, bg_r, bg_g, bg_b, bg_a);
+            Drawutil.drawRect(this.x, this.saveY, this.x + this.width - separe, this.saveY + this.height, bg_r, bg_g, bg_b, bg_a);
 
-            font.drawString(this.moduleName, this.x + separe, this.save_y, nm_r, nm_g, nm_b, nm_a);
+            font.drawString(this.moduleName, this.x + separe, this.saveY, nm_r, nm_g, nm_b, nm_a);
         } else {
-            font.drawString(this.moduleName, this.x + separe, this.save_y, nm_r, nm_g, nm_b, nm_a);
+            font.drawString(this.moduleName, this.x + separe, this.saveY, nm_r, nm_g, nm_b, nm_a);
         }
 
         for (AbstractWidget widgets : this.widget) {
@@ -293,11 +293,11 @@ public class ModuleButton {
             }
 
             if (this.opened) {
-                this.opened_height = this.height + this.settings_height - 10;
+                this.openedHeight = this.height + this.settings_height - 10;
 
                 widgets.render(getSaveY(), separe, mx, my);
             } else {
-                this.opened_height = this.height;
+                this.openedHeight = this.height;
             }
         }
     }

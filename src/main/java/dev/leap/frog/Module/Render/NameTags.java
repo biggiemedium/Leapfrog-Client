@@ -35,7 +35,6 @@ public class NameTags extends Module {
     Settings gamemode = create("Gamemode", "Gamemode", true);
     Settings items = create("Items", "Items", true);
     Settings armor = create("Armor", "Armor", true);
-    Settings self = create("Self", "Self", false);
 
     Settings scale = create("Scale", "Scale", 5, 1, 10);
     Settings distance = create("Distance", "Distance", 75, 1, 255); // chunk range shit idk
@@ -57,7 +56,7 @@ public class NameTags extends Module {
 
         for(EntityPlayer player : mc.world.playerEntities) {
             if(!(player == null) && mc.world != null) {
-                if(!self.getValue(true) && !player.getName().equals(mc.player.getName())) {
+                if(!player.getName().equals(mc.player.getName())) {
                     if(!(player.getName().equals(mc.player.getName()))) {
                     if(!player.getName().equals(mc.player.getName()) && player.isEntityAlive() && mc.player.getDistance(player) < distance.getValue(1) || player.isInvisible()) {
                         final double x = this.interpolate(player.lastTickPosX, player.posX, event.getPartialTicks()) - mc.getRenderManager().renderPosX;
@@ -67,16 +66,6 @@ public class NameTags extends Module {
                         render(player, x, y, z, event.getPartialTicks());
                             }
                         }
-                    }
-                }
-                if(self.getValue(true)) {
-                    if(mc.player != null && !Objects.requireNonNull(player).isInvisible() || !Objects.requireNonNull(player).getName().equals(mc.player.getName()) && player.isEntityAlive() && mc.player.getDistance(player) < distance.getValue(1) || player.isInvisible()) {
-                        final double x = this.interpolate(player.lastTickPosX, player.posX, event.getPartialTicks()) - mc.getRenderManager().renderPosX;
-                        final double y = this.interpolate(player.lastTickPosY, player.posY, event.getPartialTicks()) - mc.getRenderManager().renderPosY;
-                        final double z = this.interpolate(player.lastTickPosZ, player.posZ, event.getPartialTicks()) - mc.getRenderManager().renderPosZ;
-                        // insert rendering method here
-                        render(player, x, y, z, event.getPartialTicks());
-
                     }
                 }
             }
@@ -148,8 +137,7 @@ public class NameTags extends Module {
             GlStateManager.disablePolygonOffset();
             GlStateManager.doPolygonOffset(1.0f, 1500000.0f);
             GlStateManager.popMatrix();
-        }
-
+    }
 
 
     private String getNameTag(EntityPlayer player) {

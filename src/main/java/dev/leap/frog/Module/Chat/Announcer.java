@@ -8,6 +8,10 @@ import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraftforge.event.entity.living.LivingEvent;
 
+import java.util.Queue;
+import java.util.Timer;
+import java.util.concurrent.ConcurrentLinkedDeque;
+
 public class Announcer extends Module {
 
     public Announcer() {
@@ -15,9 +19,20 @@ public class Announcer extends Module {
     }
 
     Settings clientSide = create("Client sided", "Client sided", true);
+    Settings delay = create("Delay", "Delay", 4, 0, 20);
     Settings worldJoin = create("PlayerJoin", "PlayerJoin", true);
     Settings worldLeave = create("PlayerLeave", "PlayerLeave", true);
     Settings jump = create("Jump", "Jump", true);
+
+    Settings queueSize = create("QueueSize", "QueueSize", 5, 0, 20);
+
+
+    @Override
+    public void onEnable() {
+
+
+
+    }
 
     @EventHandler
     private Listener<EventPacket.SendPacket> send = new Listener<>(event -> {
@@ -27,6 +42,7 @@ public class Announcer extends Module {
 
     @EventHandler
     private Listener<LivingEvent.LivingJumpEvent> jumpListener = new Listener<>(event -> {
+
 
         if(jump.getValue(true)) {
             if(event.getEntityLiving() == mc.player) {
@@ -40,11 +56,12 @@ public class Announcer extends Module {
         }
     });
 
-
     @Override
     public void onUpdate() {
-        if(mc.player == null || mc.world == null)
+        if(mc.player == null || mc.world == null) {
             return;
+        }
+
 
 
     }

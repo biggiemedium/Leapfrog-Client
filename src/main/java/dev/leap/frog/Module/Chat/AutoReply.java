@@ -1,6 +1,8 @@
 package dev.leap.frog.Module.Chat;
 
+import dev.leap.frog.Manager.FriendManager;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Settings.Settings;
 import dev.leap.frog.Util.Render.Chatutil;
 import dev.leap.frog.Util.Wrapper;
 import me.zero.alpine.fork.listener.EventHandler;

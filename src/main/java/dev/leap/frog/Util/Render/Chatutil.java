@@ -9,12 +9,15 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.event.HoverEvent;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 public class Chatutil extends UtilManager {
 
     public static ChatFormatting red = ChatFormatting.RED;
     public static ChatFormatting blue = ChatFormatting.BLUE;
     public static ChatFormatting white = ChatFormatting.WHITE;
+
+    public static String lastChat = "";
 
     public static String prefix = ChatFormatting.GREEN + "LeapFrog > " + ChatFormatting.WHITE;
 
@@ -40,6 +43,14 @@ public class Chatutil extends UtilManager {
             ITextComponent text = new TextComponentString(prefix + message).setStyle(new Style().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString("Leap Frog"))));
             Wrapper.GetMC().ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(text, 5936);
         }
+    }
+
+    public static void getLastChat(ClientChatReceivedEvent event) {
+        Chatutil.lastChat = event.getMessage().getFormattedText();
+    }
+
+    static {
+        lastChat = "";
     }
 
 }

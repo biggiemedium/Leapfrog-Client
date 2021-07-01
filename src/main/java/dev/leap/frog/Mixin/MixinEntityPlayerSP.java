@@ -1,6 +1,7 @@
 package dev.leap.frog.Mixin;
 
 import dev.leap.frog.Event.Movement.EventPlayerMove;
+import dev.leap.frog.Event.Network.EventPacketUpdate;
 import dev.leap.frog.LeapFrog;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.MoverType;
@@ -22,6 +23,16 @@ public class MixinEntityPlayerSP {
             event.cancel();
         }
 
+    }
+
+    @Inject(method = "onUpdate", at = @At("HEAD"), cancellable = true)
+    public void updateEvent(CallbackInfo ci) {
+        EventPacketUpdate packet = new EventPacketUpdate();
+        LeapFrog.EVENT_BUS.post(packet);
+
+        if(packet.isCancelled()) {
+            ci.cancel();
+        }
     }
 
 }
