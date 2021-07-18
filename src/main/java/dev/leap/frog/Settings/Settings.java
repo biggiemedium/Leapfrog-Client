@@ -11,10 +11,10 @@ public class Settings {
     private String name;
     private String tag;
 
-    private boolean button;
+    private boolean buttonToggle;
 
     private List<String> combobox;
-    private      String  current;
+    private String  current;
 
     private String label;
 
@@ -28,7 +28,7 @@ public class Settings {
         this.master = master;
         this.name   = name;
         this.tag    = tag;
-        this.button = value;
+        this.buttonToggle = value;
         this.type   = "button";
     }
 
@@ -82,7 +82,7 @@ public class Settings {
     }
 
     public void setValue(boolean value) {
-        this.button = value;
+        this.buttonToggle = value;
     }
 
     public void setCurrentValue(String value) {
@@ -121,11 +121,11 @@ public class Settings {
         return this.current.equalsIgnoreCase(value);
     }
 
-    public boolean getValue(boolean type) {
-        return this.button;
+    public boolean getBoolValue() {
+        return this.buttonToggle;
     }
 
-    public List<String> get_values() {
+    public List<String> getValues() {
         return this.combobox;
     }
 
@@ -137,7 +137,7 @@ public class Settings {
         return this.label;
     }
 
-    public double getValue(double type) {
+    public double getIntValue(double type) {
         return this.slider;
     }
 

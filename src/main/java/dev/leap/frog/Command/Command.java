@@ -1,34 +1,38 @@
 package dev.leap.frog.Command;
 
+import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.Minecraft;
+import net.minecraft.util.text.TextComponentString;
 
-public class Command {
+public abstract class Command {
 
     private String name;
     private String description;
+    String syntax;
 
+    public static String prefix = ".";
     protected Minecraft mc = Minecraft.getMinecraft();
-    public static final String prefix = ".";
 
-    public Command(String name, String description) {
+    public Command(String name, String description, String syntax) {
         this.name = name;
         this.description = description;
+        this.syntax = syntax;
     }
 
-    public boolean getMessage(String[] args) {
-        return false;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public String getDescription() {
-        return this.description;
+    public void sendMessage(String message) {
+        if(!Wrapper.nullCheck()) {
+            mc.ingameGUI.getChatGUI().printChatMessage(new TextComponentString(message));
+        }
     }
 
     public String getPrefix() {
         return prefix;
     }
+
+    public void setPrefix(String newPrifix) {
+        prefix = newPrifix;
+    }
+
+    public abstract void execute(String[] args);
 
 }

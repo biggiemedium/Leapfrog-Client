@@ -1,28 +1,19 @@
 package dev.leap.frog.Manager;
 
 import dev.leap.frog.Event.Render.RenderEvent;
-import dev.leap.frog.Module.Chat.Suffix;
 import dev.leap.frog.Module.Combat.*;
-import dev.leap.frog.Module.Chat.Announcer;
-import dev.leap.frog.Module.Chat.AutoReply;
-import dev.leap.frog.Module.Exploit.Pingspoof;
-import dev.leap.frog.Module.Misc.FastUse;
-import dev.leap.frog.Module.Misc.MiddleClickFriends;
-import dev.leap.frog.Module.Movement.ElytraBypass;
-import dev.leap.frog.Module.Exploit.XCarry;
-import dev.leap.frog.Module.Misc.Test;
+import dev.leap.frog.Module.Exploit.*;
+import dev.leap.frog.Module.Misc.*;
+import dev.leap.frog.Module.Client.*;
 import dev.leap.frog.Module.Module;
-import dev.leap.frog.Module.Movement.NoRotate;
-import dev.leap.frog.Module.Movement.NoSlow;
-import dev.leap.frog.Module.Movement.Speed;
+import dev.leap.frog.Module.Movement.*;
+import dev.leap.frog.Module.Movement.ElytraFly;
 import dev.leap.frog.Module.Render.*;
-import dev.leap.frog.Module.World.LawnMower;
-import dev.leap.frog.Module.World.StrengthDetect;
 import dev.leap.frog.Module.ui.ClickGUIModule;
-import dev.leap.frog.Module.World.FakePlayer;
-import dev.leap.frog.Util.Mathutil;
+import dev.leap.frog.Module.World.*;
+import dev.leap.frog.Util.Math.Mathutil;
+import dev.leap.frog.Util.Render.RenderHelputil;
 import dev.leap.frog.Util.Wrapper;
-import dev.px.turok.draw.RenderHelp;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
@@ -38,10 +29,9 @@ public class ModuleManager {
 
         // Chat
         Add(new AutoReply());
-        Add(new Announcer());
         Add(new Suffix());
 
-        // Combat
+        //// Combat
         Add(new Velocity());
         Add(new CrystalAura());
         Add(new AutoTotem());
@@ -50,7 +40,7 @@ public class ModuleManager {
         Add(new AutoTrap());
         Add(new BedAura());
 
-        //GUI
+        ////GUI
         Add(new ClickGUIModule());
         Add(new FakePlayer());
 
@@ -60,8 +50,9 @@ public class ModuleManager {
         Add(new MiddleClickFriends());
 
         // Exploit
-        Add(new Pingspoof());
         Add(new XCarry());
+        Add(new CoordExploit());
+        Add(new ElytraBypass());
 
         // World
         Add(new StrengthDetect());
@@ -73,13 +64,12 @@ public class ModuleManager {
         Add(new HoleESP());
         Add(new Capes());
         Add(new Tracers());
-        Add(new NameTags());
         Add(new ESP());
         Add(new FreeCam());
 
         //Movement
         Add(new Speed());
-        Add(new ElytraBypass());
+        Add(new ElytraFly());
         Add(new NoSlow());
         Add(new NoRotate());
     }
@@ -89,7 +79,7 @@ public class ModuleManager {
     }
 
     public Module getModuleName(String name) {
-        for(Module m : this.modules) {
+        for(Module m : modules) {
             if(m.getName().equals(name)) {
                 return m;
             }
@@ -104,7 +94,7 @@ public class ModuleManager {
     public List<Module> getModuleByType(Module.Type type) {
         List<Module> modulestype = new ArrayList<>();
 
-        for(Module m : this.modules) {
+        for(Module m : modules) {
             if(m.getType() == type) {
                 modulestype.add(m);
             }
@@ -114,8 +104,8 @@ public class ModuleManager {
 
     public static void onRender(RenderWorldLastEvent event) {
 
-        Wrapper.GetMC().mcProfiler.startSection("leapfrog");
-        Wrapper.GetMC().mcProfiler.startSection("setup");
+        Wrapper.getMC().mcProfiler.startSection("leapfrog");
+        Wrapper.getMC().mcProfiler.startSection("setup");
 
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
@@ -126,25 +116,25 @@ public class ModuleManager {
 
         GlStateManager.glLineWidth(1f);
 
-        Vec3d pos = Mathutil.getInterpolatedPos(Wrapper.GetPlayer(), event.getPartialTicks());
+        Vec3d pos = Mathutil.getInterpolatedPos(Wrapper.getPlayer(), event.getPartialTicks());
 
-        RenderEvent event_render = new RenderEvent(RenderHelp.INSTANCE, pos);
+        RenderEvent event_render = new RenderEvent(RenderHelputil.INSTANCE, pos);
 
-        event_render.reset_translation();
+        event_render.resetTranslation();
 
-        Wrapper.GetMC().mcProfiler.endSection();
+        Wrapper.getMC().mcProfiler.endSection();
 
         for (Module modules : modules) {
             if (modules.isToggled()) {
-                Wrapper.GetMC().mcProfiler.startSection(modules.getName());
+                Wrapper.getMC().mcProfiler.startSection(modules.getName());
 
                 modules.onRender(event_render);
 
-                Wrapper.GetMC().mcProfiler.endSection();
+                Wrapper.getMC().mcProfiler.endSection();
             }
         }
 
-        Wrapper.GetMC().mcProfiler.startSection("release");
+        Wrapper.getMC().mcProfiler.startSection("release");
 
         GlStateManager.glLineWidth(1f);
 
@@ -155,10 +145,14 @@ public class ModuleManager {
         GlStateManager.enableDepth();
         GlStateManager.enableCull();
 
-        RenderHelp.release_gl();
+        GlStateManager.enableCull();
+        GlStateManager.depthMask(true);
+        GlStateManager.enableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.enableDepth();
 
-        Wrapper.GetMC().mcProfiler.endSection();
-        Wrapper.GetMC().mcProfiler.endSection();
+        Wrapper.getMC().mcProfiler.endSection();
+        Wrapper.getMC().mcProfiler.endSection();
 
     }
 

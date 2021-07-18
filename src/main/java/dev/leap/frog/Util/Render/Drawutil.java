@@ -2,9 +2,6 @@ package dev.leap.frog.Util.Render;
 
 import dev.leap.frog.Manager.UtilManager;
 import dev.leap.frog.Util.Wrapper;
-import dev.px.turok.Turok;
-import dev.px.turok.draw.RenderHelp;
-import dev.px.turok.task.Rect;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -85,35 +82,6 @@ public class Drawutil extends UtilManager {
         GlStateManager.disableBlend();
     }
 
-    public static void drawRect(Rect rect, int r, int g, int b, int a) {
-        Gui.drawRect(rect.get_x(), rect.get_y(), rect.get_screen_width(), rect.get_screen_height(), new PXColor(r, g, b, a).hex());
-    }
-
-    public static void drawString(String string, int x, int y, int r, int g, int b, int a) {
-        font_renderer.drawStringWithShadow(string, x, y, new PXColor(r, g, b, a).hex());
-    }
-
-    public void draw_string_gl(String string, int x, int y, int r, int g, int b) {
-        Turok resize_gl = new Turok("Resize");
-
-        resize_gl.resize(x, y, this.size);
-
-        font_renderer.drawString(string, x, y, new PXColor(r, g, b).hex());
-
-        resize_gl.resize(x, y, this.size, "end");
-
-        GL11.glPushMatrix();
-
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glEnable(GL11.GL_BLEND);
-
-        GlStateManager.enableBlend();
-
-        GL11.glPopMatrix();
-
-        RenderHelp.release_gl();
-    }
-
     public int getStringHeight() {
         FontRenderer fontRenderer = font_renderer;
 
@@ -138,7 +106,7 @@ public class Drawutil extends UtilManager {
     }
 
     private static void vertex (double x, double y, double z, BufferBuilder bufferbuilder) {
-        bufferbuilder.pos(x- Wrapper.GetMC().getRenderManager().viewerPosX,y-Wrapper.GetMC().getRenderManager().viewerPosY,z-Wrapper.GetMC().getRenderManager().viewerPosZ).endVertex();
+        bufferbuilder.pos(x- Wrapper.getMC().getRenderManager().viewerPosX,y-Wrapper.getMC().getRenderManager().viewerPosY,z-Wrapper.getMC().getRenderManager().viewerPosZ).endVertex();
     }
 
     public static class PXColor extends Color {

@@ -1,16 +1,20 @@
 package dev.leap.frog.Module.Movement;
 
+import dev.leap.frog.Event.Movement.EventPlayerJump;
 import dev.leap.frog.Event.Movement.EventPlayerMove;
 import dev.leap.frog.Event.Movement.EventPlayerMotionUpdate;
 import dev.leap.frog.Module.Module;
 
+import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Settings.Settings;
-import dev.leap.frog.Util.Mathutil;
+import dev.leap.frog.Util.Math.Mathutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.init.MobEffects;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.math.MathHelper;
+
+import java.util.Objects;
 
 public class Speed extends Module {
     public Speed() {
@@ -18,9 +22,14 @@ public class Speed extends Module {
     }
 
 
-    Settings jump = create("Jump", "Jump", true);
-    Settings mode = create("Mode", "Mode", "Strafe", combobox("Strafe", "leap")); // boncorde can rename leap to whatever he wants
-    Settings backwards = create("Backwards", "Backwards", false);
+    Setting<Boolean> jump = create("Jump", true);
+    Setting<SpeedMode> mode = create("Mode", SpeedMode.Strafe); // boncorde can rename leap to whatever he wants
+    Setting<Boolean> backwards = create("Backwards", false);
+
+    public enum SpeedMode {
+        Strafe,
+        Leap
+    }
 
     @Override
     public void onUpdate() {
@@ -28,12 +37,12 @@ public class Speed extends Module {
             return;
         }
 
-        if(mode.in("Strafe")) {
+        if(mode.getValue() == SpeedMode.Strafe) {
             if (mc.player.moveForward != 0 || mc.player.moveStrafing != 0) {
 
-                if (mc.player.moveForward < 0 && !backwards.getValue(true)) return;
+                if (mc.player.moveForward < 0 && !backwards.getValue()) return;
                 if (mc.player.onGround) {
-                    if (jump.getValue(true)) {
+                    if (jump.getValue()) {
                         mc.player.motionY = 0.405f;
                     }
 
@@ -53,11 +62,11 @@ public class Speed extends Module {
     @EventHandler
     public Listener<EventPlayerMotionUpdate> MotionListener = new Listener<>(event -> {
 
-        if(mode.in("leap")) {
+        if(mode.getValue() == SpeedMode.Leap) {
             if(mc.player.isInLava() || mc.player.isRiding() || mc.player.isOnLadder() || mc.player.isInWeb || mc.player.isInWater()) {
                 return;
             }
-            if (jump.getValue(true)) {
+            if (jump.getValue()) {
                 if (mc.player.movementInput.moveStrafe != 0 || mc.player.movementInput.moveForward != 0) {
                     if (mc.player.onGround) {
                         mc.player.jump();
@@ -80,14 +89,14 @@ public class Speed extends Module {
 
         if(mc.player.capabilities.isFlying || mc.player.isOnLadder()) return;
 
-        if(mode.in("Strafe")) {
+        if(mode.getValue() == SpeedMode.Strafe) {
             float speed = 0.2873f;
             float moveForward = mc.player.movementInput.moveForward;
             float moveStrafe = mc.player.movementInput.moveStrafe;
             float rotationYaw = mc.player.rotationYaw;
 
             if(mc.player.isPotionActive(MobEffects.SPEED)) {
-                int amplifier = mc.player.getActivePotionEffect(MobEffects.SPEED).getAmplifier();
+                int amplifier = Objects.requireNonNull(mc.player.getActivePotionEffect(MobEffects.SPEED)).getAmplifier();
 
                 speed *= (1.2 * (amplifier + 1));
             }
