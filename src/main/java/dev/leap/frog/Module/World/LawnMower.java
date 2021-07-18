@@ -2,14 +2,13 @@ package dev.leap.frog.Module.World;
 
 import dev.leap.frog.Event.Movement.EventPlayerMotionUpdate;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Settings.Settings;
 import dev.leap.frog.Util.Block.Blockutil;
-import dev.leap.frog.Util.Render.Chatutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockFlower;
-import net.minecraft.block.BlockGrass;
 import net.minecraft.block.BlockTallGrass;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -28,15 +27,14 @@ public class LawnMower extends Module {
 
     }
 
-    Settings distance = create("Distance", "Distance", 4, 0, 10);
-    Settings flowers = create("Flowers", "Flowers", true);
-    Settings tallgrass = create("tallGrass", "tallGrass", true);
-    Settings hand = create("Hand", "Hand", "main", combobox("main", "offhand"));
+    Setting<Integer> distance = create("Distance", 4, 0, 10);
+    Setting<Boolean> flowers = create("Flowers", true);
+    Setting<Boolean> tallgrass = create("tallGrass", true);
 
     @EventHandler
     private Listener<EventPlayerMotionUpdate> moveListener = new Listener<>(event-> {
 
-        BlockPos pos = Blockutil.getSphere(getPosFloored(), distance.getValue(1), distance.getValue(1), false, true, 0)
+        BlockPos pos = Blockutil.getSphere(getPosFloored(), distance.getValue(), distance.getValue(), false, true, 0)
                 .stream()
                 .filter(blockPos -> isValid(blockPos))
                 .min(Comparator.comparing(blockPos -> getDistanceOfEntityToBlock(mc.player, blockPos)))
@@ -47,11 +45,7 @@ public class LawnMower extends Module {
             event.cancel();
 
 
-            if(hand.in("main")) {
-                mc.player.swingArm(EnumHand.MAIN_HAND);
-            } else {
-                mc.player.swingArm(EnumHand.OFF_HAND);
-            }
+            mc.player.swingArm(EnumHand.MAIN_HAND);
 
             mc.playerController.clickBlock(pos, EnumFacing.UP);
 
@@ -63,15 +57,15 @@ public class LawnMower extends Module {
 
         IBlockState state = mc.world.getBlockState(pos);
 
-        if(state.getBlock() instanceof BlockTallGrass && tallgrass.getValue(true)) {
+        if(state.getBlock() instanceof BlockTallGrass && tallgrass.getValue()) {
             return true;
         }
 
-        if(flowers.getValue(true) && state.getBlock() instanceof BlockFlower) {
+        if(flowers.getValue() && state.getBlock() instanceof BlockFlower) {
             return true;
         }
 
-        if(tallgrass.getValue(true) && state.getBlock() instanceof BlockDoublePlant) {
+        if(tallgrass.getValue() && state.getBlock() instanceof BlockDoublePlant) {
             return true;
         }
 

@@ -12,25 +12,21 @@ public class LeapFrogEvent extends Cancellable implements Listenable {
     private Era era = Era.PRE;
     private final float partialTicks;
 
-    public LeapFrogEvent()
-    {
+    public LeapFrogEvent() {
         partialTicks = mc.getRenderPartialTicks();
     }
 
-    public LeapFrogEvent(Era p_Era)
-    {
+    public LeapFrogEvent(Era p_Era) {
         LeapFrog.EVENT_BUS.post(this);
         partialTicks = mc.getRenderPartialTicks();
         era = p_Era;
     }
 
-    public Era getEra()
-    {
+    public Era getEra() {
         return era;
     }
 
-    public float getPartialTicks()
-    {
+    public float getPartialTicks() {
         return partialTicks;
     }
 

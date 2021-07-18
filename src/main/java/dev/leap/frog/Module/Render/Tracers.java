@@ -3,11 +3,10 @@ package dev.leap.frog.Module.Render;
 import dev.leap.frog.Event.Render.RenderEvent;
 import dev.leap.frog.Manager.FriendManager;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Settings.Settings;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 import org.lwjgl.opengl.GL11;
@@ -20,11 +19,11 @@ public class Tracers extends Module {
         super("Tracers", "Tracers", Type.RENDER);
     }
 
-    Settings friends = create("Friends", "Friends", true);
-    Settings mobs = create("Mobs", "Mobs", false);
-    Settings range = create("Range", "Range", 50, 0, 250);
-    Settings width = create("Width", "Width", 1.0f, 0.0f, 5.0f);
-    Settings colorDistance = create("ColorDistance", "ColorDistance", true);
+    Setting<Boolean> friends = create("Friends",  true);
+    Setting<Boolean> mobs = create("Mobs",  false);
+    Setting<Integer> range = create("Range",  50, 0, 250);
+    Setting<Float> width = create("Width",  1.0f, 0.0f, 5.0f);
+    Setting<Boolean> colorDistance = create("ColorDistance",  true);
 
     @Override
     public void onRender(RenderEvent event) {
@@ -39,10 +38,10 @@ public class Tracers extends Module {
                 EntityPlayer player = (EntityPlayer) entity;
 
 
-            if (mc.player.getDistance(player) > range.getValue(1)) return;
-            if (FriendManager.isFriend(player.getName()) && !friends.getValue(true)) return;
+            if (mc.player.getDistance(player) > range.getValue()) return;
+            if (FriendManager.isFriend(player.getName()) && !friends.getValue()) return;
 
-            if(colorDistance.getValue(true)) {
+            if(colorDistance.getValue()) {
                 colour[0] = this.getColorByDistance(player);
                 this.drawLineToEntity(player, colour[0][0], colour[0][1], colour[0][2], colour[0][3]);
                 return;
@@ -54,7 +53,6 @@ public class Tracers extends Module {
 
         });
         GlStateManager.popMatrix();
-
     }
 
 
@@ -83,7 +81,7 @@ public class Tracers extends Module {
     public void drawLineFromPosToPos(final double posx, final double posy, final double posz, final double posx2, final double posy2, final double posz2, final double up, final float red, final float green, final float blue, final float opacity) {
         GL11.glBlendFunc(770, 771);
         GL11.glEnable(3042);
-        GL11.glLineWidth((float) width.getValue(1));
+        GL11.glLineWidth((float) width.getValue());
         GL11.glDisable(3553);
         GL11.glDisable(2929);
         GL11.glDepthMask(false);

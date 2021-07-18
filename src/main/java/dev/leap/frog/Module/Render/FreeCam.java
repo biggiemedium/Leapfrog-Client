@@ -3,25 +3,18 @@ package dev.leap.frog.Module.Render;
 import dev.leap.frog.Event.Movement.EventPlayerMove;
 import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Settings.Settings;
-import dev.leap.frog.Util.Mathutil;
+import dev.leap.frog.Util.Math.Mathutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraft.client.renderer.culling.Frustum;
-import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.play.client.CPacketInput;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
-import net.minecraft.network.play.server.SPacketRespawn;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.GameType;
-import net.minecraftforge.client.event.InputUpdateEvent;
 import net.minecraftforge.client.event.PlayerSPPushOutOfBlocksEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 public class FreeCam extends Module {
 
@@ -29,8 +22,13 @@ public class FreeCam extends Module {
         super("FreeCam", "FreeCam", Type.RENDER);
     }
 
-    Settings mode = create("Mode", "Mode", "Normal", combobox("Normal", "Packet"));
-    Settings speed = create("speed", "speed", 1.0f, 0.0f, 10.0f);
+    Setting<Mode> mode = create("Mode", Mode.Normal);
+    Setting<Float> speed = create("speed", 1.0f, 0.0f, 10.0f);
+
+    private enum Mode {
+        Normal,
+        Packet
+    }
 
     double x;
     double y;
@@ -86,10 +84,10 @@ public class FreeCam extends Module {
 
         mc.player.setVelocity(0, 0, 0);
 
-        mc.player.jumpMovementFactor = speed.getValue(1);
+        mc.player.jumpMovementFactor = speed.getValue();
         mc.player.setSprinting(false);
 
-        double movementFactorInputSpeed[] = Mathutil.directionSpeed(speed.getValue(1) / 2);
+        double movementFactorInputSpeed[] = Mathutil.directionSpeed(speed.getValue() / 2);
 
         if(mc.player.moveStrafing != 0 || mc.player.movementInput.moveForward != 0) {
 
@@ -102,11 +100,11 @@ public class FreeCam extends Module {
         }
 
         if(mc.gameSettings.keyBindJump.isKeyDown()) {
-            mc.player.motionY += speed.getValue(1);
+            mc.player.motionY += speed.getValue();
         }
 
         if(mc.gameSettings.keyBindSneak.isKeyDown()) {
-            mc.player.motionY -= speed.getValue(1);
+            mc.player.motionY -= speed.getValue();
         }
 
     }
@@ -151,11 +149,11 @@ public class FreeCam extends Module {
     @EventHandler
     private Listener<EventPacket.SendPacket> sendPacketListener = new Listener<>(event -> {
 
-        if(mode.in("Normal") && event.getPacket() instanceof CPacketPlayer || event.getPacket() instanceof CPacketInput) {
+        if(mode.getValue() == Mode.Normal && event.getPacket() instanceof CPacketPlayer || event.getPacket() instanceof CPacketInput) {
             event.cancel();
         }
 
-        if(mode.in("Packet") && event.getPacket() instanceof CPacketPlayer
+        if(mode.getValue() == Mode.Packet && event.getPacket() instanceof CPacketPlayer
                 || event.getPacket() instanceof CPacketInput
                 || event.getPacket() instanceof CPacketPlayerTryUseItemOnBlock
                 || event.getPacket() instanceof CPacketPlayerTryUseItem) {

@@ -3,18 +3,14 @@ package dev.leap.frog.Module.Render;
 import dev.leap.frog.Event.Render.RenderEvent;
 import dev.leap.frog.Manager.FriendManager;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Settings.Settings;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class ESP extends Module {
 
@@ -24,18 +20,25 @@ public class ESP extends Module {
 
     private HashMap<EntityPlayer, float[][]> entityPlayerHashMap = new HashMap<>();
 
-    Settings mode = create("Mode", "Mode", "Shader", combobox("Shader", "ESP", "Skeleton", "CSGO"));
+    Setting<ESPMode> mode = create("Mode", ESPMode.Shader);
 
-    Settings player = create("Player", "Player", true);
-    Settings mob = create("Mob", "Mob", false);
-    Settings crystals = create("Crystals", "Crystals", true);
-    Settings invisible = create("Invisible", "Invisible", true);
+    Setting<Boolean> player = create("Player", true);
+    Setting<Boolean> mob = create("Mob", false);
+    Setting<Boolean> crystals = create("Crystals", true);
+    Setting<Boolean> invisible = create("Invisible", true);
 
-    Settings r = create("Red", "Red", 255, 0, 255);
-    Settings g = create("green", "green", 255, 0, 255);
-    Settings b = create("blue", "blue", 255, 0, 255);
+    Setting<Integer> r = create("Red", 255, 0, 255);
+    Setting<Integer> g = create("green", 255, 0, 255);
+    Setting<Integer> b = create("blue", 255, 0, 255);
 
-    Settings distance = create("Distance", "Distance", 75, 1, 255);
+    Setting<Integer> distance = create("Distance", 75, 1, 255);
+
+    private enum ESPMode {
+        Shader,
+        ESP,
+        SKELETON,
+        CSGO
+    }
 
     @Override
     public void onUpdate() {
@@ -43,9 +46,9 @@ public class ESP extends Module {
 
         mc.world.loadedEntityList.forEach(entity -> {
 
-            if(mc.player.getDistance(entity) > distance.getValue(1)) return;
+            if(mc.player.getDistance(entity) > distance.getValue()) return;
 
-            if(player.getValue(true) && mode.in("Shader")) {
+            if(player.getValue() && mode.getValue() == ESPMode.Shader) {
                 if(entity instanceof EntityPlayer && entity != mc.player) {
                     if(FriendManager.isFriend(((EntityPlayer) entity).getDisplayNameString())) {
                         entity.setGlowing(false);
@@ -55,19 +58,19 @@ public class ESP extends Module {
                 }
             }
 
-            if(invisible.getValue(true) && mode.in("Shader")) {
+            if(invisible.getValue() && mode.getValue() == ESPMode.Shader) {
                 if(entity instanceof EntityPlayer && entity.isInvisible() && entity != mc.player) {
                     entity.setGlowing(true);
                 }
             }
 
-            if(crystals.getValue(true) && mode.in("Shader")) {
+            if(crystals.getValue() && mode.getValue() == ESPMode.Shader) {
                 if(entity instanceof EntityEnderCrystal) {
                     entity.setGlowing(true);
                 }
             }
 
-            if(mob.getValue(true) && mode.in("Shader")) {
+            if(mob.getValue() && mode.getValue() == ESPMode.Shader) {
                 if(entity instanceof EntityAnimal || entity instanceof EntityMob) {
                     entity.setGlowing(true);
                 }
@@ -75,25 +78,25 @@ public class ESP extends Module {
 
             // does not toggle for some reason so this is necessary
 
-            if(!crystals.getValue(true) || !mode.in("Shader")) {
+            if(!crystals.getValue() || mode.getValue() != ESPMode.Shader) {
                 if(entity instanceof EntityEnderCrystal) {
                     entity.setGlowing(false);
                 }
             }
 
-            if(!player.getValue(true) || !mode.in("Shader")) {
+            if(!player.getValue() || mode.getValue() != ESPMode.Shader) {
                 if(entity instanceof EntityPlayer) {
                     entity.setGlowing(false);
                 }
             }
 
-            if(!invisible.getValue(true) || !mode.in("Shader")) {
+            if(!invisible.getValue() || mode.getValue() != ESPMode.Shader) {
                 if(entity instanceof EntityPlayer && entity.isInvisible()) {
                     entity.setGlowing(false);
                 }
             }
 
-            if(!mob.getValue(true) || !mode.in("Shader")) {
+            if(!mob.getValue() || mode.getValue() != ESPMode.Shader) {
                 if(entity instanceof EntityAnimal || entity instanceof EntityMob) {
                     entity.setGlowing(false);
                 }
@@ -110,25 +113,25 @@ public class ESP extends Module {
 
             entity.setGlowing(false);
 
-            if (player.getValue(true) || mode.in("Shader")) {
+            if (player.getValue() || mode.getValue() == ESPMode.Shader) {
                 if (entity instanceof EntityPlayer) {
                     entity.setGlowing(false);
                 }
             }
 
-            if (invisible.getValue(true) || mode.in("Shader")) {
+            if (invisible.getValue() || mode.getValue() == ESPMode.Shader) {
                 if (entity instanceof EntityPlayer && entity.isInvisible() && entity != mc.player) {
                     entity.setGlowing(false);
                 }
             }
 
-            if (crystals.getValue(true) || mode.in("Shader")) {
+            if (crystals.getValue() || mode.getValue() == ESPMode.Shader) {
                 if (entity instanceof EntityEnderCrystal) {
                     entity.setGlowing(false);
                 }
             }
 
-            if (mob.getValue(true) || mode.in("Shader")) {
+            if (mob.getValue() || mode.getValue() == ESPMode.Shader) {
                 if (entity instanceof EntityAnimal || entity instanceof EntityMob) {
                     entity.setGlowing(false);
                 }
@@ -141,7 +144,7 @@ public class ESP extends Module {
         //GlStateManager.pushMatrix();
 
         mc.world.loadedEntityList.forEach(entity -> {
-            if(mc.player.getDistance(entity) > distance.getValue(1)) return;
+            if(mc.player.getDistance(entity) > distance.getValue()) return;
 
             for(EntityPlayer players : mc.world.playerEntities) {
                 if(players != null && players != mc.getRenderViewEntity()) {

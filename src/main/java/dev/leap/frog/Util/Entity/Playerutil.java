@@ -31,11 +31,11 @@ public class Playerutil extends UtilManager {
     }
 
     public static float getPlayerHealth() {
-        return Wrapper.GetMC().player.getHealth() + Wrapper.GetMC().player.getAbsorptionAmount();
+        return Wrapper.getMC().player.getHealth() + Wrapper.getMC().player.getAbsorptionAmount();
     }
 
     public static BlockPos GetLocalPlayerPosFloored() {
-        return new BlockPos(Math.floor(Wrapper.GetMC().player.posX), Math.floor(Wrapper.GetMC().player.posY), Math.floor(Wrapper.GetMC().player.posZ));
+        return new BlockPos(Math.floor(Wrapper.getMC().player.posX), Math.floor(Wrapper.getMC().player.posY), Math.floor(Wrapper.getMC().player.posZ));
     }
 
 

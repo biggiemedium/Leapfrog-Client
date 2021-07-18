@@ -26,8 +26,8 @@ public class Chatutil extends UtilManager {
     }
 
     public static void ClientSideMessgage(String message) {
-        if (Wrapper.GetMC().ingameGUI != null || Wrapper.GetPlayer() == null)
-            Wrapper.GetMC().ingameGUI.getChatGUI().printChatMessage(new TextComponentString( prefix  + message));
+        if (Wrapper.getMC().ingameGUI != null || Wrapper.getPlayer() == null)
+            Wrapper.getMC().ingameGUI.getChatGUI().printChatMessage(new TextComponentString( prefix  + message));
     }
 
     public static void setModuleMessage(Module module) {
@@ -39,9 +39,9 @@ public class Chatutil extends UtilManager {
     }
 
     public static void removeableMessage(String message) {
-        if(Wrapper.GetPlayer() != null) {
+        if(Wrapper.getPlayer() != null) {
             ITextComponent text = new TextComponentString(prefix + message).setStyle(new Style().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString("Leap Frog"))));
-            Wrapper.GetMC().ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(text, 5936);
+            Wrapper.getMC().ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(text, 5936);
         }
     }
 

@@ -8,7 +8,7 @@ public class Timer {
         this.time = -1L;
     }
 
-    public boolean passed(final long ms) {
+    public boolean passed(long ms) {
         return this.getTime(System.nanoTime() - this.time) >= ms;
     }
 

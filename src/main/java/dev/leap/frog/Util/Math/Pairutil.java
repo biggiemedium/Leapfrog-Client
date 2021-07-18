@@ -1,11 +1,11 @@
-package dev.leap.frog.Util;
+package dev.leap.frog.Util.Math;
 
-public class Pair<T, S> {
+public class Pairutil<T, S> {
 
     T key;
     S value;
 
-    public Pair(T key, S value) {
+    public Pairutil(T key, S value) {
         this.key = key;
         this.value = value;
     }

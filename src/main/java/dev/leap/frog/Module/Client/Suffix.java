@@ -1,4 +1,4 @@
-package dev.leap.frog.Module.Chat;
+package dev.leap.frog.Module.Client;
 
 import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Module.Module;
@@ -6,12 +6,10 @@ import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.network.play.client.CPacketChatMessage;
 
-import java.awt.*;
-
 public class Suffix extends Module {
 
     public Suffix() {
-        super("Suffix", "Suffix", Type.CHAT);
+        super("Suffix", "Suffix", Type.CLIENT);
     }
     //                             |    L      e       a  p        f   r       o    g
     private String suffix =  "  \u23D0 \u029f\u1d07\u1d00\u1d18\ua730\u0280\u1d0f\u0262";

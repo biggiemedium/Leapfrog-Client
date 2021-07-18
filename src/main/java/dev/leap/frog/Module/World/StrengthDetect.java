@@ -1,7 +1,7 @@
 package dev.leap.frog.Module.World;
 
-import dev.leap.frog.Manager.FriendManager;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Settings.Settings;
 import dev.leap.frog.Util.Render.Chatutil;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,8 +15,8 @@ public class StrengthDetect extends Module {
         super("StrengthDetect", "Detects if player has strength", Type.WORLD);
     }
 
-    Settings strength = create("Strength", "Strength", true);
-    Settings weakness = create("Weakness", "Weakness", true);
+    Setting<Boolean> strength = create("Strength", true);
+    Setting<Boolean> weakness = create("Weakness", true);
 
     private ArrayList<EntityPlayer> strengthPlayers = new ArrayList<>();
     private ArrayList<EntityPlayer> weaknessPlayers = new ArrayList<>();
@@ -26,7 +26,7 @@ public class StrengthDetect extends Module {
 
         if(mc.player == null || mc.world == null) return;
 
-        if(strength.getValue(true)) {
+        if(strength.getValue()) {
             for (EntityPlayer player : mc.world.playerEntities) {
                     if (!strengthPlayers.contains(player) && player.isPotionActive(MobEffects.STRENGTH) && !player.getName().equals(mc.player.getName())) {
                         Chatutil.ClientSideMessgage(player.getName() + " Has strength!");
@@ -39,7 +39,7 @@ public class StrengthDetect extends Module {
             }
         }
 
-        if(weakness.getValue(true)) {
+        if(weakness.getValue()) {
             for (EntityPlayer player : mc.world.playerEntities) {
                 if (!weaknessPlayers.contains(player) && player.isPotionActive(MobEffects.WEAKNESS) && !player.getName().equals(mc.player.getName())) {
                     Chatutil.ClientSideMessgage(player.getName() + " Has weakness!");

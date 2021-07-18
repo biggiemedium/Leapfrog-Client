@@ -1,4 +1,4 @@
-package dev.px.turok.draw;
+package dev.leap.frog.Util.Render;
 
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
@@ -10,28 +10,22 @@ import java.util.Arrays;
 
 import static org.lwjgl.opengl.GL11.*;
 
-/**
-* @author 086
-*
-* Update by me.
-* 08/04/20.
-*
-*/
-public class RenderHelp extends Tessellator {
-    public static RenderHelp INSTANCE = new RenderHelp();
+public class RenderHelputil extends Tessellator {
 
-    public RenderHelp() {
+    public static RenderHelputil INSTANCE = new RenderHelputil();
+
+    public RenderHelputil() {
         super(0x200000);
     }
 
     public static void prepare(String mode_requested) {
-    	int mode = 0;
+        int mode = 0;
 
-    	if (mode_requested.equalsIgnoreCase("quads")) {
-    		mode = GL_QUADS;
-    	} else if (mode_requested.equalsIgnoreCase("lines")) {
-    		mode = GL_LINES;
-    	}
+        if (mode_requested.equalsIgnoreCase("quads")) {
+            mode = GL_QUADS;
+        } else if (mode_requested.equalsIgnoreCase("lines")) {
+            mode = GL_LINES;
+        }
 
         prepare_gl();
         begin(mode);
@@ -181,7 +175,7 @@ public class RenderHelp extends Tessellator {
             buffer.pos(x + w, y + h, z + d).color(r, g, b, a).endVertex();
         }
 
-       if (((boolean) Arrays.asList(sides.split("-")).contains("downnorth")) || sides.equalsIgnoreCase("all")) {
+        if (((boolean) Arrays.asList(sides.split("-")).contains("downnorth")) || sides.equalsIgnoreCase("all")) {
             buffer.pos(x, y, z).color(r, g, b, a).endVertex();
             buffer.pos(x + w, y, z).color(r, g, b, a).endVertex();
         }
@@ -221,4 +215,5 @@ public class RenderHelp extends Tessellator {
             buffer.pos(x + w, y + h, z + d).color(r, g, b, a).endVertex();
         }
     }
+
 }
