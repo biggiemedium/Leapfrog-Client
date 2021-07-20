@@ -20,3 +20,8 @@ build
 # other
 eclipse
 run
+src/main/java/dev/leap/frog/.DS_Store
+src/main/java/dev/leap/.DS_Store
+src/main/java/dev/.DS_Store
+src/main/java/.DS_Store
+.DS_Store
