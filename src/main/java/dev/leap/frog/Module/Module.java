@@ -106,7 +106,7 @@ public class Module implements Listenable {
 
 
     public enum Type {
-        CLIENT("CLIENT", false),
+        CLIENT("Client", false),
         COMBAT("Combat",false),
         MOVEMENT("Movement",false),
         MISC("Misc",false),

@@ -9,7 +9,7 @@ import org.lwjgl.input.Keyboard;
 public class ElytraFly extends Module {
 
     public ElytraFly() {
-        super("ElytraFly", "Allows you to fly in 2b!", Type.EXPLOIT);
+        super("ElytraFly", "Allows you to fly in 2b!", Type.MOVEMENT);
         setKey(Keyboard.KEY_P);
     }
    @EventHandler

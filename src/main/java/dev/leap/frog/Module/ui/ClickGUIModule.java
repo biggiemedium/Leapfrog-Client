@@ -1,5 +1,6 @@
 package dev.leap.frog.Module.ui;
 
+import dev.leap.frog.GUI.Click;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Settings;
@@ -21,6 +22,7 @@ public class ClickGUIModule extends Module {
 
     @Override
     public void onEnable() {
-
+        mc.displayGuiScreen(Click.INSTANCE);
+        toggle(); // this is to ensure that frame closes correctly
     }
 }
