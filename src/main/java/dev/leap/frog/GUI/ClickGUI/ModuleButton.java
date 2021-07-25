@@ -23,17 +23,33 @@ public class ModuleButton {
     private int width;
     private int height;
     private int Colour;
-    private int offset;
+    private int Offset;
 
-    public ModuleButton(Module module, int x, int y,Frame frame, int Offset) {
+    public ModuleButton(Module module, int x, int y,Frame frame, int offset) {
         this.module = module;
         this.x = x;
-        this.y = y + 2;
+        this.y = y + 2 + offset;
         this.frame = frame;
         this.width = frame.width;
         this.height = 14;
-        this.offset = Offset;
+        this.Offset = offset;
 
+    }
+
+    public Frame getFrame() {
+        return frame;
+    }
+
+    public void setDragging(boolean dragging) {
+        Dragging = dragging;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public void draw(int mouseX, int mouseY) {
@@ -44,17 +60,15 @@ public class ModuleButton {
         }
         Gui.drawRect(this.x, this.y, this.x + width, this.y + this.height, Colour);
         Wrapper.getMC().fontRenderer.drawString(module.getName(), x + 2, y + 2, new Color(255, 255, 255).getRGB());
-        if(Dragging == true){
-            //  this.x + this.x - mouseX;
-            //  this.y + this.y - mouseY;
+        if(frame.dragging == true){
+            setX(mouseX - frame.getPlusX());
+            setY(mouseY - frame.getPlusY() + Offset);
 
         }
     }
 
-    public void OnClick(int x, int y, int button, Module.Type type){
-        if(module.getType() == type){
+    public void OnClick(int x, int y, int button){
 
-        }
         if(x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height){
             if(button == 0) {
                 module.toggle();
