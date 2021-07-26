@@ -75,12 +75,11 @@ public class ModuleButton {
 
             }
             if(button == 1){
-                System.out.println("right click" );
+
                 if(LeapFrog.getSettingManager().getSettingsForMod(module).isEmpty()){
-                    System.out.println("oef");
                 }
                 for(Setting setting : LeapFrog.getSettingManager().getSettingsForMod(module)){
-                    System.out.println(setting);
+                   
                 }
             }
         }
