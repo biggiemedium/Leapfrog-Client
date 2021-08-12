@@ -2,7 +2,6 @@ package dev.leap.frog.Module.World;
 
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
-import dev.leap.frog.Settings.Settings;
 import dev.leap.frog.Util.Render.Chatutil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;

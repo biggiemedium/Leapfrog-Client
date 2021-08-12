@@ -3,7 +3,6 @@ package dev.leap.frog.Module.Render;
 import dev.leap.frog.Event.Render.*;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
-import dev.leap.frog.Settings.Settings;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.init.MobEffects;

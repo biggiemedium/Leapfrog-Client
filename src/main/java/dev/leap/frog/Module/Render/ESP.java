@@ -4,7 +4,6 @@ import dev.leap.frog.Event.Render.RenderEvent;
 import dev.leap.frog.Manager.FriendManager;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
-import dev.leap.frog.Settings.Settings;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;

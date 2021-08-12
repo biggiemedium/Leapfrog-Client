@@ -2,7 +2,6 @@ package dev.leap.frog.Module.Misc;
 
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
-import dev.leap.frog.Settings.Settings;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemEndCrystal;
 import net.minecraft.item.ItemExpBottle;

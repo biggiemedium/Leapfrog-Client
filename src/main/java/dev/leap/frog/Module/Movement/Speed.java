@@ -1,12 +1,10 @@
 package dev.leap.frog.Module.Movement;
 
-import dev.leap.frog.Event.Movement.EventPlayerJump;
 import dev.leap.frog.Event.Movement.EventPlayerMove;
 import dev.leap.frog.Event.Movement.EventPlayerMotionUpdate;
 import dev.leap.frog.Module.Module;
 
 import dev.leap.frog.Settings.Setting;
-import dev.leap.frog.Settings.Settings;
 import dev.leap.frog.Util.Math.Mathutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
@@ -23,7 +21,7 @@ public class Speed extends Module {
 
 
     Setting<Boolean> jump = create("Jump", true);
-    Setting<SpeedMode> mode = create("Mode", SpeedMode.Strafe); // boncorde can rename leap to whatever he wants
+    Setting<SpeedMode> mode = create("Mode", SpeedMode.Leap); // boncorde can rename leap to whatever he wants
     Setting<Boolean> backwards = create("Backwards", false);
 
     public enum SpeedMode {

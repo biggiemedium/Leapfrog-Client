@@ -1,7 +1,6 @@
 package dev.leap.frog.Module.Movement;
 
 import dev.leap.frog.Module.Module;
-import dev.leap.frog.Settings.Settings;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraftforge.client.event.InputUpdateEvent;

@@ -3,15 +3,10 @@ package dev.leap.frog.Module;
 import dev.leap.frog.Event.Render.RenderEvent;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Settings.Setting;
-import dev.leap.frog.Settings.Settings;
-import dev.leap.frog.Util.Render.Chatutil;
 import me.zero.alpine.fork.listener.Listenable;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
-import org.lwjgl.input.Keyboard;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Module implements Listenable {
@@ -97,7 +92,9 @@ public class Module implements Listenable {
     public Setting create(String name, Object value, Object min, Object max) {
         return LeapFrog.getSettingManager().Build(new Setting<>(name, this, value, min, max));
     }
-
+    public List<Setting> getsetting(Module module){
+        return LeapFrog.getSettingManager().getSettingsForMod(module);
+    }
 
 
     public void onUpdate() {} // On tick

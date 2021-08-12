@@ -4,7 +4,6 @@ import dev.leap.frog.Event.Movement.EventPlayerMove;
 import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
-import dev.leap.frog.Settings.Settings;
 import dev.leap.frog.Util.Math.Mathutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;

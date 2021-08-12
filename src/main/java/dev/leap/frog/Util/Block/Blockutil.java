@@ -1,7 +1,6 @@
 package dev.leap.frog.Util.Block;
 
 import dev.leap.frog.Manager.UtilManager;
-import dev.leap.frog.Settings.Settings;
 import dev.leap.frog.Util.Wrapper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;

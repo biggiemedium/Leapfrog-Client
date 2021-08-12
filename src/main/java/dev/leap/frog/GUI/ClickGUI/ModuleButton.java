@@ -2,6 +2,8 @@ package dev.leap.frog.GUI.ClickGUI;
 
 import dev.leap.frog.GUI.IComponent;
 import dev.leap.frog.LeapFrog;
+import dev.leap.frog.Manager.ModuleManager;
+import dev.leap.frog.Manager.SettingManager;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Render.Colorutil;
@@ -9,6 +11,7 @@ import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.gui.Gui;
 
 import java.awt.*;
+import java.io.IOException;
 
 public class ModuleButton {
 
@@ -17,8 +20,8 @@ public class ModuleButton {
 
     private int x;
     private int y;
-    private boolean Dragging;
     private int count;
+    private boolean Svisable;
 
     private int width;
     private int height;
@@ -40,9 +43,6 @@ public class ModuleButton {
         return frame;
     }
 
-    public void setDragging(boolean dragging) {
-        Dragging = dragging;
-    }
 
     public void setX(int x) {
         this.x = x;
@@ -63,24 +63,27 @@ public class ModuleButton {
         if(frame.dragging == true){
             setX(mouseX - frame.getPlusX());
             setY(mouseY - frame.getPlusY() + Offset);
+        }
+
+        if(Svisable == true){
+            for(Setting setting : LeapFrog.getSettingManager().getSettingsForMod(module)){
+                Gui.drawRect(this.x + this.width, this.y, this.x + width, this.y + height, Color.green.getRGB());
+
+            }
 
         }
     }
 
-    public void OnClick(int x, int y, int button){
 
+    public void OnClick(int x, int y, int button){
         if(x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height){
             if(button == 0) {
                 module.toggle();
-
             }
             if(button == 1){
+                System.out.println("mouse pressed");
+                Svisable = true;
 
-                if(LeapFrog.getSettingManager().getSettingsForMod(module).isEmpty()){
-                }
-                for(Setting setting : LeapFrog.getSettingManager().getSettingsForMod(module)){
-                   
-                }
             }
         }
     }

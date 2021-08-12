@@ -4,7 +4,6 @@ import dev.leap.frog.Event.Render.RenderEvent;
 import dev.leap.frog.Manager.FriendManager;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
-import dev.leap.frog.Settings.Settings;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

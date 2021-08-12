@@ -1,7 +1,6 @@
 package dev.leap.frog.Util.Math;
 
 import dev.leap.frog.Manager.UtilManager;
-import dev.leap.frog.Settings.Settings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;

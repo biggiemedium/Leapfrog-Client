@@ -58,7 +58,9 @@ public class Frame {
         }
         for(ModuleButton moduleButton : moduleButton) {
             moduleButton.draw(mouseX , mouseY );
+
         }
+
 
     }
 
@@ -69,9 +71,9 @@ public class Frame {
                 plusX = mouseX - this.x;
                 plusY = mouseY - this.y;
             }
-            for(ModuleButton m : moduleButton){
-                    m.OnClick(mouseX, mouseY, button);
-            }
+        }
+        for(ModuleButton m : moduleButton){
+            m.OnClick(mouseX, mouseY, button);
         }
 
 
@@ -79,7 +81,6 @@ public class Frame {
     public void OnMouseReleased(int x, int y){
         for(ModuleButton moduleButton : moduleButton) {
             moduleButton.MouseReleased(x, y, this.type);
-            moduleButton.setDragging(false);
         }
         dragging = false;
     }

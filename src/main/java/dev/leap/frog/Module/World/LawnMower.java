@@ -3,7 +3,6 @@ package dev.leap.frog.Module.World;
 import dev.leap.frog.Event.Movement.EventPlayerMotionUpdate;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
-import dev.leap.frog.Settings.Settings;
 import dev.leap.frog.Util.Block.Blockutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;

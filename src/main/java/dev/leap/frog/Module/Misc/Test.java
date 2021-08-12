@@ -1,17 +1,14 @@
 package dev.leap.frog.Module.Misc;
 
-import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Event.Network.EventPacketUpdate;
 import dev.leap.frog.GUI.HUD.ArrayList;
 import dev.leap.frog.GUI.HUD.HUDITEM.Speed;
 import dev.leap.frog.GUI.HUD.HUDITEM.Yaw;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
-import dev.leap.frog.Settings.Settings;
 import dev.leap.frog.Util.Render.Chatutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
 

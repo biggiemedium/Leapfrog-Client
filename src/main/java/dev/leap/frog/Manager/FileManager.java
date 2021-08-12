@@ -1,16 +1,8 @@
 package dev.leap.frog.Manager;
 
 
-import dev.leap.frog.LeapFrog;
-import dev.leap.frog.Module.Module;
-import dev.leap.frog.Settings.Settings;
-
-import java.io.*;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FileManager {
 
