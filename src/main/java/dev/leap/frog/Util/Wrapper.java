@@ -23,7 +23,4 @@ public class Wrapper {
     public static boolean nullCheck() {
         return mc.player == null || mc.world == null;
     }
-
-
-
 }

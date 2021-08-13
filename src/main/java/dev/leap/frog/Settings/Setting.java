@@ -2,6 +2,7 @@ package dev.leap.frog.Settings;
 
 import dev.leap.frog.Module.Module;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Setting<T> {

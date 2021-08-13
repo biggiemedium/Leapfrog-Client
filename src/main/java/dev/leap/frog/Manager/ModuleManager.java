@@ -118,9 +118,9 @@ public class ModuleManager {
 
         Vec3d pos = Mathutil.getInterpolatedPos(Wrapper.getPlayer(), event.getPartialTicks());
 
-        RenderEvent event_render = new RenderEvent(RenderHelputil.INSTANCE, pos);
+        RenderEvent renderEvent = new RenderEvent(RenderHelputil.INSTANCE, pos);
 
-        event_render.resetTranslation();
+        renderEvent.resetTranslation();
 
         Wrapper.getMC().mcProfiler.endSection();
 
@@ -128,7 +128,7 @@ public class ModuleManager {
             if (modules.isToggled()) {
                 Wrapper.getMC().mcProfiler.startSection(modules.getName());
 
-                modules.onRender(event_render);
+                modules.onRender(renderEvent);
 
                 Wrapper.getMC().mcProfiler.endSection();
             }

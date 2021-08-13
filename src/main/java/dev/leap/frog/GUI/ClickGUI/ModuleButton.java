@@ -1,9 +1,6 @@
 package dev.leap.frog.GUI.ClickGUI;
 
-import dev.leap.frog.GUI.IComponent;
 import dev.leap.frog.LeapFrog;
-import dev.leap.frog.Manager.ModuleManager;
-import dev.leap.frog.Manager.SettingManager;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Render.Colorutil;
@@ -11,7 +8,7 @@ import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.gui.Gui;
 
 import java.awt.*;
-import java.io.IOException;
+import java.util.ArrayList;
 
 public class ModuleButton {
 
@@ -84,6 +81,14 @@ public class ModuleButton {
                 System.out.println("mouse pressed");
                 Svisable = true;
 
+                for(Setting s : LeapFrog.getSettingManager().getSettings()) {
+                    if(s.getValue() instanceof Integer) {
+                        // insert Slider here
+                    }
+                    if(s.getValue() instanceof Boolean) {
+                        // insert Boolean here
+                    }
+                }
             }
         }
     }

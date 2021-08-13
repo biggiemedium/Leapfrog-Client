@@ -4,6 +4,7 @@ import dev.leap.frog.Event.Render.RenderEvent;
 import dev.leap.frog.Manager.FriendManager;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
@@ -25,6 +26,7 @@ public class ESP extends Module {
     Setting<Boolean> mob = create("Mob", false);
     Setting<Boolean> crystals = create("Crystals", true);
     Setting<Boolean> invisible = create("Invisible", true);
+    Setting<Boolean> friends = create("Friends", false);
 
     Setting<Integer> r = create("Red", 255, 0, 255);
     Setting<Integer> g = create("green", 255, 0, 255);
@@ -42,64 +44,38 @@ public class ESP extends Module {
     @Override
     public void onUpdate() {
         if(mc.player == null || mc.world == null) return;
+            mc.world.loadedEntityList.forEach(e -> {
 
-        mc.world.loadedEntityList.forEach(entity -> {
-
-            if(mc.player.getDistance(entity) > distance.getValue()) return;
-
-            if(player.getValue() && mode.getValue() == ESPMode.Shader) {
-                if(entity instanceof EntityPlayer && entity != mc.player) {
-                    if(FriendManager.isFriend(((EntityPlayer) entity).getDisplayNameString())) {
-                        entity.setGlowing(false);
-                    } else {
-                        entity.setGlowing(true);
-                    }
+                if(mc.player.getDistance(e) > distance.getValue() || mode.getValue() != ESPMode.Shader) {
+                    e.setGlowing(false);
+                    return;
                 }
-            }
 
-            if(invisible.getValue() && mode.getValue() == ESPMode.Shader) {
-                if(entity instanceof EntityPlayer && entity.isInvisible() && entity != mc.player) {
-                    entity.setGlowing(true);
+                //entity = e;
+
+                if(e instanceof EntityPlayer && e != mc.player && player.getValue() && !e.isInvisible()) {
+                    e.setGlowing(true);
+                } else {
+                    e.setGlowing(false);
                 }
-            }
 
-            if(crystals.getValue() && mode.getValue() == ESPMode.Shader) {
-                if(entity instanceof EntityEnderCrystal) {
-                    entity.setGlowing(true);
+                if(e instanceof EntityAnimal && mob.getValue()) {
+                    e.setGlowing(true);
+                } else {
+                    e.setGlowing(false);
                 }
-            }
 
-            if(mob.getValue() && mode.getValue() == ESPMode.Shader) {
-                if(entity instanceof EntityAnimal || entity instanceof EntityMob) {
-                    entity.setGlowing(true);
+                if(e instanceof EntityEnderCrystal && crystals.getValue()) {
+                    e.setGlowing(true);
+                } else {
+                    e.setGlowing(false);
                 }
-            }
 
-            // does not toggle for some reason so this is necessary
-
-            if(!crystals.getValue() || mode.getValue() != ESPMode.Shader) {
-                if(entity instanceof EntityEnderCrystal) {
-                    entity.setGlowing(false);
+                if(e instanceof EntityPlayer && e != mc.player && invisible.getValue() && e.isInvisible()) {
+                    e.setGlowing(true);
+                } else {
+                    e.setGlowing(false);
                 }
-            }
-
-            if(!player.getValue() || mode.getValue() != ESPMode.Shader) {
-                if(entity instanceof EntityPlayer) {
-                    entity.setGlowing(false);
-                }
-            }
-
-            if(!invisible.getValue() || mode.getValue() != ESPMode.Shader) {
-                if(entity instanceof EntityPlayer && entity.isInvisible()) {
-                    entity.setGlowing(false);
-                }
-            }
-
-            if(!mob.getValue() || mode.getValue() != ESPMode.Shader) {
-                if(entity instanceof EntityAnimal || entity instanceof EntityMob) {
-                    entity.setGlowing(false);
-                }
-            }
 
         });
     }
@@ -109,32 +85,7 @@ public class ESP extends Module {
         if(mc.player == null || mc.world == null) return;
 
         mc.world.loadedEntityList.forEach(entity -> { // esp does not seem to toggle so this is necessary
-
             entity.setGlowing(false);
-
-            if (player.getValue() || mode.getValue() == ESPMode.Shader) {
-                if (entity instanceof EntityPlayer) {
-                    entity.setGlowing(false);
-                }
-            }
-
-            if (invisible.getValue() || mode.getValue() == ESPMode.Shader) {
-                if (entity instanceof EntityPlayer && entity.isInvisible() && entity != mc.player) {
-                    entity.setGlowing(false);
-                }
-            }
-
-            if (crystals.getValue() || mode.getValue() == ESPMode.Shader) {
-                if (entity instanceof EntityEnderCrystal) {
-                    entity.setGlowing(false);
-                }
-            }
-
-            if (mob.getValue() || mode.getValue() == ESPMode.Shader) {
-                if (entity instanceof EntityAnimal || entity instanceof EntityMob) {
-                    entity.setGlowing(false);
-                }
-            }
         });
     }
 
@@ -156,8 +107,5 @@ public class ESP extends Module {
 
     private void renderSkeleton(RenderEvent event, EntityPlayer player) {
 
-
-
     }
-
 }
