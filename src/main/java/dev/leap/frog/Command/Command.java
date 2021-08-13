@@ -4,16 +4,16 @@ import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TextComponentString;
 
-public class Command {
+public abstract class Command {
 
     private String name;
     private String description;
-    private String[] syntax;
+    String syntax;
 
     public static String prefix = ".";
     protected Minecraft mc = Minecraft.getMinecraft();
 
-    public Command(String name, String description, String[] syntax) {
+    public Command(String name, String description, String syntax) {
         this.name = name;
         this.description = description;
         this.syntax = syntax;
@@ -33,6 +33,6 @@ public class Command {
         prefix = newPrifix;
     }
 
-    public void execute(String[] args){}
+    public abstract void execute(String[] args);
 
 }

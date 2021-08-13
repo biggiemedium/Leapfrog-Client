@@ -10,7 +10,7 @@ public class SettingManager {
 
     public ArrayList<Setting> settings;
 
-    public SettingManager() {
+    public SettingManager() { // way to initalize in main class
         this.settings = new ArrayList<>();
     }
 
@@ -25,9 +25,9 @@ public class SettingManager {
         return settings;
     }
 
-    public Setting getSetting(String name, Module module) {
+    public Setting getSetting(Module module) {
         for(Setting setting : this.settings) { // we are taking concept from old setting manager
-            if(setting.getModule().equals(module) && setting.getName().equalsIgnoreCase(name)) {
+            if(setting.getModule().equals(module)) {
                 return setting;
             }
         }
@@ -40,7 +40,4 @@ public class SettingManager {
         return setting;
     }
 
-    public ArrayList<Setting> getSettings() {
-        return settings;
-    }
 }
