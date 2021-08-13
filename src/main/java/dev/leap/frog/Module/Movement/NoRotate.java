@@ -4,6 +4,7 @@ import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Module.Module;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SPacketPlayerPosLook;
 
 public class NoRotate extends Module {
@@ -23,5 +24,4 @@ public class NoRotate extends Module {
 
         }
     });
-
 }

@@ -1,7 +1,6 @@
 package dev.leap.frog;
 
 import dev.leap.frog.Event.EventProcessor;
-import dev.leap.frog.GUI.ClickGUI;
 import dev.leap.frog.Manager.*;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Util.Network.Sessionutil;
@@ -28,11 +27,11 @@ public class LeapFrog {
     public static final EventBus EVENT_BUS = new EventManager();
 
     public static final Logger log = LogManager.getLogger("leap");
-    public static ClickGUI clickGUI;
     private static ModuleManager moduleManager;
-    private static SettingsManager settingsManager;
-    private static DiscordManager discordManager = new DiscordManager();
-    private static CapeManager capeManager = new CapeManager();
+    private static SettingManager settingManager;
+    private static DiscordManager discordManager;
+    private static CapeManager capeManager;
+    public static FriendManager friendManager;
     private static EventProcessor eventManager;
     private static FileManager fileManager;
     private static HudManager hudManager;
@@ -42,38 +41,40 @@ public class LeapFrog {
 
         System.out.println("Starting Client");
         MinecraftForge.EVENT_BUS.register(this);
+        log.info("Starting Client");
 
         //register managers
-        settingsManager = new SettingsManager(); // settings manager must come BEFORE module manager or returns null
+        settingManager = new SettingManager(); // settings manager must come BEFORE module manager or returns null
         fileManager = new FileManager();
         moduleManager = new ModuleManager();
-        clickGUI = new ClickGUI();
         eventManager = new EventProcessor();
         hudManager = new HudManager();
         capeManager = new CapeManager();
+        discordManager = new DiscordManager();
+        friendManager = new FriendManager(); // check if should be registered earlier
 
-        fileManager.loadConfig(); // file saves after client shutsdown in MixinMinecraft
-        discordManager.Start();
+
         Display.setTitle("LeapFrog Client");
-        Sessionutil.getInstance().setUser("halop56yt@gmail.com", "BD(*\"&9fuen*)INHr4");
+        Sessionutil.getInstance().setUser("halop56yt@gmail.com", "bhfwb*^GYD7HNj");
     }
-
     // get classes
     public static ModuleManager getModuleManager() { return moduleManager; }
 
-    public static SettingsManager getSettingsManager() { return settingsManager;}
+    public static SettingManager getSettingManager() { return settingManager; }
 
     public static FileManager getFileManager() { return fileManager; }
 
     public static DiscordManager getDiscordManager() { return discordManager; }
 
-    public static EventProcessor getEventManager() { return eventManager; }
+    public static EventProcessor getEventProcessor() { return eventManager; }
 
     public static CapeManager getCapeManager() { return capeManager; }
 
+    public static FriendManager getFriendManager() { return friendManager; }
+
     @SubscribeEvent
     public void key(InputEvent e) {
-        if(Wrapper.GetMC().world == null || Wrapper.GetMC().player == null)
+        if(Wrapper.getMC().world == null || Wrapper.getMC().player == null)
             return;
         try {
             if(Keyboard.isCreated()) {

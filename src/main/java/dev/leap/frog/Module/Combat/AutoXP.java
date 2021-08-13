@@ -2,7 +2,7 @@ package dev.leap.frog.Module.Combat;
 
 import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Module.Module;
-import dev.leap.frog.Settings.Settings;
+import dev.leap.frog.Settings.Setting;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.init.Items;
@@ -16,26 +16,26 @@ public class AutoXP extends Module {
         super("XP", "Xp", Type.COMBAT);
     }
 
-    Settings mode = create("Mode", "Mode", "FootXP", combobox("FootXP", "Packet", "FastUse"));
+    Setting<XPMode> mode = create("Mode", XPMode.FootXP);
+
+    public enum XPMode {
+        FootXP,
+        Packet,
+        FastUse
+    }
 
     @Override
     public void onUpdate() {
-        if(mc.player == null || mc.world == null) return;
+        if (mc.player == null || mc.world == null) return;
 
-        if(mode.in("FastUse") && mc.player.getHeldItemMainhand().getItem() instanceof ItemExpBottle || mc.player.getHeldItemOffhand().getItem() instanceof ItemExpBottle) {
-                mc.rightClickDelayTimer = 0;
-        }
-
-        if(mode.in("Packet")) {
-
-
-
+        if (mode.getValue() == XPMode.FastUse && mc.player.getHeldItemMainhand().getItem() instanceof ItemExpBottle || mc.player.getHeldItemOffhand().getItem() instanceof ItemExpBottle) {
+            mc.rightClickDelayTimer = 0;
         }
     }
 
     @EventHandler
     private Listener<EventPacket.SendPacket> listener = new Listener<>(event -> {
-        if(event.getPacket() instanceof CPacketPlayerTryUseItem && mode.in("FootXP")) {
+        if(event.getPacket() instanceof CPacketPlayerTryUseItem && mode.getValue() == XPMode.FootXP) {
             if(mc.player.getHeldItemMainhand().getItem() instanceof ItemExpBottle) {
                 mc.rightClickDelayTimer = 0;
                 mc.player.connection.sendPacket(new CPacketPlayer.Rotation(mc.player.rotationYaw, 90.0f, mc.player.onGround));
@@ -54,21 +54,4 @@ public class AutoXP extends Module {
         }
         return XPSlot;
     }
-
-    public String getMode() {
-        if(mode.in("FootXP")) {
-            return "Foot";
-        }
-
-        if(mode.in("FastUse")) {
-            return "FastUse";
-        }
-
-        if(mode.in("Packet")) {
-            return "Packet";
-        }
-        return "None";
-    }
-
-
 }

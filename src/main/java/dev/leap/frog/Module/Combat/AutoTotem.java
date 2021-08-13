@@ -1,7 +1,7 @@
 package dev.leap.frog.Module.Combat;
 
 import dev.leap.frog.Module.Module;
-import dev.leap.frog.Settings.Settings;
+import dev.leap.frog.Settings.Setting;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ClickType;
@@ -13,7 +13,7 @@ public class AutoTotem extends Module {
         super("Auto Totem", "Puts totem in offhand", Type.COMBAT);
     }
 
-    Settings soft = create("Soft", "Soft", true);
+    Setting<Boolean> soft = create("Soft", true);
 
     public int totems;
     boolean moving = false;
@@ -43,7 +43,7 @@ public class AutoTotem extends Module {
         if (mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING) {
             totems++;
         } else {
-            if (soft.getValue(true) && !mc.player.getHeldItemOffhand().isEmpty()) {
+            if (soft.getValue() && !mc.player.getHeldItemOffhand().isEmpty()) {
                 return;
             }
             if (moving) {
@@ -71,7 +71,7 @@ public class AutoTotem extends Module {
                 mc.playerController.windowClick(0, t < 9 ? t + 36 : t, 0, ClickType.PICKUP, mc.player);
                 moving = true;
             }
-            else if (!soft.getValue(true)) {
+            else if (!soft.getValue()) {
                 int t = -1;
                 for (int i = 0; i < 45; i++) {
                     if (mc.player.inventory.getStackInSlot(i).isEmpty()) {

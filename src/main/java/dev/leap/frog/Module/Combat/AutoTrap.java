@@ -2,7 +2,7 @@ package dev.leap.frog.Module.Combat;
 
 import dev.leap.frog.Manager.FriendManager;
 import dev.leap.frog.Module.Module;
-import dev.leap.frog.Settings.Settings;
+import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Block.Blockutil;
 import dev.leap.frog.Util.Entity.Entityutil;
 import dev.leap.frog.Util.Render.Chatutil;
@@ -31,12 +31,11 @@ public class AutoTrap extends Module {
         super("Auto Trap", "Traps enemies", Type.COMBAT);
     }
 
-    Settings mode = create("Mode", "Mode", "Normal", combobox("Normal", "Feet", "Face"));
-    Settings notify = create("Notify", "Notify", true);
-    Settings blocksperTick = create("Ticks", "Delay", 4, 0, 8);
-    Settings toggle = create("Toggle", "Toggle", true);
-    Settings rotate = create("Rotate", "Rotate", true);
-    Settings arm = create("Arm", "Arm", "Mainhand" , combobox("Mainhand", "Offhand"));
+    Setting<TrapMode> mode = create("Mode", TrapMode.Normal);
+    Setting<Boolean> notify = create("Notify", true);
+    Setting<Integer> blocksperTick = create("Ticks", 4, 0, 8);
+    Setting<Boolean> toggle = create("Toggle", true);
+    Setting<Boolean> rotate = create("Rotate", true);
 
     private String lastTickTargetName = "";
     private int playerHotbarSlot = -1;
@@ -57,7 +56,7 @@ public class AutoTrap extends Module {
         playerHotbarSlot = mc.player.inventory.currentItem;
         lastHotbarSlot = -1;
 
-        if (notify.getValue(true)) {
+        if (notify.getValue()) {
             Chatutil.setModuleMessage(this);
         }
     }
@@ -78,7 +77,7 @@ public class AutoTrap extends Module {
         playerHotbarSlot = -1;
         lastHotbarSlot = -1;
 
-        if (notify.getValue(true)) {
+        if (notify.getValue()) {
             Chatutil.setModuleMessage(this);
         }
     }
@@ -92,7 +91,7 @@ public class AutoTrap extends Module {
             if(firstRun) {
                 firstRun = false;
 
-                if(notify.getValue(true)) {
+                if(notify.getValue()) {
                     Chatutil.ClientSideMessgage("Auto trap waiting for target");
                 }
             }
@@ -101,7 +100,7 @@ public class AutoTrap extends Module {
 
         if(findObsidianInHotbar() == -1) {
 
-            if(notify.getValue(true)) {
+            if(notify.getValue()) {
                 Chatutil.ClientSideMessgage("No obsidian found! toggling");
             }
 
@@ -112,19 +111,19 @@ public class AutoTrap extends Module {
         if (firstRun) {
             firstRun = false;
             lastTickTargetName = target.getName();
-            if (notify.getValue(true)) {
+            if (notify.getValue()) {
                 Chatutil.ClientSideMessgage("Enabled next target " + lastTickTargetName);
             }
         }
         else if (!lastTickTargetName.equals(target.getName())) {
             lastTickTargetName = target.getName();
             offsetStep = 0;
-            if (notify.getValue(true)) {
+            if (notify.getValue()) {
                 Chatutil.ClientSideMessgage("New target found " + lastTickTargetName);
             }
         }
 
-        if (toggle.getValue(true)) {
+        if (toggle.getValue()) {
             if (Entityutil.IsEntityTrapped(target)) {
                 toggle();
                 return;
@@ -133,17 +132,18 @@ public class AutoTrap extends Module {
 
         final List<Vec3d> placeTargets = new ArrayList<Vec3d>();
 
-        if(mode.in("Normal")) {
-            Collections.addAll(placeTargets, offsetsDefault);
-        } if(mode.in("Feet")) {
-            Collections.addAll(placeTargets, feetPlace);
-        } if(mode.in("Face")) {
-            Collections.addAll(placeTargets, facePlace);
+        switch(mode.getValue()) {
+            case Normal:
+                Collections.addAll(placeTargets, offsetsDefault);
+            case Face:
+                Collections.addAll(placeTargets, facePlace);
+            case Feet:
+                Collections.addAll(placeTargets, feetPlace);
         }
 
         int blocksPlaced = 0;
 
-        while (blocksPlaced < this.blocksperTick.getValue(1)) {
+        while (blocksPlaced < this.blocksperTick.getValue()) {
 
             if (offsetStep >= placeTargets.size()) {
                 offsetStep = 0;
@@ -166,7 +166,7 @@ public class AutoTrap extends Module {
 
             }
 
-            if (shouldTryPlace && Blockutil.placeBlock(target_pos, findObsidianInHotbar(), rotate.getValue(true), rotate.getValue(true), arm)) {
+            if (shouldTryPlace && Blockutil.placeBlock(target_pos, findObsidianInHotbar(), rotate.getValue(), rotate.getValue(), EnumHand.MAIN_HAND)) {
                 ++blocksPlaced;
             }
 
@@ -273,6 +273,12 @@ public class AutoTrap extends Module {
             new Vec3d(0.0, 3.0, -1.0),
             new Vec3d(0.0, 3.0, 0.0)
     };
+
+    public enum TrapMode {
+        Normal,
+        Feet,
+        Face
+    }
 
 }
 

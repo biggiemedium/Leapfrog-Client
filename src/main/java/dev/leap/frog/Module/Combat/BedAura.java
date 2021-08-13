@@ -3,7 +3,7 @@ package dev.leap.frog.Module.Combat;
 import dev.leap.frog.Event.Movement.EventPlayerMotionUpdate;
 import dev.leap.frog.Manager.FriendManager;
 import dev.leap.frog.Module.Module;
-import dev.leap.frog.Settings.Settings;
+import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Render.Chatutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
@@ -39,12 +39,12 @@ public class BedAura extends Module {
         super("BedAura", "Testing to see if it works", Type.COMBAT);
     }
 
-    Settings autoSwitch = create("Auto switch", "Auto switch", true);
-    Settings range = create("Range", "Range", 5, 0, 6);
-    Settings minimumDamage = create("Minimum", "Minimum", 0, 4, 20);
-    Settings maxSelfDamage = create("Max self Damage", "Max self Damage", 0, 4, 20);
-    Settings predict = create("Predict", "Predict", true);
-    Settings predictionTicks = create("Prediction Ticks", "Prediction Ticks", 0, 0, 20);
+    Setting<Boolean> autoSwitch = create("Auto switch", true);
+    Setting<Integer> range = create("Range", 5, 0, 6);
+    Setting<Integer> minimumDamage = create("Minimum", 0, 4, 20);
+    Setting<Integer> maxSelfDamage = create("Max self Damage", 0, 4, 20);
+    Setting<Boolean> predict = create("Predict", true);
+    Setting<Integer> predictionTicks = create("Prediction Ticks", 0, 0, 20);
 
     public boolean shouldPlace = false;
     public BlockPos blockPos = null;

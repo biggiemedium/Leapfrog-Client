@@ -37,7 +37,7 @@ public class RenderEvent extends LeapFrogEvent {
         getBufferBuild().setTranslation(- pos.x, - pos.y, - pos.z);
     }
 
-    public void reset_translation() {
+    public void resetTranslation() {
         setTranslation(render_pos);
     }
 

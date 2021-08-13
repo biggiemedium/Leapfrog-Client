@@ -1,19 +1,21 @@
 package dev.leap.frog.Module.Misc;
 
-import com.mojang.realmsclient.gui.ChatFormatting;
+import dev.leap.frog.Event.Network.EventPacketUpdate;
 import dev.leap.frog.GUI.HUD.ArrayList;
+import dev.leap.frog.GUI.HUD.HUDITEM.Speed;
 import dev.leap.frog.GUI.HUD.HUDITEM.Yaw;
 import dev.leap.frog.Module.Module;
-import dev.leap.frog.Settings.Settings;
+import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Render.Chatutil;
+import me.zero.alpine.fork.listener.EventHandler;
+import me.zero.alpine.fork.listener.Listener;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
 
 public class Test extends Module {
 
-    Settings s = create("test", "test", false); // true of false setting
-    Settings num = create("number example", "Number example", 50, 0, 100); // number setting - default value - min - max
-    Settings combobox = create("combobox example", "combobox example", "default combo", combobox("1", "2", "3")); // combobox setting - default value - item - item- item
+    Setting<Boolean> s = create("test", false); // true of false setting
+    Setting<Integer> num = create("number example", 50, 0, 100); // number setting - default value - min - max
 
     public Test() {
         super("Test", "Test", Type.MISC);
@@ -22,6 +24,7 @@ public class Test extends Module {
 
     private static ArrayList arrayList = new ArrayList();
     private static Yaw yaw = new Yaw();
+    private static Speed speed = new Speed();
 
     @Override
     public void onEnable() {
@@ -30,7 +33,8 @@ public class Test extends Module {
         Chatutil.ClientSideMessgage("On");
         MinecraftForge.EVENT_BUS.register(arrayList);
         MinecraftForge.EVENT_BUS.register(yaw);
-        if(s.getValue(true)) {
+        MinecraftForge.EVENT_BUS.register(speed);
+        if(s.getValue()) {
             System.out.println("Hi");
         }
     }
@@ -45,8 +49,12 @@ public class Test extends Module {
     @Override
     public void onUpdate() {
 
-
         if(mc.player.ticksExisted < 20) return;
 
     }
+
+    @EventHandler
+    private Listener<EventPacketUpdate> updateListener = new Listener<>(event -> { // same thing as onUpdate
+    });
+
 }

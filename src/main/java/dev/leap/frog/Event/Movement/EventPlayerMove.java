@@ -5,19 +5,19 @@ import net.minecraft.entity.MoverType;
 
 public class EventPlayerMove extends LeapFrogEvent {
 
-    private MoverType move_type;
+    private MoverType moverType;
 
     public double x, y, z;
 
     public EventPlayerMove(MoverType type, double x, double y, double z) {
-        this.move_type = type;
+        this.moverType = type;
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
     public void setMoveType(MoverType type) {
-        this.move_type = type;
+        this.moverType = type;
     }
 
     public void setX(double x) {
@@ -33,7 +33,7 @@ public class EventPlayerMove extends LeapFrogEvent {
     }
 
     public MoverType get_move_type() {
-        return this.move_type;
+        return this.moverType;
     }
 
     public double getX() {

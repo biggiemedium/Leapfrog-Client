@@ -15,28 +15,26 @@ public class MixinNetworkManager {
 
     @Inject(method = "channelRead0", at = @At("HEAD"), cancellable = true)
     private void receive(ChannelHandlerContext context, Packet<?> packet, CallbackInfo callback) {
-        EventPacket event_packet = new EventPacket.ReceivePacket(packet);
+        EventPacket eventPacket = new EventPacket.ReceivePacket(packet);
 
-        LeapFrog.EVENT_BUS.post(event_packet);
+        LeapFrog.EVENT_BUS.post(eventPacket);
 
-        if (event_packet.isCancelled()) {
+        if (eventPacket.isCancelled()) {
             callback.cancel();
         }
     }
 
-    // Send packet.
     @Inject(method = "sendPacket(Lnet/minecraft/network/Packet;)V", at = @At("HEAD"), cancellable = true)
     private void send(Packet<?> packet, CallbackInfo callback) {
-        EventPacket event_packet = new EventPacket.SendPacket(packet);
+        EventPacket eventPacket = new EventPacket.SendPacket(packet);
 
-        LeapFrog.EVENT_BUS.post(event_packet);
+        LeapFrog.EVENT_BUS.post(eventPacket);
 
-        if (event_packet.isCancelled()) {
+        if (eventPacket.isCancelled()) {
             callback.cancel();
         }
     }
 
-    // Exception packet.
     @Inject(method = "exceptionCaught", at = @At("HEAD"), cancellable = true)
     private void exception(ChannelHandlerContext exc, Throwable exc_, CallbackInfo callback) {
         if (exc_ instanceof Exception) {

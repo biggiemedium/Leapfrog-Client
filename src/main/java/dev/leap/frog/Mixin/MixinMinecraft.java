@@ -12,12 +12,12 @@ public class MixinMinecraft {
 
     @Inject(method = "shutdown", at = @At("HEAD"))
     public void onShutdown(CallbackInfo ci) {
-        LeapFrog.getFileManager().saveConfig();
+
     }
 
     @Inject(method = "crashed", at = @At("HEAD"))
     public void onCrash(CallbackInfo ci) {
-        LeapFrog.getFileManager().saveConfig();
+
     }
 
 }

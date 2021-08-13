@@ -2,7 +2,7 @@ package dev.leap.frog.Module.Combat;
 
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
-import dev.leap.frog.Settings.Settings;
+import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Entity.Playerutil;
 import dev.leap.frog.Util.Render.Chatutil;
 import dev.leap.frog.Util.Wrapper;
@@ -23,11 +23,23 @@ public class OffHand extends Module {
         super("OffHand", "Puts item in your offhand", Type.COMBAT);
     }
 
-    Settings health = create("Fallback", "Fallback", 13, 0, 36);
-    Settings item = create("Item", "Item", "Gapple", combobox("Gapple", "Crystal", "Pearl"));
-    Settings autoGapple = create("Auto Gapple", "Auto gapple", "None", combobox("Constant", "In hole", "None"));
-    Settings msgUser = create("Notify", "Notify", true);
-    Settings lethalCrystal = create("Lethal crystal", "Lethal crystal", true);
+    Setting<Integer> health = create("Fallback", 13, 0, 36);
+    Setting<itemOffhand> item = create("Item", itemOffhand.Gapple);
+    Setting<AutoGapple> autoGapple = create("Auto Gapple", AutoGapple.None);
+    Setting<Boolean> msgUser = create("Notify", true);
+    Setting<Boolean> lethalCrystal = create("Lethal crystal", true);
+
+    private enum itemOffhand {
+        Gapple,
+        Crystal,
+        Pearl
+    }
+
+    private enum AutoGapple {
+        None,
+        Constant,
+        Inhole
+    }
 
     @Override
     public void onUpdate() { // keep only GUI screen of GUIContainer or it will be slow
@@ -38,7 +50,7 @@ public class OffHand extends Module {
             LeapFrog.getModuleManager().getModuleName("Auto Totem").setToggled(false);
         }
 
-        if(item.in("Gapple")) {
+        if(item.getValue() == itemOffhand.Gapple) {
             if (!shouldTotem()) {
                 if (!(mc.player.getHeldItemOffhand() != ItemStack.EMPTY && mc.player.getHeldItemOffhand().getItem() == Items.GOLDEN_APPLE)) {
                     final int slotGapple = getGapSlot() < 9 ? getGapSlot() + 36 : getGapSlot();
@@ -58,7 +70,7 @@ public class OffHand extends Module {
             }
         }
 
-        if(item.in("Pearl")) {
+        if(item.getValue() == itemOffhand.Pearl) {
             if(!shouldTotem()) {
                 if(!(mc.player.getHeldItemOffhand() != ItemStack.EMPTY && mc.player.getHeldItemOffhand().getItem() == Items.ENDER_PEARL)) {
                     final int pearlSlot = getPearlSlot() < 9 ? getPearlSlot() + 36 : getPearlSlot();
@@ -78,7 +90,7 @@ public class OffHand extends Module {
             }
         }
 
-        if(item.in("Crystal")) {
+        if(item.getValue() == itemOffhand.Crystal) {
             if (!shouldTotem() || getItems(Items.TOTEM_OF_UNDYING) == 0) {
                 if (!(mc.player.getHeldItemOffhand() != ItemStack.EMPTY && mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL)) {
                     final int slot = getCrystalSlot() < 9 ? getCrystalSlot() + 36 : getCrystalSlot();
@@ -99,7 +111,7 @@ public class OffHand extends Module {
             }
         }
 
-        if(msgUser.getValue(true)) {
+        if(msgUser.getValue()) {
 
         }
     }
@@ -108,10 +120,9 @@ public class OffHand extends Module {
     public void onEnable() {
         LeapFrog.getModuleManager().getModuleName("Auto Totem").setToggled(false);
 
-        if(msgUser.getValue(true)) {
+        if(msgUser.getValue()) {
             Chatutil.setModuleMessage(this);
         }
-
     }
 
     @Override
@@ -125,7 +136,7 @@ public class OffHand extends Module {
             mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
         }
 
-        if(msgUser.getValue(true)) {
+        if(msgUser.getValue()) {
             Chatutil.setModuleMessage(this);
         }
 
@@ -133,9 +144,9 @@ public class OffHand extends Module {
 
     private boolean shouldTotem() {
         if (mc.player != null) {
-            return (mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == Items.ELYTRA || mc.player.getHealth() + mc.player.getAbsorptionAmount() <= health.getValue(1) || (lethalCrystal.getValue(true) && isGapplesAABBEmpty()));
+            return (mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == Items.ELYTRA || mc.player.getHealth() + mc.player.getAbsorptionAmount() <= health.getValue() || (lethalCrystal.getValue() && isGapplesAABBEmpty()));
         }
-        return (Playerutil.getPlayerHealth()) <= health.getValue(1) || mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == Items.ELYTRA || (lethalCrystal.getValue(true) && isGapplesAABBEmpty());
+        return (Playerutil.getPlayerHealth()) <= health.getValue() || mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == Items.ELYTRA || (lethalCrystal.getValue() && isGapplesAABBEmpty());
     }
 
     private boolean isEmpty(BlockPos pos) {
@@ -143,7 +154,7 @@ public class OffHand extends Module {
     }
 
     public static int getItems(Item i) {
-        return Wrapper.GetMC().player.inventory.mainInventory.stream().filter(itemStack -> itemStack.getItem() == i).mapToInt(ItemStack::getCount).sum() + Wrapper.GetMC().player.inventory.offHandInventory.stream().filter(itemStack -> itemStack.getItem() == i).mapToInt(ItemStack::getCount).sum();
+        return Wrapper.getMC().player.inventory.mainInventory.stream().filter(itemStack -> itemStack.getItem() == i).mapToInt(ItemStack::getCount).sum() + Wrapper.getMC().player.inventory.offHandInventory.stream().filter(itemStack -> itemStack.getItem() == i).mapToInt(ItemStack::getCount).sum();
     }
 
     private boolean isGapplesAABBEmpty() {
