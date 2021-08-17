@@ -50,10 +50,11 @@ public class MiddleClickFriends extends Module {
                 Friendutil f = FriendManager.friend.stream().filter(friend -> friend.getName().equalsIgnoreCase(player.getName())).findFirst().get();
                 LeapFrog.getFriendManager().removeFriend(f);
                 Chatutil.ClientSideMessgage("Player " + player.getName() + " is no longer your" + ChatFormatting.RED + " " + "friend");
+                LeapFrog.getFileManager().saveFriendsOnly();
             } else {
                 LeapFrog.getFriendManager().addFriend(mc.objectMouseOver.entityHit.getName());
-                //FriendManager.friends.add(f);
                 Chatutil.ClientSideMessgage("Player " + player.getName() + " is now your" + ChatFormatting.GREEN + " " +  "friend");
+                LeapFrog.getFileManager().saveFriendsOnly();
             }
         }
     }

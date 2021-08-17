@@ -1,6 +1,7 @@
 package dev.leap.frog.GUI;
 
 import dev.leap.frog.GUI.ClickGUI.Frame;
+import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -34,6 +35,16 @@ public class Click extends GuiScreen {
             f.render(mouseX, mouseY);
 
         }
+
+    }
+
+    @Override
+    public void onGuiClosed() {
+        //if(LeapFrog.getModuleManager().getModuleName("CGUI").isToggled()) {
+        //    LeapFrog.getModuleManager().getModuleName("CGUI").setToggled(false);
+        //}
+
+        LeapFrog.getFileManager().save();
 
     }
 

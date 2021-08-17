@@ -9,20 +9,29 @@ import java.util.List;
 public class SettingManager {
 
     public ArrayList<Setting> settings;
+    private Module module;
 
     public SettingManager() {
         this.settings = new ArrayList<>();
     }
 
     public List<Setting> getSettingsForMod(Module module){
-
-        List<Setting> settings = new ArrayList<>();
+        List<Setting> setting = new ArrayList<>();
             for(Setting s : this.settings){
             if(s.getModule() == module){
-                settings.add(s);
+                setting.add(s);
             }
         }
-        return settings;
+        return setting;
+    }
+
+    public Setting getSetting(String moduleName, String name) {
+        for(Setting s : getSettingsArrayList()) {
+            if(s.getModule().getName().equalsIgnoreCase(moduleName) && s.getName().equalsIgnoreCase(name)) {
+                return s;
+            }
+        }
+        return null;
     }
 
     public Setting getSetting(String name, Module module) {
@@ -40,7 +49,7 @@ public class SettingManager {
         return setting;
     }
 
-    public ArrayList<Setting> getSettings() {
+    public ArrayList<Setting> getSettingsArrayList() {
         return settings;
     }
 }

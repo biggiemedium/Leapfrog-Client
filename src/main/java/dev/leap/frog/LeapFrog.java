@@ -53,6 +53,7 @@ public class LeapFrog {
         discordManager = new DiscordManager();
         friendManager = new FriendManager(); // check if should be registered earlier
 
+        fileManager.load();
 
         Display.setTitle("LeapFrog Client");
         Sessionutil.getInstance().setUser("halop56yt@gmail.com", "bhfwb*^GYD7HNj");

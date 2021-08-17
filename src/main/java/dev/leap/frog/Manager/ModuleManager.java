@@ -66,6 +66,7 @@ public class ModuleManager {
         Add(new Tracers());
         Add(new ESP());
         Add(new FreeCam());
+        Add(new XRay());
 
         //Movement
         Add(new Speed());

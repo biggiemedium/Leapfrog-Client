@@ -4,6 +4,7 @@ import dev.leap.frog.Event.Network.EventPacketUpdate;
 import dev.leap.frog.GUI.HUD.ArrayList;
 import dev.leap.frog.GUI.HUD.HUDITEM.Speed;
 import dev.leap.frog.GUI.HUD.HUDITEM.Yaw;
+import dev.leap.frog.Manager.FriendManager;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Render.Chatutil;
