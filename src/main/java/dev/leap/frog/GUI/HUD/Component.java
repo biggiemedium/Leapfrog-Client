@@ -1,6 +1,8 @@
 package dev.leap.frog.GUI.HUD;
 
-public class Component {
+import dev.leap.frog.Manager.UtilManager;
+
+public class Component extends UtilManager {
     private int x;
     private int y;
 
@@ -19,8 +21,4 @@ public class Component {
     public void Click(int mouseX, int mouseY, int mouseButton){
 
     }
-
-
-
-
 }

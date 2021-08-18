@@ -117,6 +117,10 @@ public class ModuleButton {
         Offset = offset;
     }
 
+    public Module getModule() {
+        return module;
+    }
+
     public void draw(int mouseX, int mouseY) {
         if(module.isToggled()){
             Colour = Colorutil.getToggledColor();

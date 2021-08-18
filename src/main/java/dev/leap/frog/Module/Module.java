@@ -16,6 +16,7 @@ public class Module implements Listenable {
     public Type type;
     public int key;
     public boolean toggled;
+    private boolean hidden;
     protected Minecraft mc = Minecraft.getMinecraft();
 
     public Module(String name, String description, Type type) {
@@ -24,6 +25,7 @@ public class Module implements Listenable {
         this.type = type;
         this.key = -1;
         this.toggled = false;
+        this.hidden = false;
     }
 
     public String getName() {
@@ -48,6 +50,14 @@ public class Module implements Listenable {
 
     public int getKey() {
         return key;
+    }
+
+    public boolean isHidden() {
+        return hidden;
+    }
+
+    public void setHidden(boolean hidden) {
+        this.hidden = hidden;
     }
 
     public void setToggled(boolean toggled) {

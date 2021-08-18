@@ -1,7 +1,6 @@
 package dev.leap.frog.Manager;
 
 import dev.leap.frog.Command.Command;
-import dev.leap.frog.Command.Commands.Toggle;
 
 import java.util.ArrayList;
 import java.util.List;

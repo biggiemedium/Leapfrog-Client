@@ -11,6 +11,7 @@ import dev.leap.frog.Module.Movement.ElytraFly;
 import dev.leap.frog.Module.Render.*;
 import dev.leap.frog.Module.ui.ClickGUIModule;
 import dev.leap.frog.Module.World.*;
+import dev.leap.frog.Module.ui.HudEditorModule;
 import dev.leap.frog.Util.Math.Mathutil;
 import dev.leap.frog.Util.Render.RenderHelputil;
 import dev.leap.frog.Util.Wrapper;
@@ -27,24 +28,27 @@ public class ModuleManager {
 
     public ModuleManager() {
 
-        // Chat
+        // Client
         Add(new AutoReply());
         Add(new Suffix());
 
         //// Combat
-        Add(new Velocity());
-        Add(new CrystalAura());
         Add(new AutoTotem());
-        Add(new OffHand());
-        Add(new AutoXP());
         Add(new AutoTrap());
+        Add(new AutoXP());
         Add(new BedAura());
+        Add(new CrystalAura());
+        Add(new KillAura());
+        Add(new OffHand());
+        Add(new Velocity());
+
 
         ////GUI
         Add(new ClickGUIModule());
-        Add(new FakePlayer());
+        Add(new HudEditorModule());
 
         // Misc
+        Add(new AntiSound());
         Add(new Test());
         Add(new FastUse());
         Add(new MiddleClickFriends());
@@ -57,6 +61,7 @@ public class ModuleManager {
         // World
         Add(new StrengthDetect());
         Add(new LawnMower());
+        Add(new FakePlayer());
 
         // Render
         Add(new FullBright());

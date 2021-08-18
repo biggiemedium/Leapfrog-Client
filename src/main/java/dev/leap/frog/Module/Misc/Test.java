@@ -1,10 +1,8 @@
 package dev.leap.frog.Module.Misc;
 
 import dev.leap.frog.Event.Network.EventPacketUpdate;
-import dev.leap.frog.GUI.HUD.ArrayList;
-import dev.leap.frog.GUI.HUD.HUDITEM.Speed;
+import dev.leap.frog.GUI.HUD.HUDITEM.ArrayList;
 import dev.leap.frog.GUI.HUD.HUDITEM.Yaw;
-import dev.leap.frog.Manager.FriendManager;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Render.Chatutil;
@@ -25,7 +23,6 @@ public class Test extends Module {
 
     private static ArrayList arrayList = new ArrayList();
     private static Yaw yaw = new Yaw();
-    private static Speed speed = new Speed();
 
     @Override
     public void onEnable() {
@@ -34,7 +31,6 @@ public class Test extends Module {
         Chatutil.ClientSideMessgage("On");
         MinecraftForge.EVENT_BUS.register(arrayList);
         MinecraftForge.EVENT_BUS.register(yaw);
-        MinecraftForge.EVENT_BUS.register(speed);
         if(s.getValue()) {
             System.out.println("Hi");
         }

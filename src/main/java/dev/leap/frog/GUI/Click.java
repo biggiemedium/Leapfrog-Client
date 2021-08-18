@@ -1,7 +1,9 @@
 package dev.leap.frog.GUI;
 
 import dev.leap.frog.GUI.ClickGUI.Frame;
+import dev.leap.frog.GUI.HUD.Component;
 import dev.leap.frog.LeapFrog;
+import dev.leap.frog.Manager.HudManager;
 import dev.leap.frog.Module.Module;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -45,7 +47,6 @@ public class Click extends GuiScreen {
         //}
 
         LeapFrog.getFileManager().save();
-
     }
 
     @Override
@@ -66,5 +67,9 @@ public class Click extends GuiScreen {
         for(Frame f: frame){
             f.OnMouseReleased(mouseX, mouseY);
         }
+    }
+
+    public ArrayList<Frame> getFrame() {
+        return frame;
     }
 }
