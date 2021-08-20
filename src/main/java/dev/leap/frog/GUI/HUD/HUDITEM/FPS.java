@@ -7,12 +7,11 @@ import java.awt.*;
 
 public class FPS extends Component {
     public FPS() {
-        super(43, 65, "FPS");
+        super(50, 50, "FPS");
     }
+
     @Override
-    public void Render(int mouseX, int mouseY){
-        Gui.drawRect(34,67,43,83, Color.green.getRGB());
+    public void Click(int mouseX, int mouseY, int mouseButton) {
+        Gui.drawRect(50, 50, 50, 50, new Color(0.8f, 0.8f, 0.8f).getRGB());
     }
-
-
 }

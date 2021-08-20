@@ -31,6 +31,7 @@ public class LeapFrog {
     private static SettingManager settingManager;
     private static DiscordManager discordManager;
     private static CapeManager capeManager;
+    public static FriendManager friendManager;
     private static EventProcessor eventManager;
     private static FileManager fileManager;
     private static HudManager hudManager;
@@ -50,7 +51,10 @@ public class LeapFrog {
         hudManager = new HudManager();
         capeManager = new CapeManager();
         discordManager = new DiscordManager();
+        friendManager = new FriendManager(); // check if should be registered earlier
+        hudManager = new HudManager();
 
+        fileManager.load();
 
         Display.setTitle("LeapFrog Client");
         Sessionutil.getInstance().setUser("halop56yt@gmail.com", "bhfwb*^GYD7HNj");
@@ -67,6 +71,8 @@ public class LeapFrog {
     public static EventProcessor getEventProcessor() { return eventManager; }
 
     public static CapeManager getCapeManager() { return capeManager; }
+
+    public static FriendManager getFriendManager() { return friendManager; }
 
     @SubscribeEvent
     public void key(InputEvent e) {

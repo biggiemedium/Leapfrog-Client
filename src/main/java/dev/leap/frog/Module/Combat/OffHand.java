@@ -123,7 +123,6 @@ public class OffHand extends Module {
         if(msgUser.getValue()) {
             Chatutil.setModuleMessage(this);
         }
-
     }
 
     @Override

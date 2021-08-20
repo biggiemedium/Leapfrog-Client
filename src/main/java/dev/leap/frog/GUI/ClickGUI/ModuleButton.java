@@ -1,9 +1,8 @@
 package dev.leap.frog.GUI.ClickGUI;
 
-import dev.leap.frog.GUI.IComponent;
+import dev.leap.frog.GUI.ClickGUI.Subbutton.BindButton;
+import dev.leap.frog.GUI.ClickGUI.Subbutton.WidgetHandler;
 import dev.leap.frog.LeapFrog;
-import dev.leap.frog.Manager.ModuleManager;
-import dev.leap.frog.Manager.SettingManager;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Render.Colorutil;
@@ -11,7 +10,7 @@ import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.gui.Gui;
 
 import java.awt.*;
-import java.io.IOException;
+import java.util.ArrayList;
 
 public class ModuleButton {
 
@@ -22,6 +21,9 @@ public class ModuleButton {
     private int y;
     private int count;
     private boolean Svisable;
+
+    private ArrayList<WidgetHandler> handlers;
+    private boolean opened;
 
     private int width;
     private int height;
@@ -37,6 +39,21 @@ public class ModuleButton {
         this.height = 14;
         this.Offset = offset;
 
+         // start of subbuttons below
+
+
+        this.handlers = new ArrayList<>();
+        int saveY = 0;
+        for(Setting s : LeapFrog.getSettingManager().getSettingsArrayList()) {
+            if(s.getValue() instanceof Integer) {
+                // insert Slider here
+            }
+            if(s.getValue() instanceof Boolean) {
+                // insert Boolean here
+            }
+        }
+        BindButton bind = new BindButton(x, y + height + saveY ,this);
+        handlers.add(bind);
     }
 
     public Frame getFrame() {
@@ -50,6 +67,58 @@ public class ModuleButton {
 
     public void setY(int y) {
         this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getColour() {
+        return Colour;
+    }
+
+    public void setColour(int colour) {
+        Colour = colour;
+    }
+
+    public int getOffset() {
+        return Offset;
+    }
+
+    public void setOffset(int offset) {
+        Offset = offset;
+    }
+
+    public Module getModule() {
+        return module;
     }
 
     public void draw(int mouseX, int mouseY) {
@@ -86,6 +155,8 @@ public class ModuleButton {
                 }else{
                     Svisable = true;
                 }
+
+
 
             }
         }

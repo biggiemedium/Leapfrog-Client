@@ -74,4 +74,9 @@ public class EventProcessor {
         LeapFrog.EVENT_BUS.post(event);
     }
 
+    @SubscribeEvent
+    public void onJoin(EntityJoinWorldEvent event) {
+        LeapFrog.EVENT_BUS.post(event);
+    }
+
 }

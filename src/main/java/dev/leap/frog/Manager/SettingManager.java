@@ -9,25 +9,34 @@ import java.util.List;
 public class SettingManager {
 
     public ArrayList<Setting> settings;
+    private Module module;
 
-    public SettingManager() { // way to initalize in main class
+    public SettingManager() {
         this.settings = new ArrayList<>();
     }
 
     public List<Setting> getSettingsForMod(Module module){
-
-        List<Setting> settings = new ArrayList<>();
+        List<Setting> setting = new ArrayList<>();
             for(Setting s : this.settings){
             if(s.getModule() == module){
-                settings.add(s);
+                setting.add(s);
             }
         }
-        return settings;
+        return setting;
     }
 
-    public Setting getSetting(Module module) {
+    public Setting getSetting(String moduleName, String name) {
+        for(Setting s : getSettingsArrayList()) {
+            if(s.getModule().getName().equalsIgnoreCase(moduleName) && s.getName().equalsIgnoreCase(name)) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public Setting getSetting(String name, Module module) {
         for(Setting setting : this.settings) { // we are taking concept from old setting manager
-            if(setting.getModule().equals(module)) {
+            if(setting.getModule().equals(module) && setting.getName().equalsIgnoreCase(name)) {
                 return setting;
             }
         }
@@ -40,4 +49,7 @@ public class SettingManager {
         return setting;
     }
 
+    public ArrayList<Setting> getSettingsArrayList() {
+        return settings;
+    }
 }

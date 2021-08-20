@@ -16,6 +16,7 @@
     "MixinGuiBossBar",
     "MixinWorld",
     "MixinRenderItem",
-    "MixinRenderPlayer"
+    "MixinRenderPlayer",
+    "MixinRenderFluid"
   ]
 }

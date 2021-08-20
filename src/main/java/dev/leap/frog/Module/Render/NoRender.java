@@ -15,11 +15,11 @@ public class NoRender extends Module {
     }
 
     Setting<Boolean> potions = create("Potions", true);
-    Setting<Boolean> hurtCam = create("hurt", false);
+    Setting<Boolean> hurtCam = create("hurt", true);
     Setting<Boolean> fire = create("Fire", true);
     Setting<Boolean> armor = create("Armor",false);
     Setting<Boolean> pumpkin = create("pumpkin",true);
-    Setting<Boolean> falling = create("Falling Animation", false); // TODO: add falling block animation removal
+    Setting<Boolean> falling = create("Falling Animation", true); // TODO: add falling block animation removal
     Setting<Boolean> bossbar = create("BossBar", false);
     Setting<Boolean> weather = create("Weather", true);
     Setting<Boolean> nametags = create("NameTags", false);
@@ -84,6 +84,15 @@ public class NoRender extends Module {
     private Listener<EventRenderArmor> armorListener = new Listener<>(event -> {
 
         if(armor.getValue()) {
+            event.cancel();
+        }
+
+    });
+
+    @EventHandler
+    private Listener<EventRenderBlockFall> blockFallListener = new Listener<>(event -> {
+
+        if(falling.getValue()) {
             event.cancel();
         }
 

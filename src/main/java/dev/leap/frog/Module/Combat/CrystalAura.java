@@ -15,6 +15,7 @@ import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.network.play.server.SPacketSoundEffect;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 
 public class CrystalAura extends Module {
@@ -64,9 +65,6 @@ public class CrystalAura extends Module {
         if(mc.player == null || mc.world == null || getCrystalSlot() == -1) {
             return;
         }
-
-
-
     }
 
     @EventHandler
@@ -93,7 +91,6 @@ public class CrystalAura extends Module {
         if(event.getEra() != LeapFrogEvent.Era.PRE) {
             return;
         }
-
     });
 
     int getCrystalSlot() {

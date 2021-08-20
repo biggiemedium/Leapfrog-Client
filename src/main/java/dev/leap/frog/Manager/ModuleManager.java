@@ -11,6 +11,7 @@ import dev.leap.frog.Module.Movement.ElytraFly;
 import dev.leap.frog.Module.Render.*;
 import dev.leap.frog.Module.ui.ClickGUIModule;
 import dev.leap.frog.Module.World.*;
+import dev.leap.frog.Module.ui.HudEditorModule;
 import dev.leap.frog.Util.Math.Mathutil;
 import dev.leap.frog.Util.Render.RenderHelputil;
 import dev.leap.frog.Util.Wrapper;
@@ -27,24 +28,27 @@ public class ModuleManager {
 
     public ModuleManager() {
 
-        // Chat
+        // Client
         Add(new AutoReply());
         Add(new Suffix());
 
         //// Combat
-        Add(new Velocity());
-        Add(new CrystalAura());
         Add(new AutoTotem());
-        Add(new OffHand());
-        Add(new AutoXP());
         Add(new AutoTrap());
+        Add(new AutoXP());
         Add(new BedAura());
+        Add(new CrystalAura());
+        Add(new KillAura());
+        Add(new OffHand());
+        Add(new Velocity());
+
 
         ////GUI
         Add(new ClickGUIModule());
-        Add(new FakePlayer());
+        Add(new HudEditorModule());
 
         // Misc
+        Add(new AntiSound());
         Add(new Test());
         Add(new FastUse());
         Add(new MiddleClickFriends());
@@ -57,6 +61,7 @@ public class ModuleManager {
         // World
         Add(new StrengthDetect());
         Add(new LawnMower());
+        Add(new FakePlayer());
 
         // Render
         Add(new FullBright());
@@ -66,6 +71,7 @@ public class ModuleManager {
         Add(new Tracers());
         Add(new ESP());
         Add(new FreeCam());
+        Add(new XRay());
 
         //Movement
         Add(new Speed());
@@ -118,9 +124,9 @@ public class ModuleManager {
 
         Vec3d pos = Mathutil.getInterpolatedPos(Wrapper.getPlayer(), event.getPartialTicks());
 
-        RenderEvent event_render = new RenderEvent(RenderHelputil.INSTANCE, pos);
+        RenderEvent renderEvent = new RenderEvent(RenderHelputil.INSTANCE, pos);
 
-        event_render.resetTranslation();
+        renderEvent.resetTranslation();
 
         Wrapper.getMC().mcProfiler.endSection();
 
@@ -128,7 +134,7 @@ public class ModuleManager {
             if (modules.isToggled()) {
                 Wrapper.getMC().mcProfiler.startSection(modules.getName());
 
-                modules.onRender(event_render);
+                modules.onRender(renderEvent);
 
                 Wrapper.getMC().mcProfiler.endSection();
             }

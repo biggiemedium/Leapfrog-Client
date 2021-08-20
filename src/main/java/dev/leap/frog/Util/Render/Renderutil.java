@@ -1,12 +1,16 @@
 package dev.leap.frog.Util.Render;
 
+import dev.leap.frog.Event.Render.RenderEvent;
+import dev.leap.frog.Manager.UtilManager;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.shader.Framebuffer;
+import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.GL11;
 
-public class Renderutil {
+public class Renderutil extends UtilManager {
 
     public static void drawRect(final float x, final float y, final float w, final float h, final int color) {
         final float alpha = (color >> 24 & 0xFF) / 255.0f;
@@ -73,5 +77,17 @@ public class Renderutil {
         GL11.glDisable(2848);
         GL11.glShadeModel(7424);
         GL11.glColor4d(1.0, 1.0, 1.0, 1.0);
+    }
+
+    public static double getD3(RenderEvent event) {
+        return mc.player.lastTickPosX + (mc.player.posX - mc.player.lastTickPosX) * (double)event.getPartialTicks();
+    }
+
+    public static double getD4(RenderEvent event) {
+        return mc.player.lastTickPosY + (mc.player.posY - mc.player.lastTickPosY) * (double)event.getPartialTicks();
+    }
+
+    public static double getD5(RenderEvent event) {
+        return mc.player.lastTickPosZ + (mc.player.posZ - mc.player.lastTickPosZ) * (double)event.getPartialTicks();
     }
 }

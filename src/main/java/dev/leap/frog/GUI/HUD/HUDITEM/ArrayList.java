@@ -1,4 +1,4 @@
-package dev.leap.frog.GUI.HUD;
+package dev.leap.frog.GUI.HUD.HUDITEM;
 
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;

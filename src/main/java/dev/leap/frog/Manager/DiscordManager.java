@@ -65,21 +65,15 @@ public class DiscordManager {
             return "Main menu";
 
 
-        if(mc.player != null && LeapFrog.getModuleManager().getModuleName("ClickGUI").isToggled()) {
+        if(mc.world != null && LeapFrog.getModuleManager().getModuleName("ClickGUI").isToggled()) {
             return "Configuring Client";
         }
-        /* fucks up entire rpc
-        if(Objects.requireNonNull(mc.getCurrentServerData()).serverIP.contains("2b2t") && mc.world.getBiome(mc.player.getPosition()).getBiomeName().toLowerCase().contains("end") && mc.player.getPosition().getZ() == 0) {
-            return "In queue";
-        }
-
-         */
 
         if(mc.player.onGround) {
             return "Moving " + Playerutil.getSpeedInKM() + " KM/H";
         }
 
-        if(!mc.player.onGround && !mc.getCurrentServerData().serverIP.contains("2b2t")) {
+        if(!mc.player.onGround && !Objects.requireNonNull(mc.getCurrentServerData()).serverIP.contains("2b2t")) {
             return "Chilling in " + mc.world.getBiome(mc.player.getPosition()).getBiomeName();
         }
 
@@ -94,7 +88,7 @@ public class DiscordManager {
         String detail = discordRichPresence.details;
 
         if(mc.player == null)
-            return "Hopping into a game!";
+            return "Leapfrog on top!";
 
         if(mc.isSingleplayer()) {
             return mc.player.getName() + " | " + "Singleplayer";

@@ -4,6 +4,7 @@ import dev.leap.frog.Manager.UtilManager;
 import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -55,4 +56,29 @@ public class Playerutil extends UtilManager {
                     new Vec3d(0.0, 3.0, -1.0),
                     new Vec3d(0.0, 3.0, 0.0)
             };
+
+    public static double[] calculateLookAt(double px, double py, double pz, EntityPlayer player) {
+        double dirx = player.posX - px;
+        double diry = player.posY - py;
+        double dirz = player.posZ - pz;
+
+        double len = Math.sqrt(dirx*dirx + diry*diry + dirz*dirz);
+
+        dirx /= len;
+        diry /= len;
+        dirz /= len;
+
+        double pitch = Math.asin(diry);
+        double yaw = Math.atan2(dirz, dirx);
+
+        //to degree
+        pitch = pitch * 180.0d / Math.PI;
+        yaw = yaw * 180.0d / Math.PI;
+
+        yaw += 90f;
+
+        return new double[]{yaw,pitch};
+    }
+
+
 }

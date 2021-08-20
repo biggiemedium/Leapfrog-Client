@@ -23,6 +23,4 @@ public class MixinMainMenuGUI {
         fr.drawStringWithShadow(ChatFormatting.GREEN + "LeapFrog Client ", sc.getScaledWidth() - Wrapper.getMC().fontRenderer.getStringWidth("LeapFrog Client") - 5, 2, 0xffffff);
 
     }
-
-
 }

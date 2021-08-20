@@ -1,8 +1,10 @@
 package dev.leap.frog.Module.Misc;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
+import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Manager.FriendManager;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Util.Entity.Friendutil;
 import dev.leap.frog.Util.Render.Chatutil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -16,12 +18,6 @@ public class MiddleClickFriends extends Module {
     }
 
     private boolean clicked = false;
-
-    public static ChatFormatting red = ChatFormatting.RED;
-    public static ChatFormatting green = ChatFormatting.GREEN;
-    public static ChatFormatting bold = ChatFormatting.BOLD;
-    public static ChatFormatting reset = ChatFormatting.RESET;
-
 
     @Override
     public void onUpdate() {
@@ -51,18 +47,15 @@ public class MiddleClickFriends extends Module {
 
             if (FriendManager.isFriend(player.getName())) {
 
-                FriendManager.Friend f = FriendManager.friends.stream().filter(friend -> friend.getUsername().equalsIgnoreCase(player.getName())).findFirst().get();
-                FriendManager.friends.remove(f);
-                Chatutil.ClientSideMessgage("Player " + bold + player.getName() + reset + " is no longer you're" + red + "friend");
-
+                Friendutil f = FriendManager.friend.stream().filter(friend -> friend.getName().equalsIgnoreCase(player.getName())).findFirst().get();
+                LeapFrog.getFriendManager().removeFriend(f);
+                Chatutil.ClientSideMessgage("Player " + player.getName() + " is no longer your" + ChatFormatting.RED + " " + "friend");
+                LeapFrog.getFileManager().saveFriendsOnly();
             } else {
-                FriendManager.Friend f = FriendManager.getFriendObject(player.getName());
-                FriendManager.friends.add(f);
-                Chatutil.ClientSideMessgage("Player " + bold + player.getName() + reset + " is now you're" + green +  "friend");
+                LeapFrog.getFriendManager().addFriend(mc.objectMouseOver.entityHit.getName());
+                Chatutil.ClientSideMessgage("Player " + player.getName() + " is now your" + ChatFormatting.GREEN + " " +  "friend");
+                LeapFrog.getFileManager().saveFriendsOnly();
             }
-
         }
-
     }
-
 }
