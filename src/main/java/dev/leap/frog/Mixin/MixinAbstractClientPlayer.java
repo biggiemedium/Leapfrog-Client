@@ -27,12 +27,10 @@ public abstract class MixinAbstractClientPlayer {
         UUID uuid = Objects.requireNonNull(getPlayerInfo()).getGameProfile().getId();
         if(LeapFrog.getModuleManager().getModuleName("Capes").isToggled() && LeapFrog.getCapeManager().hasCape(uuid)) {
 
-            cir.setReturnValue(new ResourceLocation("cocked.png"));
+            cir.setReturnValue(new ResourceLocation("frog.png"));
 
         } else if(LeapFrog.getCapeManager().hasDevCape(uuid)) {
-            cir.setReturnValue(new ResourceLocation("cocked.png"));
-        }else{
-            cir.setReturnValue(new ResourceLocation("cocked.png"));
+            cir.setReturnValue(new ResourceLocation("dev-cape.png"));
         }
 
     }

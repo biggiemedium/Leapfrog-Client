@@ -1,6 +1,7 @@
 package dev.leap.frog.GUI.ClickGUI;
 
 import dev.leap.frog.GUI.ClickGUI.Subbutton.BindButton;
+import dev.leap.frog.GUI.ClickGUI.Subbutton.BooleanButton;
 import dev.leap.frog.GUI.ClickGUI.Subbutton.WidgetHandler;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
@@ -10,6 +11,7 @@ import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.gui.Gui;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ModuleButton {
@@ -20,7 +22,6 @@ public class ModuleButton {
     private int x;
     private int y;
     private int count;
-    private boolean Svisable;
 
     private ArrayList<WidgetHandler> handlers;
     private boolean opened;
@@ -36,24 +37,25 @@ public class ModuleButton {
         this.y = y + 2 + offset;
         this.frame = frame;
         this.width = frame.width;
-        this.height = 14;
+        this.height = Wrapper.getMC().fontRenderer.FONT_HEIGHT + 4;
         this.Offset = offset;
 
          // start of subbuttons below
 
-
         this.handlers = new ArrayList<>();
         int saveY = 0;
+
         for(Setting s : LeapFrog.getSettingManager().getSettingsArrayList()) {
+            WidgetHandler button = null;
             if(s.getValue() instanceof Integer) {
-                // insert Slider here
+            } else if(s.getValue() instanceof Boolean) {
+                button = new BooleanButton(s, x, y + height + saveY, this);
             }
-            if(s.getValue() instanceof Boolean) {
-                // insert Boolean here
+            if(button != null) {
+                handlers.add(button);
+                saveY += button.getHeight();
             }
         }
-        BindButton bind = new BindButton(x, y + height + saveY ,this);
-        handlers.add(bind);
     }
 
     public Frame getFrame() {
@@ -129,35 +131,40 @@ public class ModuleButton {
         }
         Gui.drawRect(this.x, this.y, this.x + width, this.y + this.height, Colour);
         Wrapper.getMC().fontRenderer.drawString(module.getName(), x + 2, y + 2, new Color(255, 255, 255).getRGB());
-        if(frame.dragging == true){
+        if(frame.dragging){
             setX(mouseX - frame.getPlusX());
             setY(mouseY - frame.getPlusY() + Offset);
         }
 
-        if(Svisable == true){
-            for(Setting setting : LeapFrog.getSettingManager().getSettingsForMod(module)){
-                Gui.drawRect(this.x + this.width, this.y, this.x + (width * 2), this.y + height, Color.green.getRGB());
-
+        height = Wrapper.getMC().fontRenderer.FONT_HEIGHT + 4;
+        if(opened) {
+            for(WidgetHandler handler : handlers) {
+                if(handler.getX() != x) {
+                    handler.setX(x);
+                }
+                if(handler.getY() != y) {
+                    handler.setY(y);
+                }
+                handler.draw(mouseX, mouseY);
+                height += handler.getHeight();
             }
-
         }
     }
 
 
-    public void OnClick(int x, int y, int button){
+    public void OnClick(int x, int y, int button) throws IOException {
         if(x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height){
             if(button == 0) {
                 module.toggle();
+            } else if(button == 1){
+                System.out.println("mouse pressed");
+                opened = !opened;
             }
-            if(button == 1){
-                if(Svisable == true){
-                    Svisable = false;
-                }else{
-                    Svisable = true;
-                }
-
-
-
+            return;
+        }
+        if(opened) {
+            for(WidgetHandler handler : handlers) {
+                handler.mouseClicked(x, y, button);
             }
         }
     }
