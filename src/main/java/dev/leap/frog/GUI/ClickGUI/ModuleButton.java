@@ -136,7 +136,7 @@ public class ModuleButton {
 
         if(Svisable == true){
             for(Setting setting : LeapFrog.getSettingManager().getSettingsForMod(module)){
-                Gui.drawRect(this.x + this.width, this.y, this.x + width, this.y + height, Color.green.getRGB());
+                Gui.drawRect(this.x + this.width, this.y, this.x + (width * 2), this.y + height, Color.green.getRGB());
 
             }
 
@@ -150,8 +150,11 @@ public class ModuleButton {
                 module.toggle();
             }
             if(button == 1){
-                System.out.println("mouse pressed");
-                Svisable = true;
+                if(Svisable == true){
+                    Svisable = false;
+                }else{
+                    Svisable = true;
+                }
 
 
 
