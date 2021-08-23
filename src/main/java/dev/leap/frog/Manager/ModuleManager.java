@@ -108,6 +108,17 @@ public class ModuleManager {
         return modulestype;
     }
 
+    public Module getModule(Class clazz) {
+
+        for(Module m : getModules()) {
+            if(m.getClass() == clazz) {
+                return m;
+            }
+        }
+
+        return null;
+    }
+
     public static void onRender(RenderWorldLastEvent event) {
 
         Wrapper.getMC().mcProfiler.startSection("leapfrog");

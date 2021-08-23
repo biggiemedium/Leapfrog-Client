@@ -1,21 +1,31 @@
 package dev.leap.frog.Module.Combat;
 
+import dev.leap.frog.Event.Movement.EventPlayerRightClick;
+import dev.leap.frog.Event.Movement.EventPlayerStoppedUsingItem;
+import dev.leap.frog.Event.Network.EventPacketUpdate;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Entity.Playerutil;
 import dev.leap.frog.Util.Render.Chatutil;
 import dev.leap.frog.Util.Wrapper;
+import me.zero.alpine.fork.listener.EventHandler;
+import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.play.client.CPacketUseEntity;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 
 public class OffHand extends Module {
 
@@ -25,8 +35,7 @@ public class OffHand extends Module {
 
     Setting<Integer> health = create("Fallback", 13, 0, 36);
     Setting<itemOffhand> item = create("Item", itemOffhand.Gapple);
-    Setting<AutoGapple> autoGapple = create("Auto Gapple", AutoGapple.None);
-    Setting<Boolean> msgUser = create("Notify", true);
+    Setting<AutoGapple> autoGapple = create("Auto Gapple", AutoGapple.Constant);
     Setting<Boolean> lethalCrystal = create("Lethal crystal", true);
 
     private enum itemOffhand {
@@ -43,14 +52,11 @@ public class OffHand extends Module {
 
     @Override
     public void onUpdate() { // keep only GUI screen of GUIContainer or it will be slow
-        if(mc.currentScreen instanceof GuiContainer || mc.world == null || mc.player == null || mc.player.ticksExisted < 10)
+
+        if (mc.currentScreen instanceof GuiContainer || mc.world == null || mc.player == null || mc.player.ticksExisted < 10)
             return;
 
-        if(LeapFrog.getModuleManager().getModuleName("Auto Totem").isToggled()) {
-            LeapFrog.getModuleManager().getModuleName("Auto Totem").setToggled(false);
-        }
-
-        if(item.getValue() == itemOffhand.Gapple) {
+        if (item.getValue() == itemOffhand.Gapple) {
             if (!shouldTotem()) {
                 if (!(mc.player.getHeldItemOffhand() != ItemStack.EMPTY && mc.player.getHeldItemOffhand().getItem() == Items.GOLDEN_APPLE)) {
                     final int slotGapple = getGapSlot() < 9 ? getGapSlot() + 36 : getGapSlot();
@@ -70,11 +76,11 @@ public class OffHand extends Module {
             }
         }
 
-        if(item.getValue() == itemOffhand.Pearl) {
-            if(!shouldTotem()) {
-                if(!(mc.player.getHeldItemOffhand() != ItemStack.EMPTY && mc.player.getHeldItemOffhand().getItem() == Items.ENDER_PEARL)) {
+        if (item.getValue() == itemOffhand.Pearl) {
+            if (!shouldTotem()) {
+                if (!(mc.player.getHeldItemOffhand() != ItemStack.EMPTY && mc.player.getHeldItemOffhand().getItem() == Items.ENDER_PEARL)) {
                     final int pearlSlot = getPearlSlot() < 9 ? getPearlSlot() + 36 : getPearlSlot();
-                    if(getPearlSlot() != -1) {
+                    if (getPearlSlot() != -1) {
                         mc.playerController.windowClick(0, pearlSlot, 0, ClickType.PICKUP, mc.player);
                         mc.playerController.windowClick(0, 45, 0, ClickType.PICKUP, mc.player);
                         mc.playerController.windowClick(0, pearlSlot, 0, ClickType.PICKUP, mc.player);
@@ -82,7 +88,7 @@ public class OffHand extends Module {
                 }
             } else if (!(mc.player.getHeldItemOffhand() != ItemStack.EMPTY && mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING)) {
                 final int slot = getPearlSlot() < 9 ? getPearlSlot() + 36 : getPearlSlot();
-                if(getPearlSlot() != -1) {
+                if (getPearlSlot() != -1) {
                     mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
                     mc.playerController.windowClick(0, 45, 0, ClickType.PICKUP, mc.player);
                     mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
@@ -90,7 +96,7 @@ public class OffHand extends Module {
             }
         }
 
-        if(item.getValue() == itemOffhand.Crystal) {
+        if (item.getValue() == itemOffhand.Crystal) {
             if (!shouldTotem() || getItems(Items.TOTEM_OF_UNDYING) == 0) {
                 if (!(mc.player.getHeldItemOffhand() != ItemStack.EMPTY && mc.player.getHeldItemOffhand().getItem() == Items.END_CRYSTAL)) {
                     final int slot = getCrystalSlot() < 9 ? getCrystalSlot() + 36 : getCrystalSlot();
@@ -100,8 +106,7 @@ public class OffHand extends Module {
                         mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
                     }
                 }
-            }
-            else if (!(mc.player.getHeldItemOffhand() != ItemStack.EMPTY && mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING)) {
+            } else if (!(mc.player.getHeldItemOffhand() != ItemStack.EMPTY && mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING)) {
                 final int slot = getTotemSlot() < 9 ? getTotemSlot() + 36 : getTotemSlot();
                 if (getTotemSlot() != -1) {
                     mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
@@ -110,37 +115,57 @@ public class OffHand extends Module {
                 }
             }
         }
-
-        if(msgUser.getValue()) {
-
-        }
     }
 
-    @Override
-    public void onEnable() {
-        LeapFrog.getModuleManager().getModuleName("Auto Totem").setToggled(false);
+    @EventHandler
+    private Listener<EventPacketUpdate> listener = new Listener<>(event -> {
 
-        if(msgUser.getValue()) {
-            Chatutil.setModuleMessage(this);
+        if(mc.player == null || mc.world == null) return;
+
+        // auto gapple methods
+
+        if (autoGapple.getValue() == AutoGapple.Inhole && isPlayerInHole()) {
+            if (mc.player.getHeldItemOffhand().getItem() == Items.GOLDEN_APPLE) {
+                if (mc.currentScreen == null) {
+                    mc.gameSettings.keyBindUseItem.pressed = true;
+                } else {
+                    mc.playerController.processRightClick(mc.player, mc.world, EnumHand.OFF_HAND);
+                }
+            }
         }
-    }
+
+        if(autoGapple.getValue() == AutoGapple.Constant) {
+            if(mc.player.getHeldItemOffhand().getItem() == Items.GOLDEN_APPLE && !Playerutil.isEating()) {
+                if(mc.currentScreen == null) {
+                    mc.gameSettings.keyBindUseItem.pressed = true;
+                } else {
+                    mc.playerController.processRightClick(mc.player, mc.world, EnumHand.OFF_HAND);
+                }
+            }
+        }
+
+    });
+
+    @EventHandler
+    private Listener<EventPlayerStoppedUsingItem> itemListener = new Listener<>(event -> {
+
+        if(Playerutil.isEating()) {
+            event.cancel();
+        }
+
+    });
 
     @Override
     public void onDisable() {
-        LeapFrog.getModuleManager().getModuleName("Auto Totem").setToggled(true);
 
-        final int slot = getTotemSlot() < 9 ? getTotemSlot() + 36 : getTotemSlot();
-        if (getTotemSlot() != -1) {
-            mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
-            mc.playerController.windowClick(0, 45, 0, ClickType.PICKUP, mc.player);
-            mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
+            final int slot = getTotemSlot() < 9 ? getTotemSlot() + 36 : getTotemSlot();
+            if (getTotemSlot() != -1) {
+                mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
+                mc.playerController.windowClick(0, 45, 0, ClickType.PICKUP, mc.player);
+                mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
+            }
         }
 
-        if(msgUser.getValue()) {
-            Chatutil.setModuleMessage(this);
-        }
-
-    }
 
     private boolean shouldTotem() {
         if (mc.player != null) {

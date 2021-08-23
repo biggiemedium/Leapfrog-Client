@@ -10,6 +10,7 @@ import org.lwjgl.input.Keyboard;
 import java.awt.*;
 import java.io.IOException;
 
+<<<<<<< HEAD
 public class BindButton extends WidgetHandler {
 
     private boolean binding = false;
@@ -57,4 +58,7 @@ public class BindButton extends WidgetHandler {
             binding = false;
         }
     }
+=======
+public class BindButton {
+>>>>>>> 97bdfa7cadb45e33eeaba4272c5aeb29aeb330de
 }

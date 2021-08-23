@@ -5,6 +5,7 @@ import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemFood;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -39,6 +40,9 @@ public class Playerutil extends UtilManager {
         return new BlockPos(Math.floor(Wrapper.getMC().player.posX), Math.floor(Wrapper.getMC().player.posY), Math.floor(Wrapper.getMC().player.posZ));
     }
 
+    public static boolean isEating() {
+        return mc.player.getHeldItemOffhand().getItem() instanceof ItemFood && mc.player.isHandActive();
+    }
 
     public static Vec3d[] offsetsDefault = new Vec3d[] {
                     new Vec3d(0.0, 0.0, -1.0),

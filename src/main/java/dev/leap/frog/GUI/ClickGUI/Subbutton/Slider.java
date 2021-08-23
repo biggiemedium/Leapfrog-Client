@@ -5,6 +5,7 @@ import net.minecraft.client.gui.Gui;
 import java.awt.*;
 
 public class Slider {
+<<<<<<< HEAD
     public boolean dragged;
     public void Slider(int x, int y, int width, int height, float val){
         float slideup = val / (float) width;
@@ -20,4 +21,6 @@ public class Slider {
 
     }
 
+=======
+>>>>>>> 97bdfa7cadb45e33eeaba4272c5aeb29aeb330de
 }

@@ -1,8 +1,12 @@
 package dev.leap.frog.GUI.ClickGUI;
 
 import dev.leap.frog.GUI.ClickGUI.Subbutton.BindButton;
+<<<<<<< HEAD
 import dev.leap.frog.GUI.ClickGUI.Subbutton.Slider;
 import dev.leap.frog.GUI.ClickGUI.Subbutton.SliderTypes.FloatSlider;
+=======
+import dev.leap.frog.GUI.ClickGUI.Subbutton.BooleanButton;
+>>>>>>> 97bdfa7cadb45e33eeaba4272c5aeb29aeb330de
 import dev.leap.frog.GUI.ClickGUI.Subbutton.WidgetHandler;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
@@ -24,9 +28,14 @@ public class ModuleButton {
     private int x;
     private int y;
     private int count;
+<<<<<<< HEAD
     private boolean Svisable;
     public ArrayList<ModuleButton> settingButton;
     public ArrayList<WidgetHandler> handlers;
+=======
+
+    private ArrayList<WidgetHandler> handlers;
+>>>>>>> 97bdfa7cadb45e33eeaba4272c5aeb29aeb330de
     private boolean opened;
 
     private int width;
@@ -40,23 +49,33 @@ public class ModuleButton {
         this.y = y + 2 + offset;
         this.frame = frame;
         this.width = frame.width;
-        this.height = 14;
+        this.height = Wrapper.getMC().fontRenderer.FONT_HEIGHT + 4;
         this.Offset = offset;
 
          // start of subbuttons below
 
-
         this.handlers = new ArrayList<>();
         int saveY = 0;
+
         for(Setting s : LeapFrog.getSettingManager().getSettingsArrayList()) {
+            WidgetHandler button = null;
             if(s.getValue() instanceof Integer) {
+<<<<<<< HEAD
                 handlers.add(new FloatSlider(this, s.getValue()));
+=======
+            } else if(s.getValue() instanceof Boolean) {
+                button = new BooleanButton(s, x, y + height + saveY, this);
+>>>>>>> 97bdfa7cadb45e33eeaba4272c5aeb29aeb330de
             }
-            if(s.getValue() instanceof Boolean) {
-                // insert Boolean here
+            if(button != null) {
+                handlers.add(button);
+                saveY += button.getHeight();
             }
         }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 97bdfa7cadb45e33eeaba4272c5aeb29aeb330de
     }
 
     public Frame getFrame() {
@@ -132,20 +151,34 @@ public class ModuleButton {
         }
         Gui.drawRect(this.x, this.y, this.x + width, this.y + this.height, Colour);
         Wrapper.getMC().fontRenderer.drawString(module.getName(), x + 2, y + 2, new Color(255, 255, 255).getRGB());
-        if(frame.dragging == true){
+        if(frame.dragging){
             setX(mouseX - frame.getPlusX());
             setY(mouseY - frame.getPlusY() + Offset);
         }
 
+<<<<<<< HEAD
         if(Svisable == true){
             for(WidgetHandler h : handlers){
                     h.draw(mouseX,mouseY);
             }
+=======
+        height = Wrapper.getMC().fontRenderer.FONT_HEIGHT + 4;
+        if(opened) {
+            for(WidgetHandler handler : handlers) {
+                if(handler.getX() != x) {
+                    handler.setX(x);
+                }
+                if(handler.getY() != y) {
+                    handler.setY(y);
+                }
+                handler.draw(mouseX, mouseY);
+                height += handler.getHeight();
+>>>>>>> 97bdfa7cadb45e33eeaba4272c5aeb29aeb330de
             }
-
         }
 
 
+<<<<<<< HEAD
 
     public void OnClick(int mx, int my, int button) throws IOException {
         if(Svisable) {
@@ -154,9 +187,17 @@ public class ModuleButton {
             }
         }
         if(mx >= this.x && mx <= this.x + this.width && my >= this.y && my <= this.y + this.height){
+=======
+    public void OnClick(int x, int y, int button) throws IOException {
+        if(x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height){
+>>>>>>> 97bdfa7cadb45e33eeaba4272c5aeb29aeb330de
             if(button == 0) {
                 module.toggle();
+            } else if(button == 1){
+                System.out.println("mouse pressed");
+                opened = !opened;
             }
+<<<<<<< HEAD
             if(button == 1){
                 if(Svisable){
                     Svisable = false;
@@ -166,6 +207,13 @@ public class ModuleButton {
 
 
 
+=======
+            return;
+        }
+        if(opened) {
+            for(WidgetHandler handler : handlers) {
+                handler.mouseClicked(x, y, button);
+>>>>>>> 97bdfa7cadb45e33eeaba4272c5aeb29aeb330de
             }
         }
     }

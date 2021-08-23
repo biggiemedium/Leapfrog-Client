@@ -36,7 +36,8 @@ public class Frame {
 
         for(Module m : LeapFrog.getModuleManager().getModuleByType(type)) {
             if(this.type == m.type) {
-                moduleButton.add(new ModuleButton(m, this.x, this.y, this, 17 + offsetY * 14));
+                ModuleButton button = new ModuleButton(m, this.x, this.y, this, 17 + offsetY * 14);
+                moduleButton.add(button);
             }
             offsetY++;
         }
@@ -61,10 +62,7 @@ public class Frame {
         }
         for(ModuleButton moduleButton : moduleButton) {
             moduleButton.draw(mouseX , mouseY );
-
         }
-
-
     }
 
     public void OnClick(int mouseX, int mouseY, int button) throws IOException {
@@ -78,8 +76,6 @@ public class Frame {
         for(ModuleButton m : moduleButton){
             m.OnClick(mouseX, mouseY, button);
         }
-
-
     }
     public void OnMouseReleased(int x, int y, int button){
         for(ModuleButton moduleButton : moduleButton) {
@@ -87,6 +83,4 @@ public class Frame {
         }
         dragging = false;
     }
-
-
 }
