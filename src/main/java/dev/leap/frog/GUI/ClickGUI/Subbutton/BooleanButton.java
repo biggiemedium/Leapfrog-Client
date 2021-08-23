@@ -17,11 +17,5 @@ public class BooleanButton extends WidgetHandler {
         this.setting = setting;
     }
 
-    @Override
-    public void draw(int mouseX, int mouseY) { // new Color(10, 10, 10, 200).getRGB()
 
-        Gui.drawRect(getX(), getY(), getX() + 2, getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
-
-
-    }
 }

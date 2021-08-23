@@ -17,14 +17,15 @@ public class BindButton extends WidgetHandler {
     private int offset;
 
     private ModuleButton m;
-    public BindButton(int x, int y, ModuleButton moduleButton) {
+    public BindButton(int x, int y, ModuleButton moduleButton, int offset) {
         this.m = moduleButton;
+        this.offset = offset;
     }
 
     @Override
     public void draw(int mouseX, int mouseY) {
-        Gui.drawRect(m.getX() + m.getWidth(), m.getY(), m.getX() + (m.getWidth() * 2), m.getY() + m.getHeight(), Color.green.getRGB());
-        Wrapper.mc.fontRenderer.drawString("null", m.getX() + (m.getWidth() / 2), m.getY() + (m.getHeight() / 2), Color.black.getRGB());
+        Gui.drawRect(m.getX() + 100, m.getY() + offset, m.getX() + (m.getWidth() * 2), m.getY() + m.getHeight() + offset, Color.green.getRGB());
+
     }
 
     private int getColor(int mouseX, int mouseY) {

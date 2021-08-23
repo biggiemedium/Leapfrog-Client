@@ -61,13 +61,14 @@ public class ModuleButton {
             if(s.getValue() instanceof Integer) {
 
                 handlers.add(new FloatSlider(this, s.getValue()));
+                saveY+= Wrapper.getMC().fontRenderer.FONT_HEIGHT + 6;
 
             } else if(s.getValue() instanceof Boolean) {
                 button = new BooleanButton(s, x, y + height + saveY, this);
-
+                saveY += Wrapper.getMC().fontRenderer.FONT_HEIGHT + 6;
             }
-            handlers.add(new BindButton(45, 54, this));
         }
+        handlers.add(new BindButton(45, 54, this, saveY));
 
     }
 
@@ -149,25 +150,15 @@ public class ModuleButton {
             setY(mouseY - frame.getPlusY() + Offset);
         }
 
-        if (Svisable == true) {
-            for (WidgetHandler h : handlers) {
-                h.draw(mouseX, mouseY);
-            }
 
             height = Wrapper.getMC().fontRenderer.FONT_HEIGHT + 4;
             if (opened) {
-                for (WidgetHandler handler : handlers) {
-                    if (handler.getX() != x) {
-                        handler.setX(x);
-                    }
-                    if (handler.getY() != y) {
-                        handler.setY(y);
-                    }
-                    handler.draw(mouseX, mouseY);
-                    height += handler.getHeight();
+                for (WidgetHandler h : handlers) {
+                    h.draw(mouseX, mouseY);
                 }
+
             }
-        }
+
     }
 
 
@@ -183,12 +174,7 @@ public class ModuleButton {
                         opened = !opened;
                     }
 
-                    if (button == 1) {
-                        if (Svisable) {
-                            Svisable = false;
-                        } else {
-                            Svisable = true;
-                        }
+
 
 
                         return;
@@ -200,7 +186,8 @@ public class ModuleButton {
                         }
                     }
                 }
-            }
+
+
             public void MouseReleased (int mx, int my, int button){
                            if (Svisable) {
                                for (WidgetHandler h : handlers) {

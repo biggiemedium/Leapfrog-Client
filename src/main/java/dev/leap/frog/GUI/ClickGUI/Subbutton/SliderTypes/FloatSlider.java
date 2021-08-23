@@ -18,7 +18,7 @@ public class FloatSlider<T> extends WidgetHandler {
 
     int currentpos;
 
-    @Override
+
     public void draw(int mouseX, int mouseY) {
         if(val instanceof Float){
         }
