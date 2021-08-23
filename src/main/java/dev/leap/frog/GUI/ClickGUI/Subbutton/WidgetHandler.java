@@ -13,12 +13,8 @@ public class WidgetHandler implements IComponent {
     private int height;
     private ModuleButton button; // parent (from old gui)
 
-    public WidgetHandler(int x, int y, int width, int height, ModuleButton button) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.button = button;
+    public WidgetHandler() {
+
     }
 
     public int getX() {
@@ -65,7 +61,6 @@ public class WidgetHandler implements IComponent {
     public void draw(int mouseX, int mouseY) {
 
     }
-
     @Override
     public void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
 

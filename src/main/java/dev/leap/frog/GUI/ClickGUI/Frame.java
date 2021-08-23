@@ -5,12 +5,15 @@ import dev.leap.frog.Module.Module;
 import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.gui.Gui;
 
+import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Frame {
 
     public ArrayList<ModuleButton> moduleButton;
+
 
     int x;
     int y;
@@ -64,7 +67,7 @@ public class Frame {
 
     }
 
-    public void OnClick(int mouseX, int mouseY, int button){
+    public void OnClick(int mouseX, int mouseY, int button) throws IOException {
         if(button == 0) {
             if (mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + 20){
                 dragging = true;
@@ -78,9 +81,9 @@ public class Frame {
 
 
     }
-    public void OnMouseReleased(int x, int y){
+    public void OnMouseReleased(int x, int y, int button){
         for(ModuleButton moduleButton : moduleButton) {
-            moduleButton.MouseReleased(x, y, this.type);
+            moduleButton.MouseReleased(x, y, button);
         }
         dragging = false;
     }

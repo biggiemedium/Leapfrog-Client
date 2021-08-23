@@ -1,6 +1,8 @@
 package dev.leap.frog.GUI.ClickGUI;
 
 import dev.leap.frog.GUI.ClickGUI.Subbutton.BindButton;
+import dev.leap.frog.GUI.ClickGUI.Subbutton.Slider;
+import dev.leap.frog.GUI.ClickGUI.Subbutton.SliderTypes.FloatSlider;
 import dev.leap.frog.GUI.ClickGUI.Subbutton.WidgetHandler;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
@@ -8,8 +10,10 @@ import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Render.Colorutil;
 import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.gui.Gui;
+import scala.tools.nsc.backend.icode.TypeKinds;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ModuleButton {
@@ -21,8 +25,8 @@ public class ModuleButton {
     private int y;
     private int count;
     private boolean Svisable;
-
-    private ArrayList<WidgetHandler> handlers;
+    public ArrayList<ModuleButton> settingButton;
+    public ArrayList<WidgetHandler> handlers;
     private boolean opened;
 
     private int width;
@@ -46,14 +50,13 @@ public class ModuleButton {
         int saveY = 0;
         for(Setting s : LeapFrog.getSettingManager().getSettingsArrayList()) {
             if(s.getValue() instanceof Integer) {
-                // insert Slider here
+                handlers.add(new FloatSlider(this, s.getValue()));
             }
             if(s.getValue() instanceof Boolean) {
                 // insert Boolean here
             }
         }
-        BindButton bind = new BindButton(x, y + height + saveY ,this);
-        handlers.add(bind);
+
     }
 
     public Frame getFrame() {
@@ -135,22 +138,27 @@ public class ModuleButton {
         }
 
         if(Svisable == true){
-            for(Setting setting : LeapFrog.getSettingManager().getSettingsForMod(module)){
-                Gui.drawRect(this.x + this.width, this.y, this.x + (width * 2), this.y + height, Color.green.getRGB());
-
+            for(WidgetHandler h : handlers){
+                    h.draw(mouseX,mouseY);
+            }
             }
 
         }
-    }
 
 
-    public void OnClick(int x, int y, int button){
-        if(x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height){
+
+    public void OnClick(int mx, int my, int button) throws IOException {
+        if(Svisable) {
+            for (WidgetHandler h : handlers) {
+                h.mouseClicked(mx, my, button);
+            }
+        }
+        if(mx >= this.x && mx <= this.x + this.width && my >= this.y && my <= this.y + this.height){
             if(button == 0) {
                 module.toggle();
             }
             if(button == 1){
-                if(Svisable == true){
+                if(Svisable){
                     Svisable = false;
                 }else{
                     Svisable = true;
@@ -162,7 +170,13 @@ public class ModuleButton {
         }
     }
 
-    public void MouseReleased(int x, int y, Module.Type type){
+    public void MouseReleased(int mx, int my, int button){
+        if(Svisable){
+            for(WidgetHandler h : handlers){
+                h.mouseReleased(mx, my, button);
+            }
+        }
+
     }
 
 }

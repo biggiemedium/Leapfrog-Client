@@ -16,7 +16,7 @@ public class BindButton extends WidgetHandler {
     private int offset;
 
     public BindButton(int x, int y, ModuleButton moduleButton) {
-        super(x, y, moduleButton.getWidth() - 2, Wrapper.getMC().fontRenderer.FONT_HEIGHT + 4, moduleButton);
+
     }
 
     @Override

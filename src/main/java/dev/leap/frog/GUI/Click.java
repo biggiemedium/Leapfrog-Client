@@ -1,6 +1,7 @@
 package dev.leap.frog.GUI;
 
 import dev.leap.frog.GUI.ClickGUI.Frame;
+import dev.leap.frog.GUI.ClickGUI.ModuleButton;
 import dev.leap.frog.GUI.HUD.Component;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Manager.HudManager;
@@ -33,10 +34,11 @@ public class Click extends GuiScreen {
         //for(Component c : HudManager.HUDComponent){
         //    c.Render(mouseX, mouseY);
         //}
+
         for(Frame f : frame) {
             f.render(mouseX, mouseY);
-
         }
+
 
     }
 
@@ -65,7 +67,7 @@ public class Click extends GuiScreen {
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
         for(Frame f: frame){
-            f.OnMouseReleased(mouseX, mouseY);
+            f.OnMouseReleased(mouseX, mouseY, state);
         }
     }
 
