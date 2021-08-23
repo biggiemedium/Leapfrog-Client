@@ -13,7 +13,7 @@ public class BooleanButton extends WidgetHandler {
     private Setting<Boolean> setting;
 
     public BooleanButton(Setting<Boolean> setting, int x, int y, ModuleButton button) {
-        super(x, y, button.getWidth() - 2, Wrapper.getMC().fontRenderer.FONT_HEIGHT + 4, button);
+
         this.setting = setting;
     }
 

@@ -31,21 +31,17 @@ public class Click extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-<<<<<<< HEAD
+
         //for(Component c : HudManager.HUDComponent){
         //    c.Render(mouseX, mouseY);
         //}
 
         for(Frame f : frame) {
-            f.render(mouseX, mouseY);
+                f.render(mouseX, mouseY);
         }
 
 
-=======
-        for(Frame f : frame) {
-            f.render(mouseX, mouseY);
-        }
->>>>>>> 97bdfa7cadb45e33eeaba4272c5aeb29aeb330de
+
     }
 
     @Override
