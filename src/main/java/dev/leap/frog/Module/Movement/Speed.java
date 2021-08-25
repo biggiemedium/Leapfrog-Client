@@ -21,12 +21,12 @@ public class Speed extends Module {
 
 
     Setting<Boolean> jump = create("Jump", true);
-    Setting<SpeedMode> mode = create("Mode", SpeedMode.Leap); // boncorde can rename leap to whatever he wants
+    Setting<SpeedMode> mode = create("Mode", SpeedMode.NCP);
     Setting<Boolean> backwards = create("Backwards", false);
 
     public enum SpeedMode {
         Strafe,
-        Leap
+        NCP
     }
 
     @Override
@@ -60,7 +60,7 @@ public class Speed extends Module {
     @EventHandler
     public Listener<EventPlayerMotionUpdate> MotionListener = new Listener<>(event -> {
 
-        if(mode.getValue() == SpeedMode.Leap) {
+        if(mode.getValue() == SpeedMode.NCP) {
             if(mc.player.isInLava() || mc.player.isRiding() || mc.player.isOnLadder() || mc.player.isInWeb || mc.player.isInWater()) {
                 return;
             }

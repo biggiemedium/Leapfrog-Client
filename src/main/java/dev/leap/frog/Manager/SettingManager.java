@@ -43,7 +43,7 @@ public class SettingManager {
         return null;
     }
 
-    public Setting Build(Setting setting) { // could not find a way to register so made this
+    public Setting Build(Setting setting) {
         this.settings.add(setting);
 
         return setting;

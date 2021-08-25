@@ -18,8 +18,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
+import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.Mod;
 import org.lwjgl.input.Keyboard;
 
 public class KillAura extends Module {
@@ -43,72 +45,27 @@ public class KillAura extends Module {
 
     Setting<Boolean> ignoreFriends = create("Ignore friends", true);
 
+    private Entity target;
+
     @Override
     public void onUpdate() {
-        if(mc.player.isDead)
-            return;
 
-        if(!(mc.player.getHeldItem(EnumHand.MAIN_HAND).getItem() instanceof ItemSword) && switchSlot.getValue()) {
+        if(mc.player == null || mc.player.isDead || mc.world.loadedEntityList.isEmpty() || mc.player.getDistance(target) <= distance.getValue()) return;
+
+        mc.world.loadedEntityList.forEach(entity -> {
+
+            target = entity;
+
+        });
+
+        if(switchSlot.getValue() && mc.player.getHeldItemMainhand().getItem() instanceof ItemSword) {
             swapItems();
         }
-            if (mc.player.getHeldItemMainhand().getItem() == Items.END_CRYSTAL && smartCheck.getValue())
-                return;
 
-            if (mc.player.getHeldItemMainhand().getItem() == Items.GOLDEN_APPLE && smartCheck.getValue())
-                return;
+        if(target != null) {
 
-            if(rotate.getValue()) {
-
-            }
-
-            Entity target = getTarget();
-
-            if(target != null) {
-                attack(target);
-            }
-    }
-
-    private Entity getTarget() {
-
-        Entity target = null;
-
-        for(Entity e : mc.world.loadedEntityList) {
-            if(isValid(e)) {
-                target = e;
-            }
-        }
-        return target;
-    }
-
-    private boolean isValid(Entity entity) {
-
-        if(entity instanceof EntityLivingBase) {
-            return true;
         }
 
-        if(entity instanceof EntityPlayer && players.getValue()) {
-            if(entity != mc.player && !FriendManager.isFriend(entity.getName())) {
-                return true;
-            }
-        }
-
-        if(passive.getValue() && entity instanceof EntityAnimal) {
-            return true;
-        }
-
-        if(hostiles.getValue() && entity instanceof EntityMob) {
-            return true;
-        }
-
-        if(LeapFrog.getModuleManager().getModuleName("CrystalAura").isToggled()) {
-            return true;
-        }
-
-        if(LeapFrog.getModuleManager().getModuleName("Auto Trap").isToggled()) {
-            return true;
-        }
-
-        return false;
     }
 
     private void swapItems() {
@@ -123,11 +80,10 @@ public class KillAura extends Module {
         }
     }
 
-    private void attack(Entity entity) {
-        if(mc.player.getCooledAttackStrength(0) >= 1 && delay.getValue()) {
-            mc.playerController.attackEntity(mc.player, entity);
-            mc.player.swingArm(EnumHand.MAIN_HAND);
-            mc.player.resetCooldown();
+    private void attackTarget(Entity target) {
+        if(mc.player.getCooledAttackStrength(0f) >= 1f) {
+
         }
     }
+
 }

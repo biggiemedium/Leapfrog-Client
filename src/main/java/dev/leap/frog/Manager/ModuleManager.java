@@ -38,6 +38,7 @@ public class ModuleManager {
         Add(new AutoXP());
         Add(new BedAura());
         Add(new CrystalAura());
+        Add(new Criticals());
         Add(new KillAura());
         Add(new OffHand());
         Add(new Velocity());
@@ -68,6 +69,7 @@ public class ModuleManager {
         Add(new NoRender());
         Add(new HoleESP());
         Add(new Capes());
+        Add(new HandSize());
         Add(new Tracers());
         Add(new ESP());
         Add(new FreeCam());

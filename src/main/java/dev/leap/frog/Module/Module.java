@@ -95,14 +95,15 @@ public class Module implements Listenable {
         return toggled;
     }
 
-    public Setting create(String name, Object value) {
-        return LeapFrog.getSettingManager().Build(new Setting<>(name, this, value)); // keep <> here because parameter
+    protected Setting create(String name, Object value) {
+        return LeapFrog.getSettingManager().Build(new Setting<>(name, this, value));
     }
 
-    public Setting create(String name, Object value, Object min, Object max) {
+    protected Setting create(String name, Object value, Object min, Object max) {
         return LeapFrog.getSettingManager().Build(new Setting<>(name, this, value, min, max));
     }
-    public List<Setting> getsetting(Module module){
+
+    protected List<Setting> getSetting(Module module){
         return LeapFrog.getSettingManager().getSettingsForMod(module);
     }
 
@@ -111,6 +112,9 @@ public class Module implements Listenable {
     public void onRender() {} // add game render in events
     public void onRender(RenderEvent event) {}
 
+    public String getArrayDetails() {
+        return "";
+    }
 
     public enum Type {
         CLIENT("Client", false),

@@ -1,7 +1,6 @@
 package dev.leap.frog.Module.Render;
 
 import com.mojang.authlib.GameProfile;
-import dev.leap.frog.Event.LeapFrogEvent;
 import dev.leap.frog.Event.Movement.EventPlayerMove;
 import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Module.Module;
@@ -13,7 +12,6 @@ import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.play.client.*;
-import net.minecraftforge.client.event.PlayerSPPushOutOfBlocksEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 
 public class FreeCam extends Module {
@@ -24,7 +22,7 @@ public class FreeCam extends Module {
 
     Setting<Float> speed = create("speed", 1.0f, 0.0f, 10.0f);
 
-    private EntityOtherPlayerMP player;
+    private EntityOtherPlayerMP fakeplayer;
     private Entity riding;
 
     private float yaw;
@@ -57,12 +55,12 @@ public class FreeCam extends Module {
         y = mc.player.posY;
         z = mc.player.posZ;
 
-        player = new EntityOtherPlayerMP(mc.world, new GameProfile(mc.player.getGameProfile().getId(), mc.player.getName()));
-        player.inventory.copyInventory(mc.player.inventory);
-        player.copyLocationAndAnglesFrom(mc.player);
-        player.prevRotationYaw = mc.player.rotationYaw;
-        player.prevRotationPitch = mc.player.rotationPitch;
-        mc.world.addEntityToWorld(-100, player);
+        fakeplayer = new EntityOtherPlayerMP(mc.world, new GameProfile(mc.player.getGameProfile().getId(), mc.player.getName()));
+        fakeplayer.inventory.copyInventory(mc.player.inventory);
+        fakeplayer.copyLocationAndAnglesFrom(mc.player);
+        fakeplayer.prevRotationYaw = mc.player.rotationYaw;
+        fakeplayer.prevRotationPitch = mc.player.rotationPitch;
+        mc.world.addEntityToWorld(-100, fakeplayer);
 
         if(mc.player.getRidingEntity() != null) {
             mc.player.dismountRidingEntity();
@@ -97,17 +95,17 @@ public class FreeCam extends Module {
         mc.player.rotationYaw = yaw;
         mc.player.rotationPitch = pitch;
 
-        if(player != null) {
-            mc.world.removeEntity(player);
+        if(fakeplayer != null) {
+            mc.world.removeEntity(fakeplayer);
         }
 
-        player = null;
-
+        fakeplayer = null;
         mc.player.noClip = false;
         mc.player.setPosition(x, y, z);
         mc.setRenderViewEntity(mc.player);
-
         mc.player.setVelocity(0, 0, 0);
+        mc.player.capabilities.isFlying = false;
+        mc.player.capabilities.allowFlying = false;
 
     }
 
@@ -121,21 +119,16 @@ public class FreeCam extends Module {
     });
 
     @EventHandler
-    private Listener<EventPlayerMove> moveListener = new Listener<>(event -> {
-
-        mc.player.noClip = true;
-
-    });
-
-    @EventHandler
     private Listener<EventPacket.SendPacket> sendPacketListener = new Listener<>(event -> {
 
         if(event.getPacket() instanceof CPacketPlayer
                 || event.getPacket() instanceof CPacketPlayerTryUseItemOnBlock
                 || event.getPacket() instanceof CPacketPlayerTryUseItem
                 || event.getPacket() instanceof CPacketVehicleMove
-                || event.getPacket() instanceof CPacketChatMessage
-                || event.getPacket() instanceof CPacketInput) {
+                || event.getPacket() instanceof CPacketInput
+                || event.getPacket() instanceof CPacketPlayer.Position
+                || event.getPacket() instanceof CPacketPlayer.Rotation
+                || event.getPacket() instanceof CPacketPlayer.PositionRotation) {
             event.cancel();
         }
 

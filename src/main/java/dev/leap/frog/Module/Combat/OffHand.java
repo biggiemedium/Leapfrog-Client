@@ -1,31 +1,24 @@
 package dev.leap.frog.Module.Combat;
 
-import dev.leap.frog.Event.Movement.EventPlayerRightClick;
 import dev.leap.frog.Event.Movement.EventPlayerStoppedUsingItem;
 import dev.leap.frog.Event.Network.EventPacketUpdate;
-import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Entity.Playerutil;
-import dev.leap.frog.Util.Render.Chatutil;
 import dev.leap.frog.Util.Wrapper;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.CPacketUseEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 
 public class OffHand extends Module {
 
@@ -115,6 +108,11 @@ public class OffHand extends Module {
                 }
             }
         }
+
+        if(!isPlayerInHole() && autoGapple.getValue() != AutoGapple.Inhole) {
+            mc.gameSettings.keyBindUseItem.pressed = false;
+        }
+
     }
 
     @EventHandler
@@ -187,7 +185,7 @@ public class OffHand extends Module {
     }
 
     private boolean isPlayerInHole() {
-        BlockPos pos = Playerutil.GetLocalPlayerPosFloored();
+        BlockPos pos = Playerutil.getLocalPlayerPosFloored();
 
         return mc.world.getBlockState(pos.east()).getBlock() != Blocks.AIR
                 && mc.world.getBlockState(pos.west()).getBlock() != Blocks.AIR

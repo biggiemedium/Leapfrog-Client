@@ -21,6 +21,6 @@ public class ClickGUIModule extends Module {
     @Override
     public void onEnable() {
         mc.displayGuiScreen(Click.INSTANCE);
-        toggle(); // this is to ensure that frame closes correctly
+        toggle();
     }
 }

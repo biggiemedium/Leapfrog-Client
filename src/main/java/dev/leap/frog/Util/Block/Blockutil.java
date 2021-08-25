@@ -125,7 +125,7 @@ public class Blockutil extends UtilManager {
         getMc().player.connection.sendPacket(new CPacketPlayer.Rotation(yaw, pitch, getMc().player.onGround));
     }
 
-    public static List<BlockPos> getSphere(BlockPos loc, float r, int h, boolean hollow, boolean sphere, int plus_y) {
+    public static List<BlockPos> getSphere(BlockPos loc, float r, int h, boolean hollow, boolean sphere, int i) {
         List<BlockPos> circleblocks = new ArrayList<>();
         int cx = loc.getX();
         int cy = loc.getY();
@@ -135,7 +135,7 @@ public class Blockutil extends UtilManager {
                 for (int y = (sphere ? cy - (int) r : cy); y < (sphere ? cy + r : cy + h); y++) {
                     double dist = (cx - x) * (cx - x) + (cz - z) * (cz - z) + (sphere ? (cy - y) * (cy - y) : 0);
                     if (dist < r * r && !(hollow && dist < (r - 1) * (r - 1))) {
-                        circleblocks.add(new BlockPos(x, y + plus_y, z));
+                        circleblocks.add(new BlockPos(x, y + i, z));
                     }
                 }
             }

@@ -11,6 +11,7 @@ public class NameTags extends Module {
         super("NameTags", "Shows information about the player above their heads", Type.RENDER);
     }
 
+    @SuppressWarnings("unused")
     @EventHandler
     private Listener<EventRenderNameTag> tagListener = new Listener<>(event -> {
         event.cancel();

@@ -2,14 +2,22 @@ package dev.leap.frog.Module.Misc;
 
 import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Event.Network.EventPacketUpdate;
+import dev.leap.frog.Event.Render.RenderEvent;
 import dev.leap.frog.GUI.HUD.HUDITEM.ArrayList;
 import dev.leap.frog.GUI.HUD.HUDITEM.Yaw;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
+import dev.leap.frog.Util.Entity.Entityutil;
 import dev.leap.frog.Util.Render.Chatutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
+import net.minecraft.init.Items;
+import net.minecraft.network.play.client.CPacketAnimation;
+import net.minecraft.network.play.client.CPacketEntityAction;
+import net.minecraft.network.play.client.CPacketHeldItemChange;
+import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.network.play.server.SPacketJoinGame;
+import net.minecraft.util.EnumHand;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
 
@@ -26,8 +34,12 @@ public class Test extends Module {
     private static ArrayList arrayList = new ArrayList();
     private static Yaw yaw = new Yaw();
 
+    int x;
+
     @Override
     public void onEnable() {
+
+        x = mc.player.inventory.currentItem;
 
         System.out.println(mc.world.getSeed());
         Chatutil.ClientSideMessgage("On");
@@ -48,7 +60,19 @@ public class Test extends Module {
     @Override
     public void onUpdate() {
 
-        if(mc.player.ticksExisted < 20) return;
+        if(Entityutil.isPlayerInHole(mc.player) && getGapSlot() != -1) {
+
+            mc.player.connection.sendPacket(new CPacketHeldItemChange(getGapSlot()));
+            mc.player.connection.sendPacket(new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
+            mc.player.connection.sendPacket(new CPacketHeldItemChange(x));
+
+        }
+
+
+    }
+
+    @Override
+    public void onRender(RenderEvent event) {
 
     }
 
@@ -56,6 +80,15 @@ public class Test extends Module {
     private Listener<EventPacketUpdate> updateListener = new Listener<>(event -> { // same thing as onUpdate
     });
 
-
+    int getGapSlot() {
+        int gapSlot = -1;
+        for (int i = 45; i > 0; i--) {
+            if (mc.player.inventory.getStackInSlot(i).getItem() == Items.GOLDEN_APPLE) {
+                gapSlot = i;
+                break;
+            }
+        }
+        return gapSlot;
+    }
 
 }

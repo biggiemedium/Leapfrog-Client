@@ -274,7 +274,7 @@ public class AutoTrap extends Module {
             new Vec3d(0.0, 3.0, 0.0)
     };
 
-    public enum TrapMode {
+    private enum TrapMode {
         Normal,
         Feet,
         Face

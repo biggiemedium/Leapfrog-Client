@@ -5,7 +5,10 @@ import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -36,12 +39,29 @@ public class Playerutil extends UtilManager {
         return Wrapper.getMC().player.getHealth() + Wrapper.getMC().player.getAbsorptionAmount();
     }
 
-    public static BlockPos GetLocalPlayerPosFloored() {
+    public static BlockPos getLocalPlayerPosFloored() {
         return new BlockPos(Math.floor(Wrapper.getMC().player.posX), Math.floor(Wrapper.getMC().player.posY), Math.floor(Wrapper.getMC().player.posZ));
     }
 
     public static boolean isEating() {
         return mc.player.getHeldItemOffhand().getItem() instanceof ItemFood && mc.player.isHandActive();
+    }
+
+    public static int getItem(Item item) {
+        int slot = -1;
+        for(int i = 0; i < 9; i++) {
+            ItemStack stack = mc.player.inventory.getItemStack();
+            if(stack.isEmpty) {
+                continue;
+            }
+            Item f = stack.getItem();
+            if(f.equals(item)) {
+                slot = i;
+                break;
+            }
+
+        }
+        return slot;
     }
 
     public static Vec3d[] offsetsDefault = new Vec3d[] {

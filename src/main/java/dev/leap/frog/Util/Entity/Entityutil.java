@@ -35,6 +35,19 @@ public class Entityutil extends UtilManager {
         return player.getHealth() + player.getAbsorptionAmount();
     }
 
+    public static BlockPos getPositionEntity(Entity e) {
+        return new BlockPos(Math.floor(e.posX), Math.floor(e.posY), Math.floor(e.posZ));
+    }
+
+    public static boolean isPlayerInHole(Entity e) {
+        BlockPos pos = getPositionEntity(e);
+
+        return mc.world.getBlockState(pos.east()).getBlock() != Blocks.AIR
+                && mc.world.getBlockState(pos.west()).getBlock() != Blocks.AIR
+                && mc.world.getBlockState(pos.north()).getBlock() != Blocks.AIR
+                && mc.world.getBlockState(pos.south()).getBlock() != Blocks.AIR;
+    }
+
     public static boolean isPlayer(Entity entity) {
         return entity instanceof EntityPlayer;
     }
