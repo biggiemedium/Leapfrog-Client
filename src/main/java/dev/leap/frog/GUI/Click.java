@@ -1,11 +1,6 @@
 package dev.leap.frog.GUI;
 
 import dev.leap.frog.GUI.ClickGUI.Frame;
-<<<<<<< Updated upstream
-import dev.leap.frog.GUI.ClickGUI.ModuleButton;
-import dev.leap.frog.GUI.HUD.Component;
-=======
->>>>>>> Stashed changes
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
 import net.minecraft.client.Minecraft;
@@ -71,11 +66,7 @@ public class Click extends GuiScreen {
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
         for(Frame f: frame){
-<<<<<<< Updated upstream
-            f.OnMouseReleased(mouseX, mouseY, state);
-=======
             f.onMouseReleased(mouseX, mouseY, state);
->>>>>>> Stashed changes
         }
     }
 

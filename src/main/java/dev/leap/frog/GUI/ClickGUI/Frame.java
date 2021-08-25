@@ -76,11 +76,7 @@ public class Frame {
             m.OnClick(mouseX, mouseY, button);
         }
     }
-<<<<<<< Updated upstream
-    public void OnMouseReleased(int x, int y, int button){
-=======
     public void onMouseReleased(int x, int y, int button){
->>>>>>> Stashed changes
         for(ModuleButton moduleButton : moduleButton) {
             moduleButton.MouseReleased(x, y, button);
         }
