@@ -2,14 +2,14 @@
 {
   "modid": "leapfrog",
   "name": "LeapFrog",
-  "description": "Example placeholder mod.",
+  "description": "Utility and pvp mod",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
   "authorList": ["PX, Boncorde"],
-  "credits": "The Forge and FML guys, for making this example",
-  "logoFile": "/IMG/LeapFrog.PNG",
+  "credits": "Boncorde and PX are the main devs of this client. Big thanks to Srgantmoomoo for helping us at the start with client development, ",
+  "logoFile": "Leapfrog.PNG",
   "screenshots": [],
   "dependencies": []
 }

@@ -147,4 +147,8 @@ public class Speed extends Module {
         return rotation_yaw * 0.017453292f;
     }
 
+    @Override
+    public String getArrayDetails() {
+        return mode.getName();
+    }
 }

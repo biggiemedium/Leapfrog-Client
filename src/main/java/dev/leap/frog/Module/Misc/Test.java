@@ -1,6 +1,5 @@
 package dev.leap.frog.Module.Misc;
 
-import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Event.Network.EventPacketUpdate;
 import dev.leap.frog.Event.Render.RenderEvent;
 import dev.leap.frog.GUI.HUD.HUDITEM.ArrayList;
@@ -12,11 +11,8 @@ import dev.leap.frog.Util.Render.Chatutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.init.Items;
-import net.minecraft.network.play.client.CPacketAnimation;
-import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
-import net.minecraft.network.play.server.SPacketJoinGame;
 import net.minecraft.util.EnumHand;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.input.Keyboard;
@@ -42,7 +38,7 @@ public class Test extends Module {
         x = mc.player.inventory.currentItem;
 
         System.out.println(mc.world.getSeed());
-        Chatutil.ClientSideMessgage("On");
+        Chatutil.sendClientSideMessgage("On");
         MinecraftForge.EVENT_BUS.register(arrayList);
         MinecraftForge.EVENT_BUS.register(yaw);
         if(s.getValue()) {
@@ -52,7 +48,7 @@ public class Test extends Module {
 
     @Override
     public void onDisable() {
-        Chatutil.ClientSideMessgage("OFF");
+        Chatutil.sendClientSideMessgage("OFF");
         MinecraftForge.EVENT_BUS.unregister(arrayList);
         MinecraftForge.EVENT_BUS.unregister(yaw);
     }
@@ -67,6 +63,7 @@ public class Test extends Module {
             mc.player.connection.sendPacket(new CPacketHeldItemChange(x));
 
         }
+
 
 
     }

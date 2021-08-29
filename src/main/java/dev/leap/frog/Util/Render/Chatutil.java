@@ -17,17 +17,11 @@ public class Chatutil extends UtilManager {
     public static ChatFormatting blue = ChatFormatting.BLUE;
     public static ChatFormatting white = ChatFormatting.WHITE;
 
-    public static String lastChat = "";
-
     public static String prefix = ChatFormatting.GREEN + "LeapFrog > " + ChatFormatting.WHITE;
 
-    public static void SendGlobalChatMessage(String message) {
-        Minecraft.getMinecraft().player.sendChatMessage(message);
-    }
-
-    public static void ClientSideMessgage(String message) {
-        if (Wrapper.getMC().ingameGUI != null || Wrapper.getPlayer() == null)
-            Wrapper.getMC().ingameGUI.getChatGUI().printChatMessage(new TextComponentString( prefix  + message));
+    public static void sendClientSideMessgage(String message) {
+        if (Wrapper.getMC().ingameGUI != null && Wrapper.getPlayer() != null)
+            Wrapper.getMC().ingameGUI.getChatGUI().printChatMessage(new TextComponentString(prefix  + message));
     }
 
     public static void setModuleMessage(Module module) {
@@ -44,13 +38,4 @@ public class Chatutil extends UtilManager {
             Wrapper.getMC().ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(text, 5936);
         }
     }
-
-    public static void getLastChat(ClientChatReceivedEvent event) {
-        Chatutil.lastChat = event.getMessage().getFormattedText();
-    }
-
-    static {
-        lastChat = "";
-    }
-
 }

@@ -32,9 +32,6 @@ public class ModuleButton {
     public ArrayList<ModuleButton> settingButton;
     public ArrayList<WidgetHandler> handlers;
 
-
-
-
     private boolean opened;
 
     private int width;
@@ -156,15 +153,10 @@ public class ModuleButton {
                 for (WidgetHandler h : handlers) {
                     h.draw(mouseX, mouseY);
                 }
-
-            }
-
+        }
     }
 
-
-
-
-                    public void OnClick (int x, int y, int button) throws IOException {
+    public void OnClick (int x, int y, int button) throws IOException {
                 if (x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height) {
 
                     if (button == 0) {

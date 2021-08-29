@@ -47,10 +47,6 @@ public class Setting<T> {
         return module;
     }
 
-    public void setModule(Module module) {
-        this.module = module;
-    }
-
     public T getValue() {
         return value;
     }

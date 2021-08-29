@@ -53,6 +53,7 @@ public class ModuleManager {
         Add(new Test());
         Add(new FastUse());
         Add(new MiddleClickFriends());
+        Add(new TotemPopCounter());
 
         // Exploit
         Add(new XCarry());
@@ -80,6 +81,7 @@ public class ModuleManager {
         Add(new ElytraFly());
         Add(new NoSlow());
         Add(new NoRotate());
+        Add(new ReverseStep());
     }
 
     public void Add(Module m) {

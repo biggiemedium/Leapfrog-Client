@@ -28,11 +28,11 @@ public class StrengthDetect extends Module {
         if(strength.getValue()) {
             for (EntityPlayer player : mc.world.playerEntities) {
                     if (!strengthPlayers.contains(player) && player.isPotionActive(MobEffects.STRENGTH) && !player.getName().equals(mc.player.getName())) {
-                        Chatutil.ClientSideMessgage(player.getName() + " Has strength!");
+                        Chatutil.sendClientSideMessgage(player.getName() + " Has strength!");
                         strengthPlayers.add(player);
                     }
                     if (!(player.isPotionActive(MobEffects.STRENGTH)) && strengthPlayers.contains(player) && !player.getName().equals(mc.player.getName())) {
-                        Chatutil.ClientSideMessgage(player.getName() + " No longer has strength!");
+                        Chatutil.sendClientSideMessgage(player.getName() + " No longer has strength!");
                         strengthPlayers.remove(player);
               }
             }
@@ -41,11 +41,11 @@ public class StrengthDetect extends Module {
         if(weakness.getValue()) {
             for (EntityPlayer player : mc.world.playerEntities) {
                 if (!weaknessPlayers.contains(player) && player.isPotionActive(MobEffects.WEAKNESS) && !player.getName().equals(mc.player.getName())) {
-                    Chatutil.ClientSideMessgage(player.getName() + " Has weakness!");
+                    Chatutil.sendClientSideMessgage(player.getName() + " Has weakness!");
                     weaknessPlayers.add(player);
                 }
                 if (!(player.isPotionActive(MobEffects.WEAKNESS)) && weaknessPlayers.contains(player) && !player.getName().equals(mc.player.getName())) {
-                    Chatutil.ClientSideMessgage(player.getName() + " No longer has weakness!");
+                    Chatutil.sendClientSideMessgage(player.getName() + " No longer has weakness!");
                     weaknessPlayers.remove(player);
                 }
             }

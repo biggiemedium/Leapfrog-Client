@@ -107,7 +107,7 @@ public class Module implements Listenable {
         return LeapFrog.getSettingManager().getSettingsForMod(module);
     }
 
-
+    
     public void onUpdate() {} // On tick
     public void onRender() {} // add game render in events
     public void onRender(RenderEvent event) {}

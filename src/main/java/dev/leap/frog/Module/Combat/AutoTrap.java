@@ -92,7 +92,7 @@ public class AutoTrap extends Module {
                 firstRun = false;
 
                 if(notify.getValue()) {
-                    Chatutil.ClientSideMessgage("Auto trap waiting for target");
+                    Chatutil.sendClientSideMessgage("Auto trap waiting for target");
                 }
             }
             return;
@@ -101,7 +101,7 @@ public class AutoTrap extends Module {
         if(findObsidianInHotbar() == -1) {
 
             if(notify.getValue()) {
-                Chatutil.ClientSideMessgage("No obsidian found! toggling");
+                Chatutil.sendClientSideMessgage("No obsidian found! toggling");
             }
 
             toggle();
@@ -112,14 +112,14 @@ public class AutoTrap extends Module {
             firstRun = false;
             lastTickTargetName = target.getName();
             if (notify.getValue()) {
-                Chatutil.ClientSideMessgage("Enabled next target " + lastTickTargetName);
+                Chatutil.sendClientSideMessgage("Enabled next target " + lastTickTargetName);
             }
         }
         else if (!lastTickTargetName.equals(target.getName())) {
             lastTickTargetName = target.getName();
             offsetStep = 0;
             if (notify.getValue()) {
-                Chatutil.ClientSideMessgage("New target found " + lastTickTargetName);
+                Chatutil.sendClientSideMessgage("New target found " + lastTickTargetName);
             }
         }
 

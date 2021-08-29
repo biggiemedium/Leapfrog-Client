@@ -3,6 +3,7 @@ package dev.leap.frog.GUI.ClickGUI.Subbutton.SliderTypes;
 import dev.leap.frog.GUI.ClickGUI.ModuleButton;
 import dev.leap.frog.GUI.ClickGUI.Subbutton.WidgetHandler;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Settings.Setting;
 import net.minecraft.client.gui.Gui;
 
 import java.awt.*;
@@ -12,6 +13,7 @@ public class FloatSlider<T> extends WidgetHandler {
     private ModuleButton m;
 
     public FloatSlider(ModuleButton moduleButton, T val) {
+        super();
         this.m = moduleButton;
         this.val = val;
     }
