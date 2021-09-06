@@ -18,36 +18,25 @@ public class Click extends GuiScreen {
     private ArrayList<Frame> frame;
 
     public Click() {
-        frame = new ArrayList();
-        int offset = 0;
+        this.frame = new ArrayList<>();
+        int offset = 10;
         for(Module.Type type : Module.Type.values()) {
-            frame.add(new Frame(type, 10 + offset, 20));
-            offset += 120;
+            Frame f = new Frame(offset, 10, type);
+            this.frame.add(f);
+            offset += f.getWidth() + 15;
         }
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-
-        //for(Component c : HudManager.HUDComponent){
-        //    c.Render(mouseX, mouseY);
-        //}
-
         for(Frame f : frame) {
-                f.render(mouseX, mouseY);
+            f.draw(mouseX, mouseY);
         }
-
-
-
     }
 
     @Override
     public void onGuiClosed() {
-        //if(LeapFrog.getModuleManager().getModuleName("CGUI").isToggled()) {
-        //    LeapFrog.getModuleManager().getModuleName("CGUI").setToggled(false);
-        //}
-
-        LeapFrog.getFileManager().save();
+        //LeapFrog.getFileManager().save();
     }
 
     @Override
@@ -57,16 +46,14 @@ public class Click extends GuiScreen {
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
-        super.mouseClicked(mouseX,mouseY, mouseButton);
         for(Frame f : frame) {
-            f.onClick(mouseX, mouseY, mouseButton);
+            f.mouseClicked(mouseX, mouseY, mouseButton);
         }
-
     }
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
-        for(Frame f: frame){
-            f.onMouseReleased(mouseX, mouseY, state);
+        for(Frame f : frame) {
+            f.mouseReleased(mouseX, mouseY, state);
         }
     }
 

@@ -27,14 +27,6 @@ public class Setting<T> {
         this.max = max;
     }
 
-    //public Setting(String name, Module module, T value, List<String> values) {
-    //    this.name = name;
-    //    this.module = module;
-    //    this.value = value;
-    //    this.currentComboboxValue = value;
-    //    this.combobox = values;
-    //}
-
     public String getName() {
         return name;
     }

@@ -51,7 +51,7 @@ public class LeapFrog {
         hudManager = new HudManager();
         capeManager = new CapeManager();
         discordManager = new DiscordManager();
-        friendManager = new FriendManager(); // check if should be registered earlier
+        friendManager = new FriendManager();
         hudManager = new HudManager();
 
         fileManager.load();

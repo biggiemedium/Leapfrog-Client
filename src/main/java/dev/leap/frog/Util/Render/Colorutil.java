@@ -16,6 +16,10 @@ public class Colorutil extends UtilManager {
         return new Color(0.0f, 1, 0.0f, 0.5f).getRGB();
     }
 
+    public static Color getToggledC() {
+        return new Color(0.0f, 1, 0.0f, 0.5f);
+    }
+
     public static int getOffColor() {
         return new Color(0.5f, 0.5f, 0.5f, 0.5f).getRGB();
     }

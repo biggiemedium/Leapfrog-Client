@@ -20,6 +20,4 @@ public interface IComponent {
     void mouseReleased(int mouseX, int mouseY, int state);
 
     void keyTyped(char typedChar, int keyCode) throws IOException;
-
-    void render();
 }

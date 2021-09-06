@@ -5,81 +5,150 @@ import dev.leap.frog.Module.Module;
 import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.gui.Gui;
 
-import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Frame {
 
-    public ArrayList<ModuleButton> moduleButton;
-
-
-    int x;
-    int y;
-    int width;
-    int height;
-    boolean dragging;
-    public int plusX;
-    public int plusY;
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+    private int barHeight;
     private Module.Type type;
 
-    public Frame(Module.Type type, int x, int y) {
+    //private boolean open = false;
+    private boolean dragging = false;
+    private ArrayList<ModuleButton> moduleButtons;
+
+    private int dragX;
+    private int dragY;
+
+    private int gap;
+
+    public Frame(int x, int y, Module.Type type) {
         this.x = x;
         this.y = y;
+        this.barHeight = Wrapper.getMC().fontRenderer.FONT_HEIGHT + 4;
         this.width = 100;
-        this.height = 180;
-        this.type = type;
-
-        moduleButton = new ArrayList<>();
-        int offsetY = 0;
-
-        for(Module m : LeapFrog.getModuleManager().getModuleByType(type)) {
-            if(this.type == m.type) {
-                ModuleButton button = new ModuleButton(m, this.x, this.y, this, 17 + offsetY * 14);
-                moduleButton.add(button);
-            }
-            offsetY++;
-        }
+        this.height = 100;
+        this.type = type; // im actually autistic and didn't initalize this - px
+        this.moduleButtons = new ArrayList<>();
     }
 
-    public int getPlusX() {
-        return plusX;
-    }
-    public int getPlusY(){
-        return plusY;
-    }
 
-    public void render(int mouseX, int mouseY) {
-        Gui.drawRect(x, y, x + width, y + 20, new Color(12,255, 12).getRGB());
+    public void draw(int mouseX, int mouseY) {
+        int c = new Color(29, 37, 48, 255).getRGB();
+        int leapColor = new Color(10, 200, 100, 255).getRGB();
+
+        Gui.drawRect(x - 2, y - 2, x + width + 2, y + barHeight - 1, c);
+        Gui.drawRect(x, y + barHeight - 1, x + width, y + barHeight, new Color(10, 10, 10, 200).getRGB());
         Wrapper.getMC().fontRenderer.drawString(type.getName(), x + 2, y + 2, new Color(255,255, 255).getRGB());
-        Gui.drawRect(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
 
-            if(dragging){
-                this.x = mouseX - plusX;
-                this.y = mouseY - plusY;
+        if(this.dragging) { // old method ty boncorde
+            this.x = mouseX - dragX;
+            this.y = mouseY - dragY;
         }
-        for(ModuleButton moduleButton : moduleButton) {
-            moduleButton.draw(mouseX , mouseY );
+
+        for(ModuleButton b : moduleButtons) {
+
         }
     }
 
-    public void onClick(int mouseX, int mouseY, int button) throws IOException {
-        if(button == 0) {
-            if (mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + 20){
+
+    public void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
+        if (button == 0) {
+            if (mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + 20) {
                 dragging = true;
-                plusX = mouseX - this.x;
-                plusY = mouseY - this.y;
+                dragY = mouseY - this.y;
+                dragX = mouseX - this.x;
             }
         }
-        for(ModuleButton m : moduleButton){
-            m.OnClick(mouseX, mouseY, button);
+
+        for(ModuleButton b : moduleButtons) {
+
         }
     }
-    public void onMouseReleased(int x, int y, int button){
-        for(ModuleButton moduleButton : moduleButton) {
-            moduleButton.MouseReleased(x, y, button);
-        }
-        dragging = false;
+
+
+    public void mouseReleased(int mouseX, int mouseY, int state) {
+        this.dragging = false;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getGap() {
+        return gap;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getBarHeight() {
+        return barHeight;
+    }
+
+    public void setBarHeight(int barHeight) {
+        this.barHeight = barHeight;
+    }
+
+    public Module.Type getType() {
+        return type;
+    }
+
+    public void setType(Module.Type type) {
+        this.type = type;
+    }
+
+    public boolean isDragging() {
+        return dragging;
+    }
+
+    public void setDragging(boolean dragging) {
+        this.dragging = dragging;
+    }
+
+    public int getDragX() {
+        return dragX;
+    }
+
+    public void setDragX(int dragX) {
+        this.dragX = dragX;
+    }
+
+    public int getDragY() {
+        return dragY;
+    }
+
+    public void setDragY(int dragY) {
+        this.dragY = dragY;
     }
 }
