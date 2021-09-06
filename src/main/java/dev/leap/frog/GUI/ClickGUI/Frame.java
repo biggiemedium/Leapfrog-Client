@@ -35,6 +35,16 @@ public class Frame {
         this.height = 100;
         this.type = type; // im actually autistic and didn't initalize this - px
         this.moduleButtons = new ArrayList<>();
+
+        int offsetY = 0;
+        this.gap = offsetY;
+        for(Module m : LeapFrog.getModuleManager().getModules()) {
+            if(m.type == type) {
+                ModuleButton button = new ModuleButton(x, y + offsetY, m, this);
+                this.moduleButtons.add(button);
+            }
+            offsetY += 14;
+        }
     }
 
 
@@ -52,7 +62,7 @@ public class Frame {
         }
 
         for(ModuleButton b : moduleButtons) {
-
+            b.draw(mouseX, mouseY);
         }
     }
 
@@ -67,7 +77,7 @@ public class Frame {
         }
 
         for(ModuleButton b : moduleButtons) {
-
+            b.mouseClick(mouseX, mouseY, button);
         }
     }
 
