@@ -24,6 +24,7 @@ public class FreeCam extends Module {
 
     private EntityOtherPlayerMP fakeplayer;
     private Entity riding;
+    private boolean isCreateive;
 
     private float yaw;
     private float pitch;
@@ -38,8 +39,11 @@ public class FreeCam extends Module {
     public void onEnable() {
 
         if(mc.world == null)
-
             return;
+
+        if(mc.player.isCreative()) {
+            isCreateive = true;
+        }
 
         if(mc.player.isRiding()) {
             riding = mc.player.getRidingEntity();
@@ -105,7 +109,9 @@ public class FreeCam extends Module {
         mc.setRenderViewEntity(mc.player);
         mc.player.setVelocity(0, 0, 0);
         mc.player.capabilities.isFlying = false;
-        mc.player.capabilities.allowFlying = false;
+        if(!isCreateive) {
+            mc.player.capabilities.allowFlying = false;
+        }
 
     }
 

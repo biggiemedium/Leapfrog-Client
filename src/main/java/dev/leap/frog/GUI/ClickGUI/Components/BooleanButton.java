@@ -1,0 +1,41 @@
+package dev.leap.frog.GUI.ClickGUI.Components;
+
+import dev.leap.frog.GUI.ClickGUI.ModuleButton;
+import dev.leap.frog.Settings.Setting;
+import dev.leap.frog.Util.Render.Colorutil;
+import dev.leap.frog.Util.Wrapper;
+import net.minecraft.client.gui.Gui;
+
+import java.awt.*;
+import java.io.IOException;
+
+public class BooleanButton extends Component {
+
+    private Setting<Boolean> bool;
+
+    public BooleanButton(Setting<Boolean> setting, int x, int y, ModuleButton button) {
+        super(button, x, y, button.getWidth(), 13);
+        this.bool = setting;
+    }
+
+    @Override
+    public void draw(int mouseX, int mouseY) {
+        Gui.drawRect(getX(), getY(), getX() + 2, getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
+        Gui.drawRect(getX() + 2, getY(), getX() + 2 + getWidth(), getY() + getHeight() - 1, getColor(mouseX, mouseY));
+        Gui.drawRect(getX() + 2, getY() + getHeight() - 1, getX() + 2 + getWidth(), getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
+        Wrapper.getMC().fontRenderer.drawStringWithShadow(bool.getName(), getX() + 4, getY() + 2, -1);
+    }
+
+    private int getColor(int mouseX, int mouseY){
+        Color color = bool.getValue() ? Colorutil.getToggledC() : new Color(50, 50, 50, 200);
+        return isHovered(mouseX, mouseY) ? (bool.getValue() ? color.darker().darker().getRGB() : color.brighter().brighter().getRGB()) : color.getRGB();
+    }
+
+    @Override
+    public void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
+        if(mouseX > getX() + 2 && mouseY > getY() && mouseX < getX() + 2 + getWidth() && mouseY < getY() + getHeight() - 1 && button == 0){
+            bool.setValue(!bool.getValue());
+        }
+    }
+
+}

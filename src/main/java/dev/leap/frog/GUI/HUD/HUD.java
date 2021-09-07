@@ -10,6 +10,7 @@ public class HUD extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+
     }
 
     @Override

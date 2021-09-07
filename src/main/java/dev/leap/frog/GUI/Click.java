@@ -18,19 +18,18 @@ public class Click extends GuiScreen {
     private ArrayList<Frame> frame;
 
     public Click() {
-        this.frame = new ArrayList<>();
-        int offset = 10;
+        frame = new ArrayList();
+        int offset = 0;
         for(Module.Type type : Module.Type.values()) {
-            Frame f = new Frame(offset, 10, type);
-            this.frame.add(f);
-            offset += f.getWidth() + 15;
+            frame.add(new Frame(type, 10 + offset, 20));
+            offset += 120;
         }
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         for(Frame f : frame) {
-            f.draw(mouseX, mouseY);
+            f.render(mouseX, mouseY);
         }
     }
 
@@ -46,14 +45,16 @@ public class Click extends GuiScreen {
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException {
+        super.mouseClicked(mouseX,mouseY, mouseButton);
         for(Frame f : frame) {
-            f.mouseClicked(mouseX, mouseY, mouseButton);
+            f.onClick(mouseX, mouseY, mouseButton);
         }
+
     }
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {
-        for(Frame f : frame) {
-            f.mouseReleased(mouseX, mouseY, state);
+        for(Frame f: frame){
+            f.onMouseReleased(mouseX, mouseY, state);
         }
     }
 

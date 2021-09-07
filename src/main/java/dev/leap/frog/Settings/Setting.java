@@ -3,6 +3,7 @@ package dev.leap.frog.Settings;
 import dev.leap.frog.Module.Module;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Setting<T> {
@@ -12,6 +13,8 @@ public class Setting<T> {
     private T value;
     private T min;
     private T max;
+
+    private ArrayList<T> combobox;
 
     public Setting(String name, Module module, T value) {
         this.name = name;
@@ -25,6 +28,13 @@ public class Setting<T> {
         this.value = value;
         this.min = min;
         this.max = max;
+    }
+
+    public Setting(String name, Module module, T value, T[] values) {
+        this.name = name;
+        this.module = module;
+        this.value = value;
+        this.combobox = new ArrayList<>(Arrays.asList(values));
     }
 
     public String getName() {

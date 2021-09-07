@@ -28,7 +28,6 @@ public class KillAura extends Module {
 
     public KillAura() {
         super("KillAura", "Attacks entites for you", Type.COMBAT);
-        setKey(Keyboard.KEY_C);
     }
 
     Setting<Integer> distance = create("Distance", 5, 0, 10);
@@ -37,35 +36,46 @@ public class KillAura extends Module {
     Setting<Boolean> smartCheck = create("Smart check", true);
     Setting<Boolean> switchSlot = create("Switch slot", true);
 
-    // target details
-
     Setting<Boolean> players = create("Players", true);
     Setting<Boolean> hostiles = create("Hostiles", false);
     Setting<Boolean> passive = create("Passive", true);
 
     Setting<Boolean> ignoreFriends = create("Ignore friends", true);
 
-    private Entity target;
-
     @Override
     public void onUpdate() {
 
-        if(mc.player == null || mc.player.isDead || mc.world.loadedEntityList.isEmpty() || mc.player.getDistance(target) <= distance.getValue()) return;
-
-        mc.world.loadedEntityList.forEach(entity -> {
-
-            target = entity;
-
-        });
+        if(mc.player == null || mc.player.isDead || mc.world.loadedEntityList.isEmpty()) return;
 
         if(switchSlot.getValue() && mc.player.getHeldItemMainhand().getItem() instanceof ItemSword) {
             swapItems();
         }
 
-        if(target != null) {
+    }
 
+    private Entity getTarget() {
+        Entity enemy = null;
+
+        float maxHealth = 36.0f;
+
+        if(mc.world.loadedEntityList.isEmpty()) {
+            return null;
         }
 
+        for(Entity e : mc.world.loadedEntityList) {
+
+            if(e instanceof EntityPlayer && isEntityValid(e)) {
+                if(enemy == null) {
+                    enemy = e;
+                }
+            }
+        }
+
+        return enemy;
+    }
+
+    private boolean isEntityValid(Entity e) {
+        return e != null && !e.isDead && e != mc.player;
     }
 
     private void swapItems() {
@@ -79,11 +89,4 @@ public class KillAura extends Module {
             }
         }
     }
-
-    private void attackTarget(Entity target) {
-        if(mc.player.getCooledAttackStrength(0f) >= 1f) {
-
-        }
-    }
-
 }

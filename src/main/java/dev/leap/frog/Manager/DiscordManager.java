@@ -69,12 +69,8 @@ public class DiscordManager {
             return "Configuring Client";
         }
 
-        if(mc.player.onGround) {
+        if(mc.player.moveStrafing != 0 && mc.player.moveForward != 0) {
             return "Moving " + Playerutil.getSpeedInKM() + " KM/H";
-        }
-
-        if(!mc.player.onGround && !Objects.requireNonNull(mc.getCurrentServerData()).serverIP.contains("2b2t")) {
-            return "Chilling in " + mc.world.getBiome(mc.player.getPosition()).getBiomeName();
         }
 
         if(mc.player.isElytraFlying()) {
