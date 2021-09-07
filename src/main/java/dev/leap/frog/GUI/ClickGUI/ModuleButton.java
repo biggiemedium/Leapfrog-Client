@@ -141,14 +141,14 @@ public class ModuleButton {
         } else {
             Colour = Colorutil.getOffColor();
         }
-        Gui.drawRect(x, y, x + width, y + 12, getColor(mouseX, mouseY));
+        Gui.drawRect(x , y, x + width, y + 12, getColor(mouseX, mouseY));
         Gui.drawRect(x, y + 12, x + width, y + 13, new Color(10, 10, 10, 200).getRGB());
         Wrapper.getMC().fontRenderer.drawStringWithShadow(module.getName(), x + 2, y + 2, -1);
         height = Wrapper.getMC().fontRenderer.FONT_HEIGHT + 4;
 
         if (frame.dragging) {
             setX(mouseX - frame.getPlusX());
-            setY(mouseY - frame.getPlusY() + offset);
+            setY(mouseY - frame.getPlusY() + offset + 2);
         }
 
         if(opened) {
