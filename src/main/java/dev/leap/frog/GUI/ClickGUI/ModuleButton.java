@@ -2,8 +2,12 @@ package dev.leap.frog.GUI.ClickGUI;
 
 import dev.leap.frog.GUI.ClickGUI.Components.BooleanButton;
 import dev.leap.frog.GUI.ClickGUI.Components.Component;
+import dev.leap.frog.GUI.ClickGUI.Components.HiddenButton;
+import dev.leap.frog.GUI.ClickGUI.Components.KeybindButton;
+import dev.leap.frog.GUI.ClickGUI.Components.Types.FloatSlider;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Module.ui.ClickGUIModule;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Render.Colorutil;
 import dev.leap.frog.Util.Wrapper;
@@ -28,7 +32,6 @@ public class ModuleButton {
 
     private int width;
     private int height;
-    private int Colour;
     private int offset;
 
     public ModuleButton(Module module, int x, int y,Frame frame, int offset) {
@@ -37,37 +40,42 @@ public class ModuleButton {
         this.y = y + 2 + offset;
         this.frame = frame;
         this.width = frame.width;
-        this.height = Wrapper.getMC().fontRenderer.FONT_HEIGHT + 4;
+        this.height = 13;
         this.offset = offset;
         this.opened = false;
         this.components = new ArrayList<>();
 
-        int offsetY = 0;
+        int offsetY = this.offset + 1;
         int heightOffset = 0;
+        if(LeapFrog.getSettingManager().getSettingsForMod(module) != null && !LeapFrog.getSettingManager().getSettingsForMod(module).isEmpty()) {
         for(Setting s : LeapFrog.getSettingManager().getSettingsForMod(module)) {
-            Component c = null;
-            if(s.getValue() instanceof Boolean) {
-                c = new BooleanButton(s, x, y + height + offsetY, this);
-                heightOffset += 12;
+            if (s.getValue() instanceof Boolean) {
+                this.components.add(new BooleanButton(s, x, y + height + offsetY, this));
+                //c = new BooleanButton(s, x, y + height + offsetY, this);
+                offsetY += 13;
+                continue;
             }
-            if(s.getValue() instanceof Integer) {
+            if (s.getValue() instanceof Integer) {
 
             }
-            if(s.getValue() instanceof Float) {
+            if (s.getValue() instanceof Float) {
+                this.components.add(new FloatSlider(s, x, y + offsetY, this));
+                offsetY += 13;
+                continue;
+            }
+            if (s.getValue() instanceof Double) {
 
             }
-            if(s.getValue() instanceof Double) {
+            if (s.getValue() instanceof Enum || s.getValue() instanceof ArrayList) {
 
-            }
-            if(s.getValue() instanceof Enum || s.getValue() instanceof ArrayList) {
-
-            }
-
-            if(c != null) {
-                components.add(c);
-                offsetY += c.getHeight();
+                }
             }
         }
+        this.components.add(new HiddenButton(x, y + height + offsetY, this));
+        if(opened) {
+            this.y += offsetY;
+        }
+        //this.components.add(new KeybindButton(x, y + height + offsetY, this));
     }
 
     public Frame getFrame() {
@@ -115,14 +123,6 @@ public class ModuleButton {
         this.height = height;
     }
 
-    public int getColour() {
-        return Colour;
-    }
-
-    public void setColour(int colour) {
-        Colour = colour;
-    }
-
     public int getOffset() {
         return offset;
     }
@@ -136,21 +136,23 @@ public class ModuleButton {
     }
 
     public void draw(int mouseX, int mouseY)  {
-        if (module.isToggled()) {
-            Colour = Colorutil.getToggledColor();
-        } else {
-            Colour = Colorutil.getOffColor();
-        }
         Gui.drawRect(x , y, x + width, y + 12, getColor(mouseX, mouseY));
         Gui.drawRect(x, y + 12, x + width, y + 13, new Color(10, 10, 10, 200).getRGB());
         Wrapper.getMC().fontRenderer.drawStringWithShadow(module.getName(), x + 2, y + 2, -1);
+        if(components.size() > 1) { // checking for hidden button
+            Wrapper.getMC().fontRenderer.drawStringWithShadow(opened ? "v" : "^", getX() + this.getWidth() - 5, getY() + 5, -1);
+        }
         height = Wrapper.getMC().fontRenderer.FONT_HEIGHT + 4;
+
+        if(ClickGUIModule.INSTANCE.descriptionn.getValue() && isHovered(mouseX, mouseY)) {
+            Wrapper.getMC().fontRenderer.drawStringWithShadow(module.getDescription(), 1, 1, -1);
+        }
 
         if (frame.dragging) {
             setX(mouseX - frame.getPlusX());
             setY(mouseY - frame.getPlusY() + offset + 2);
         }
-
+        height = 13;
         if(opened) {
             for(Component c : components) {
                 if(c.getX() != x) {
@@ -174,21 +176,21 @@ public class ModuleButton {
         return mouseX > x && mouseY > y && mouseX < x + width && mouseY < y + 13;
     }
 
-    public void mouseClick(int x, int y, int button) throws IOException {
-        if (x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height) {
-
-            if (button == 0) {
+    public void mouseClick(int mouseX, int mouseY, int button) throws IOException {
+        if(mouseX > x && mouseX < x + width && mouseY > y && mouseY < y + 13){
+            if(button == 0){
                 module.toggle();
-            } else if (button == 1) {
-                this.opened = !this.opened;
+            } else if(button == 1){
+                opened = !opened;
             }
+            return;
         }
 
-            if(opened) {
-                for(Component c : components) {
-                    c.mouseClicked(x, y, button);
-                }
+        if(opened){
+            for(Component b : components){
+                b.mouseClicked(mouseX, mouseY, button);
             }
+        }
     }
 
 
