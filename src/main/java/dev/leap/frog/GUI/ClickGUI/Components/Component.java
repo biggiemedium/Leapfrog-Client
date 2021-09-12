@@ -2,8 +2,10 @@ package dev.leap.frog.GUI.ClickGUI.Components;
 
 import dev.leap.frog.GUI.ClickGUI.ModuleButton;
 import dev.leap.frog.Util.Listeners.IComponent;
+import dev.leap.frog.Util.Render.Colorutil;
 import net.minecraft.client.Minecraft;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class Component {

@@ -10,11 +10,18 @@ import dev.leap.frog.Util.Entity.Entityutil;
 import dev.leap.frog.Util.Render.Chatutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
+import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.gui.inventory.GuiEditSign;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.client.GuiModList;
 import org.lwjgl.input.Keyboard;
 
 public class Test extends Module {
@@ -55,17 +62,6 @@ public class Test extends Module {
 
     @Override
     public void onUpdate() {
-
-        if(Entityutil.isPlayerInHole(mc.player) && getGapSlot() != -1) {
-
-            mc.player.connection.sendPacket(new CPacketHeldItemChange(getGapSlot()));
-            mc.player.connection.sendPacket(new CPacketPlayerTryUseItem(EnumHand.MAIN_HAND));
-            mc.player.connection.sendPacket(new CPacketHeldItemChange(x));
-
-        }
-
-
-
     }
 
     @Override

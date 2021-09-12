@@ -6,6 +6,7 @@ import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Event.Render.RenderEvent;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Module.Movement.NoRotate;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Timer;
 import me.zero.alpine.fork.listener.EventHandler;
@@ -14,6 +15,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
@@ -83,6 +85,15 @@ public class CrystalAura extends Module {
             }
         }
 
+    });
+
+    @EventHandler
+    private Listener<EventPacket.SendPacket> sendPacketListener = new Listener<>(event -> {
+        if(event.getPacket() instanceof CPacketPlayer && rotation.getValue() == rotationMode.NoRotate) {
+            CPacketPlayer packet = (CPacketPlayer) event.getPacket();
+            packet.yaw = mc.player.rotationYaw;
+            packet.pitch = mc.player.rotationPitch;
+        }
     });
 
     @EventHandler

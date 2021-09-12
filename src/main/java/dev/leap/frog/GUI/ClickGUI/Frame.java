@@ -26,18 +26,19 @@ public class Frame {
         this.x = x;
         this.y = y;
         this.width = 100;
-        this.height = Wrapper.getMC().fontRenderer.FONT_HEIGHT + 4;
+        this.height = 13;
         this.type = type;
 
         moduleButton = new ArrayList<>();
-        int offsetY = 0;
+        int offsetY = height; // this is to ensure that the mod buttons dont start rendering over frame
 
         for(Module m : LeapFrog.getModuleManager().getModuleByType(type)) {
             if(this.type == m.type) {
-                ModuleButton button = new ModuleButton(m, this.x, this.y, this, 17 + offsetY * 14);
+                ModuleButton button = new ModuleButton(m, this.x, this.y, this, offsetY); //17 + offsetY * 14
                 moduleButton.add(button);
+                offsetY += 13;
             }
-            offsetY++;
+            //offsetY++;
         }
     }
 
