@@ -21,6 +21,7 @@ public class Frame {
     public int plusX;
     public int plusY;
     private Module.Type type;
+    private boolean open;
 
     public Frame(Module.Type type, int x, int y) {
         this.x = x;
@@ -28,6 +29,7 @@ public class Frame {
         this.width = 100;
         this.height = 13;
         this.type = type;
+        this.open = false;
 
         moduleButton = new ArrayList<>();
         int offsetY = height; // this is to ensure that the mod buttons dont start rendering over frame
@@ -60,8 +62,21 @@ public class Frame {
             this.x = mouseX - plusX;
             this.y = mouseY - plusY;
         }
+
+        if(!open) {
+            return;
+        }
+
+        int offset = 0;
         for(ModuleButton moduleButton : moduleButton) {
+            if(moduleButton.getX() != x) {
+                moduleButton.setX(x);
+            }
+            if(moduleButton.getY() != y + height + offset) {
+                moduleButton.setY(y + height + offset);
+            }
             moduleButton.draw(mouseX, mouseY);
+            offset += moduleButton.getHeight();
         }
     }
 
@@ -71,6 +86,16 @@ public class Frame {
                 dragging = true;
                 plusX = mouseX - this.x;
                 plusY = mouseY - this.y;
+            }
+        }
+
+        if(button == 1) {
+            if(mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + 20) {
+                if(!open) {
+                    open = true;
+                } else if(open) {
+                    open = false;
+                }
             }
         }
         for(ModuleButton m : moduleButton){

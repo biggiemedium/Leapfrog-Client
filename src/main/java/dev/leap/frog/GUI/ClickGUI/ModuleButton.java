@@ -45,7 +45,7 @@ public class ModuleButton {
         this.opened = false;
         this.components = new ArrayList<>();
 
-        int offsetY = this.offset + 1;
+        int offsetY = height + 1;
         int heightOffset = 0;
         if(LeapFrog.getSettingManager().getSettingsForMod(module) != null && !LeapFrog.getSettingManager().getSettingsForMod(module).isEmpty()) {
         for(Setting s : LeapFrog.getSettingManager().getSettingsForMod(module)) {
@@ -73,7 +73,7 @@ public class ModuleButton {
         }
         this.components.add(new HiddenButton(x, y + height + offsetY, this));
         if(opened) {
-            this.y += offsetY;
+            this.y += offset;
         }
         //this.components.add(new KeybindButton(x, y + height + offsetY, this));
     }
