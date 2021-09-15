@@ -2,6 +2,7 @@ package dev.leap.frog.GUI.ClickGUI;
 
 import dev.leap.frog.GUI.ClickGUI.Components.*;
 import dev.leap.frog.GUI.ClickGUI.Components.Types.FloatSlider;
+import dev.leap.frog.GUI.ClickGUI.Components.Types.IntSlider;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Client.Effects;
 import dev.leap.frog.Module.Module;
@@ -53,7 +54,9 @@ public class ModuleButton {
                 continue;
             }
             if (s.getValue() instanceof Integer) {
-
+                this.components.add(new IntSlider(s, x, y + height + offsetY, this));
+                offsetY += 13;
+                continue;
             }
             if (s.getValue() instanceof Float) {
                 this.components.add(new FloatSlider(s, x, y + height + offsetY, this));
@@ -200,6 +203,9 @@ public class ModuleButton {
 
 
     public void MouseReleased(int mx, int my, int button){
+        for(Component c : components) {
+            c.mouseReleased(mx, my, button);
+        }
     }
 
     public boolean isOpened() {

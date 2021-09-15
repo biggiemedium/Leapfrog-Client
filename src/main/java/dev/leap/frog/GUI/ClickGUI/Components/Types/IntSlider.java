@@ -13,11 +13,11 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
-public class FloatSlider extends Component {
+public class IntSlider extends Component {
 
-    Setting<Float> value;
+    Setting<Integer> value;
 
-    public FloatSlider(Setting<Float> val ,int x, int y, ModuleButton button) {
+    public IntSlider(Setting<Integer> val ,int x, int y, ModuleButton button) {
         super(button, x, y, button.getWidth() - 2, 13);
         this.value = val;
     }
@@ -57,10 +57,10 @@ public class FloatSlider extends Component {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
-        if(isHovered(mouseX, mouseY)) {
-            if(button == 0) {
-                dragging = true;
-            }
+        if(isHovered(mouseX, mouseY) && button == 0) {
+            //if(button == 0) {
+            dragging = true;
+            // }
         }
     }
 
@@ -77,9 +77,9 @@ public class FloatSlider extends Component {
             if(diff == 0.0) {
                 this.value.setValue(value.getMin());
             } else {
-                DecimalFormat format = new DecimalFormat("##.0");
+                DecimalFormat format = new DecimalFormat("##");
                 String newValue = format.format(((diff / getWidth()) * (max - min) + min));
-                this.value.setValue(Float.parseFloat(newValue));
+                this.value.setValue(Integer.parseInt(newValue));
             }
         }
     }
@@ -88,4 +88,5 @@ public class FloatSlider extends Component {
     public void mouseReleased(int mouseX, int mouseY, int state) {
         this.dragging = false;
     }
+
 }

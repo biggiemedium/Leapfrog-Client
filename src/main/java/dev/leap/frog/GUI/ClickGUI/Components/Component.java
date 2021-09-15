@@ -27,7 +27,6 @@ public class Component {
     }
 
     public void draw(int mouseX, int mouseY) {
-
     }
 
     public void mouseClicked(int mouseX, int mouseY, int button) throws IOException {

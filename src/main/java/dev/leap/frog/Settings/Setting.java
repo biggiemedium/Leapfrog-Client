@@ -9,6 +9,7 @@ import java.util.List;
 public class Setting<T> {
 
     private String name;
+    private String description;
     private Module module;
     private T value;
     private T min;
@@ -71,5 +72,9 @@ public class Setting<T> {
 
     public void setMax(T max) {
         this.max = max;
+    }
+
+    public ArrayList<T> getCombobox() {
+        return this.combobox;
     }
 }
