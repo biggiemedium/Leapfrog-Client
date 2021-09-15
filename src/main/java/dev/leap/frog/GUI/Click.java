@@ -1,10 +1,14 @@
 package dev.leap.frog.GUI;
 
 import dev.leap.frog.GUI.ClickGUI.Frame;
+import dev.leap.frog.GUI.Effects.Falling;
 import dev.leap.frog.LeapFrog;
+import dev.leap.frog.Module.Client.Effects;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,6 +20,7 @@ public class Click extends GuiScreen {
     protected Minecraft mc = Minecraft.getMinecraft();
 
     private ArrayList<Frame> frame;
+    private ArrayList<Falling> circles;
 
     public Click() {
         frame = new ArrayList();
@@ -24,12 +29,24 @@ public class Click extends GuiScreen {
             frame.add(new Frame(type, 10 + offset, 20));
             offset += 120;
         }
+        circles = new ArrayList<>();
+
+        for (int i = 0; i < 100; ++i) {
+            for (int y = 0; y < 3; ++y) {
+                Falling falling = new Falling(25 * i, y * -50);
+                circles.add(falling);
+            }
+        }
     }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         for(Frame f : frame) {
             f.render(mouseX, mouseY);
+        }
+
+        if(!circles.isEmpty() && LeapFrog.getModuleManager().getModule(Effects.class).isToggled() && Effects.INSTANCE.falling.getValue()) {
+            circles.forEach(f -> { f.render(new ScaledResolution(Wrapper.getMC())); });
         }
     }
 
@@ -49,7 +66,6 @@ public class Click extends GuiScreen {
         for(Frame f : frame) {
             f.onClick(mouseX, mouseY, mouseButton);
         }
-
     }
     @Override
     protected void mouseReleased(int mouseX, int mouseY, int state) {

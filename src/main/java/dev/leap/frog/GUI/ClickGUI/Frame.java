@@ -82,7 +82,7 @@ public class Frame {
 
     public void onClick(int mouseX, int mouseY, int button) throws IOException {
         if(button == 0) {
-            if (mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + 20){
+            if (mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + 13){
                 dragging = true;
                 plusX = mouseX - this.x;
                 plusY = mouseY - this.y;
@@ -90,7 +90,7 @@ public class Frame {
         }
 
         if(button == 1) {
-            if(mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + 20) {
+            if(mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + 13) {
                 if(!open) {
                     open = true;
                 } else if(open) {

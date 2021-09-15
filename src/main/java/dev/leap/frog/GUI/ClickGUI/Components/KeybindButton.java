@@ -21,7 +21,14 @@ public class KeybindButton extends Component {
 
     @Override
     public void draw(int mouseX, int mouseY) {
-
+        Gui.drawRect(getX(), getY(), getX() + 2, getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
+        Gui.drawRect(getX() + 2, getY(), getX() + 2 + getWidth(), getY() + getHeight() - 1, getColor(mouseX, mouseY));
+        Gui.drawRect(getX() + 2, getY() + getHeight() - 1, getX() + 2 + getWidth(), getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
+        if(this.getModuleButton().getModule().getKey() > 0) {
+            Wrapper.getMC().fontRenderer.drawStringWithShadow(listening ? "Press a key..." : ("Key: " + ChatFormatting.GRAY + Keyboard.getKeyName(this.getModuleButton().getModule().getKey())), getX() + 4, getY() + 2, -1);
+        } else {
+            Wrapper.getMC().fontRenderer.drawStringWithShadow(listening ? "Press a key..." : ("Key: " + ChatFormatting.GRAY + "NONE"), getX() + 4, getY() + 2, -1);
+        }
     }
 
     private int getColor(int mouseX, int mouseY) {
@@ -32,19 +39,22 @@ public class KeybindButton extends Component {
     @Override
     public void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
         if(isHovered(mouseX, mouseY)) {
-            if(button == 0) {
-                listening = !listening;
+            if(button == 0 && this.getModuleButton().isOpened()) {
+                if(!listening) {
+                    listening = true;
+                } else if(listening) {
+                    listening = false;
+                }
             }
         }
     }
 
     @Override
     public void keyTyped(char typedChar, int keyCode) throws IOException {
-        if(listening) {
-            if(keyCode == 211) {
-                this.getModuleButton().getModule().setKey(0);
-            } else {
-                this.getModuleButton().getModule().setKey(keyCode);
+        if(listening){
+            if(keyCode != 0 && keyCode != Keyboard.KEY_ESCAPE){
+                if(keyCode == Keyboard.KEY_DELETE) getModuleButton().getModule().setKey(Keyboard.KEY_NONE);
+                else getModuleButton().getModule().setKey(keyCode);
             }
             listening = false;
         }

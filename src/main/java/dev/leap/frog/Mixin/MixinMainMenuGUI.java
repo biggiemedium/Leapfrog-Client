@@ -1,6 +1,7 @@
 package dev.leap.frog.Mixin;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
+import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -20,7 +21,7 @@ public class MixinMainMenuGUI {
         FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
         ScaledResolution sc = new ScaledResolution(Wrapper.getMC());
 
-        fr.drawStringWithShadow(ChatFormatting.GREEN + "LeapFrog Client ", sc.getScaledWidth() - Wrapper.getMC().fontRenderer.getStringWidth("LeapFrog Client") - 5, 2, 0xffffff);
+        fr.drawStringWithShadow(ChatFormatting.GREEN + "LeapFrog Client " + LeapFrog.VERSION, sc.getScaledWidth() - Wrapper.getMC().fontRenderer.getStringWidth("LeapFrog Client" + LeapFrog.VERSION) - 5, 2, 0xffffff);
 
     }
 }

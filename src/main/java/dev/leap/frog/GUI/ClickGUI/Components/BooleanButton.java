@@ -1,10 +1,15 @@
 package dev.leap.frog.GUI.ClickGUI.Components;
 
 import dev.leap.frog.GUI.ClickGUI.ModuleButton;
+import dev.leap.frog.LeapFrog;
+import dev.leap.frog.Module.Client.Effects;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Render.Colorutil;
 import dev.leap.frog.Util.Wrapper;
+import net.minecraft.client.audio.ISound;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.init.SoundEvents;
 
 import java.awt.*;
 import java.io.IOException;
@@ -35,6 +40,9 @@ public class BooleanButton extends Component {
     public void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
         if(mouseX > getX() + 2 && mouseY > getY() && mouseX < getX() + 2 + getWidth() && mouseY < getY() + getHeight() - 1 && button == 0){
             bool.setValue(!bool.getValue());
+            if(Effects.INSTANCE.clickSound.getValue() && LeapFrog.getModuleManager().getModule(Effects.class).isToggled()) {
+                mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+            }
         }
     }
 

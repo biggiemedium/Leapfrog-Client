@@ -20,10 +20,12 @@ public class ClickGUIModule extends Module {
     public ClickGUIModule() {
         super("ClickGUI", "CGUI", Type.RENDER);
         setKey(Keyboard.KEY_RSHIFT);
+        INSTANCE = this;
     }
 
     public Setting<Boolean> descriptionn = create("Description", true);
     public Setting<Boolean> blur = create("Blur", true);
+    public static ClickGUIModule INSTANCE;
 
     @Override
     public void onUpdate() {
@@ -36,6 +38,4 @@ public class ClickGUIModule extends Module {
         mc.displayGuiScreen(Click.INSTANCE);
         toggle();
     }
-
-    public static ClickGUIModule INSTANCE = new ClickGUIModule();
 }

@@ -7,8 +7,11 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.util.math.MathHelper;
 import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.GL11;
+
+import static org.lwjgl.opengl.GL11.*;
 
 public class Renderutil extends UtilManager {
 
@@ -31,6 +34,29 @@ public class Renderutil extends UtilManager {
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
     }
+
+    public static void drawCircle(float x, float y, float radius, int color) {
+        GlStateManager.pushMatrix();
+        GlStateManager.disableTexture2D();
+        GlStateManager.enableBlend();
+        GlStateManager.disableAlpha();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.shadeModel(GL_SMOOTH);
+        GL11.glColor4d(getRedFromHex(color), getGreenFromHex(color), getBlueFromHex(color), getAlphaFromHex(color));
+        GL11.glBegin(GL11.GL_POLYGON);
+        for (int i = 0; i <= 360; i++) {
+            GL11.glVertex2d(x + (MathHelper.sin((i * 3.141526f / 180)) * radius), y + (MathHelper.cos((i * 3.141526f / 180)) * radius));
+        }
+        GL11.glColor4d(1f, 1f, 1f, 1f);
+        GL11.glEnd();
+        GlStateManager.shadeModel(GL_FLAT);
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        GlStateManager.disableBlend();
+        GlStateManager.enableAlpha();
+        GlStateManager.enableTexture2D();
+        GlStateManager.popMatrix();
+    }
+
 
     public static void drawRect(final float x, final float y, final float w, final float h, final float r, final float g, final float b, final float a) {
         final Tessellator tessellator = Tessellator.getInstance();
@@ -90,4 +116,21 @@ public class Renderutil extends UtilManager {
     public static double getD5(RenderEvent event) {
         return mc.player.lastTickPosZ + (mc.player.posZ - mc.player.lastTickPosZ) * (double)event.getPartialTicks();
     }
+
+    public static double getAlphaFromHex(int color) {
+        return ((double) ((color >> 24 & 0xff) / 255F));
+    }
+
+    public static double getRedFromHex(int color) {
+        return ((double) ((color >> 16 & 0xff) / 255F));
+    }
+
+    public static double getGreenFromHex(int color) {
+        return ((double) ((color >> 8 & 0xff) / 255F));
+    }
+
+    public static double getBlueFromHex(int color) {
+        return ((double) ((color & 0xff) / 255F));
+    }
+
 }

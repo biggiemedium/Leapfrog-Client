@@ -34,7 +34,6 @@ public class Test extends Module {
         setKey(Keyboard.KEY_N);
     }
 
-    private static ArrayList arrayList = new ArrayList();
     private static Yaw yaw = new Yaw();
 
     int x;
@@ -46,7 +45,6 @@ public class Test extends Module {
 
         System.out.println(mc.world.getSeed());
         Chatutil.sendClientSideMessgage("On");
-        MinecraftForge.EVENT_BUS.register(arrayList);
         MinecraftForge.EVENT_BUS.register(yaw);
         if(s.getValue()) {
             System.out.println("Hi");
@@ -56,17 +54,18 @@ public class Test extends Module {
     @Override
     public void onDisable() {
         Chatutil.sendClientSideMessgage("OFF");
-        MinecraftForge.EVENT_BUS.unregister(arrayList);
         MinecraftForge.EVENT_BUS.unregister(yaw);
+
+        mc.entityRenderer.shaderGroup.deleteShaderGroup();
     }
 
     @Override
     public void onUpdate() {
+
     }
 
     @Override
     public void onRender(RenderEvent event) {
-
     }
 
     @EventHandler

@@ -59,7 +59,8 @@ public class LeapFrog {
         Display.setTitle("LeapFrog Client");
         Sessionutil.getInstance().setUser("halop56yt@gmail.com", "bhfwb*^GYD7HNj");
     }
-    // get classes
+
+
     public static ModuleManager getModuleManager() { return moduleManager; }
 
     public static SettingManager getSettingManager() { return settingManager; }

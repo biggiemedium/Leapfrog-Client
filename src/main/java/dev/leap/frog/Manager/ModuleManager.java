@@ -29,8 +29,11 @@ public class ModuleManager {
     public ModuleManager() {
 
         // Client
+        Add(new AutoEZ());
         Add(new AutoReply());
+        Add(new Effects());
         Add(new Suffix());
+        Add(new Blur());
 
         //// Combat
         Add(new AutoTotem());

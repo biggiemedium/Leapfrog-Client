@@ -1,13 +1,10 @@
 package dev.leap.frog.GUI.ClickGUI;
 
-import dev.leap.frog.GUI.ClickGUI.Components.BooleanButton;
-import dev.leap.frog.GUI.ClickGUI.Components.Component;
-import dev.leap.frog.GUI.ClickGUI.Components.HiddenButton;
-import dev.leap.frog.GUI.ClickGUI.Components.KeybindButton;
+import dev.leap.frog.GUI.ClickGUI.Components.*;
 import dev.leap.frog.GUI.ClickGUI.Components.Types.FloatSlider;
 import dev.leap.frog.LeapFrog;
+import dev.leap.frog.Module.Client.Effects;
 import dev.leap.frog.Module.Module;
-import dev.leap.frog.Module.ui.ClickGUIModule;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Render.Colorutil;
 import dev.leap.frog.Util.Wrapper;
@@ -59,7 +56,7 @@ public class ModuleButton {
 
             }
             if (s.getValue() instanceof Float) {
-                this.components.add(new FloatSlider(s, x, y + offsetY, this));
+                this.components.add(new FloatSlider(s, x, y + height + offsetY, this));
                 offsetY += 13;
                 continue;
             }
@@ -67,14 +64,12 @@ public class ModuleButton {
 
             }
             if (s.getValue() instanceof Enum || s.getValue() instanceof ArrayList) {
+                this.components.add(new EnumButton(s, x, y + height + offsetY, this));
 
                 }
             }
         }
         this.components.add(new HiddenButton(x, y + height + offsetY, this));
-        if(opened) {
-            this.y += offset;
-        }
         //this.components.add(new KeybindButton(x, y + height + offsetY, this));
     }
 
@@ -139,13 +134,20 @@ public class ModuleButton {
         Gui.drawRect(x , y, x + width, y + 12, getColor(mouseX, mouseY));
         Gui.drawRect(x, y + 12, x + width, y + 13, new Color(10, 10, 10, 200).getRGB());
         Wrapper.getMC().fontRenderer.drawStringWithShadow(module.getName(), x + 2, y + 2, -1);
-        if(components.size() > 1) { // checking for hidden button
-            Wrapper.getMC().fontRenderer.drawStringWithShadow(opened ? "v" : "^", getX() + this.getWidth() - 5, getY() + 5, -1);
+        if(components.size() > 2) { // checking for hidden button
+            Wrapper.getMC().fontRenderer.drawStringWithShadow(opened ? "v" : "^", getX() + this.getWidth() - 10, getY() + 5, -1);
         }
         height = Wrapper.getMC().fontRenderer.FONT_HEIGHT + 4;
 
-        if(ClickGUIModule.INSTANCE.descriptionn.getValue() && isHovered(mouseX, mouseY)) {
+        if(Effects.INSTANCE.descriptionn.getValue() && isHovered(mouseX, mouseY) && LeapFrog.getModuleManager().getModule(Effects.class).isToggled()) {
             Wrapper.getMC().fontRenderer.drawStringWithShadow(module.getDescription(), 1, 1, -1);
+        }
+
+        if(Effects.INSTANCE.sideProfile.getValue() && isHovered(mouseX, mouseY) && LeapFrog.getModuleManager().getModule(Effects.class).isToggled()) {
+            int offset = getWidth() - 1;
+            int offset2 = 99;
+            Gui.drawRect(getX(), getY(), this.x + this.width - offset, getY() + this.height, -1);
+            Gui.drawRect(getX(), getY(), this.x + this.width - offset2, getY() + this.height, -1);
         }
 
         if (frame.dragging) {
@@ -160,6 +162,9 @@ public class ModuleButton {
                 }
                 if(c.getY() != y) {
                     c.setY(y + height);
+                }
+                if(Effects.INSTANCE.sideProfile.getValue() && LeapFrog.getModuleManager().getModule(Effects.class).isToggled() && isHovered(mouseX, mouseY) || mouseX > c.getX() && mouseY > c.getY() && mouseX < c.getX() + width && mouseY < c.getY() + 13) {
+                    Gui.drawRect(getX(), getY(), this.x + this.width - 99, getY() + this.height, -1);
                 }
                 c.draw(mouseX, mouseY);
                 height += c.getHeight();
@@ -195,5 +200,9 @@ public class ModuleButton {
 
 
     public void MouseReleased(int mx, int my, int button){
+    }
+
+    public boolean isOpened() {
+        return opened;
     }
 }
