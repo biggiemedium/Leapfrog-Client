@@ -14,8 +14,6 @@ import java.util.UUID;
 public class SessionChanger {
 
 
-
-
         private static SessionChanger instance;
         private final UserAuthentication auth;
 

@@ -2,10 +2,9 @@ package dev.leap.frog.GUI.ClickGUI.Components;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.leap.frog.GUI.ClickGUI.ModuleButton;
-import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Util.Render.Colorutil;
+import dev.leap.frog.Util.Render.Renderutil;
 import dev.leap.frog.Util.Wrapper;
-import net.minecraft.client.gui.Gui;
 import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
@@ -21,9 +20,9 @@ public class KeybindButton extends Component {
 
     @Override
     public void draw(int mouseX, int mouseY) {
-        Gui.drawRect(getX(), getY(), getX() + 2, getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
-        Gui.drawRect(getX() + 2, getY(), getX() + 2 + getWidth(), getY() + getHeight() - 1, getColor(mouseX, mouseY));
-        Gui.drawRect(getX() + 2, getY() + getHeight() - 1, getX() + 2 + getWidth(), getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
+        Renderutil.drawRect(getX(), getY(), getX() + 2, getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
+        Renderutil.drawRect(getX() + 2, getY(), getX() + 2 + getWidth(), getY() + getHeight() - 1, handleColor(mouseX, mouseY));
+        Renderutil.drawRect(getX() + 2, getY() + getHeight() - 1, getX() + 2 + getWidth(), getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
         if(this.getModuleButton().getModule().getKey() > 0) {
             Wrapper.getMC().fontRenderer.drawStringWithShadow(listening ? "Press a key..." : ("Key: " + ChatFormatting.GRAY + Keyboard.getKeyName(this.getModuleButton().getModule().getKey())), getX() + 4, getY() + 2, -1);
         } else {
@@ -31,9 +30,9 @@ public class KeybindButton extends Component {
         }
     }
 
-    private int getColor(int mouseX, int mouseY) {
-        Color color = listening ? Colorutil.getToggledC() : new Color(50, 50, 50, 200);
-        return mouseX > getX() + 2 && mouseY > getY() && mouseX < getX() + 2 + getWidth() && mouseY < getY() + getHeight() - 1 ? (listening ? color.darker().darker().getRGB() : color.brighter().brighter().getRGB()) : color.getRGB();
+    private int handleColor(int mouseX, int mouseY) {
+        Color color = listening ? Colorutil.subComponentColor() : new Color(50, 50, 50, 200);
+        return isHovered(mouseX, mouseY) ? (listening ? color.darker().darker().getRGB() : color.brighter().brighter().getRGB()) : color.getRGB();
     }
 
     @Override
@@ -52,9 +51,13 @@ public class KeybindButton extends Component {
     @Override
     public void keyTyped(char typedChar, int keyCode) throws IOException {
         if(listening){
-            if(keyCode != 0 && keyCode != Keyboard.KEY_ESCAPE){
-                if(keyCode == Keyboard.KEY_DELETE) getModuleButton().getModule().setKey(Keyboard.KEY_NONE);
-                else getModuleButton().getModule().setKey(keyCode);
+            if(keyCode > 0 && keyCode != Keyboard.KEY_ESCAPE){
+                if(keyCode == Keyboard.KEY_BACK || keyCode == 211) {
+                    getModuleButton().getModule().setKey(Keyboard.KEY_NONE);
+                }
+                else {
+                    getModuleButton().getModule().setKey(keyCode);
+                }
             }
             listening = false;
         }

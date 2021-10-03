@@ -133,4 +133,32 @@ public class Renderutil extends UtilManager {
         return ((double) ((color & 0xff) / 255F));
     }
 
+    //public static void drawRect(float x, float y, float x1, float y1, float r, float g, float b, float a) {
+    //    GL11.glDisable((int)2929);
+    //    GL11.glEnable((int)3042);
+    //    GL11.glDisable((int)3553);
+    //    GL11.glBlendFunc((int)770, (int)771);
+    //    GL11.glDepthMask((boolean)true);
+    //    GL11.glEnable((int)2848);
+    //    GL11.glHint((int)3154, (int)4354);
+    //    GL11.glHint((int)3155, (int)4354);
+    //    GL11.glColor4f((float)r, (float)g, (float)b, (float)a);
+    //    drawRect(x, y, x1, y1);
+    //    GL11.glEnable((int)3553);
+    //    GL11.glDisable((int)3042);
+    //    GL11.glEnable((int)2929);
+    //    GL11.glDisable((int)2848);
+    //    GL11.glHint((int)3154, (int)4352);
+    //    GL11.glHint((int)3155, (int)4352);
+    //}
+
+    public static void drawRect(float x, float y, float x1, float y1) {
+        GL11.glBegin((int)7);
+        GL11.glVertex2f((float)x, (float)y1);
+        GL11.glVertex2f((float)x1, (float)y1);
+        GL11.glVertex2f((float)x1, (float)y);
+        GL11.glVertex2f((float)x, (float)y);
+        GL11.glEnd();
+    }
+
 }

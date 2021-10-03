@@ -2,6 +2,7 @@ package dev.leap.frog.Mixin;
 
 import dev.leap.frog.Event.Render.EventRenderRain;
 import dev.leap.frog.Event.World.EventEntityRemoved;
+import dev.leap.frog.Event.World.EventSetDayTime;
 import dev.leap.frog.LeapFrog;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -29,6 +30,16 @@ public class MixinWorld {
     @Inject(method = "removeEntity", at = @At("HEAD"), cancellable = true)
     public void entityRemoved(Entity entityIn, CallbackInfo ci) {
         EventEntityRemoved packet = new EventEntityRemoved(entityIn);
+        LeapFrog.EVENT_BUS.post(packet);
+
+        if(packet.isCancelled()) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "setTotalWorldTime", at = @At("TAIL"), cancellable = true)
+    public void setDayTime(long worldTime, CallbackInfo ci) {
+        EventSetDayTime packet = new EventSetDayTime(worldTime);
         LeapFrog.EVENT_BUS.post(packet);
 
         if(packet.isCancelled()) {

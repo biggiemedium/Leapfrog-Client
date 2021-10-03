@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AutoTrap extends Module {
+public class AutoTrap extends Module { // TODO: Rewrite AutoTrap
 
     public AutoTrap() {
         super("Auto Trap", "Traps enemies", Type.COMBAT);

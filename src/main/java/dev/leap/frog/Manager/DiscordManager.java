@@ -24,14 +24,14 @@ public class DiscordManager {
     private  Minecraft mc = Minecraft.getMinecraft();
 
     private DiscordRichPresence presence = new DiscordRichPresence();
-    private Thread thread = null;
+    private Thread thread;
+    private  DiscordRPC lib = DiscordRPC.INSTANCE;
 
     public DiscordManager() {
         Start();
     }
 
     public void Start() {
-        DiscordRPC lib = DiscordRPC.INSTANCE;
         String applicationId = "830252222372773908";
         String steamId = "";
         DiscordEventHandlers handlers = new DiscordEventHandlers();
@@ -40,7 +40,7 @@ public class DiscordManager {
 
         lib.Discord_UpdatePresence(presence);
         presence.largeImageKey = "leapfrog512";
-        thread = new Thread(() -> {
+        this.thread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 lib.Discord_RunCallbacks();
                 presence.details = setDetails();
@@ -54,8 +54,16 @@ public class DiscordManager {
                 }
             }
         }, "RPC-Callback-Handler");
-
         thread.start();
+    }
+
+    public void Stop() {
+        if(!this.thread.isInterrupted() || thread.isAlive()) {
+            this.thread.interrupt();
+            this.lib.Discord_Shutdown();
+            this.lib.Discord_ClearPresence();
+            return;
+        }
     }
 
     private String setState() { // mc.player != null will run first

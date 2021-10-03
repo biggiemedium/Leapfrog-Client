@@ -5,6 +5,7 @@ import dev.leap.frog.GUI.Click;
 import dev.leap.frog.GUI.ClickGUI.Frame;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Module.ui.ClickGUIModule;
 import dev.leap.frog.Util.Entity.Friendutil;
 import org.lwjgl.input.Keyboard;
 
@@ -56,22 +57,6 @@ public class FileManager {
         return leapfrog.exists();
     }
 
-    public void saveModule() throws IOException {
-
-        if(!doesDirectoryExist()) {
-            verifyDirectory();
-        }
-
-        for(Module m : LeapFrog.getModuleManager().getModules()) {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(getDirectoryModule() + m.getName() + ".txt"));
-
-            String toggled = m.isToggled() ? "on" : "off";
-            writer.write(toggled);
-            writer.close();
-        }
-
-    }
-
     public void saveFriends() throws IOException {
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(getDirectoryFriends() + "friends.json"));
@@ -83,32 +68,6 @@ public class FileManager {
             writer.write("\r\n");
         }
         writer.close();
-    }
-
-    public void loadModule() throws IOException {
-
-        ArrayList<String> lines = new ArrayList<>();
-        for(Module m : LeapFrog.getModuleManager().getModules()) {
-            BufferedReader reader = new BufferedReader(new FileReader(getDirectoryModule() + m.getName() + ".txt"));
-
-            String line = reader.readLine();
-
-            while(line != null) {
-                lines.add(line);
-                line = reader.readLine();
-            }
-
-            reader.close();
-
-            for(String s : lines) {
-                if(s.equalsIgnoreCase("on")) {
-                    m.setToggled(true);
-                } else {
-                    m.setToggled(false);
-                }
-            }
-
-        }
     }
 
     public void loadFriend() throws IOException {
@@ -123,49 +82,74 @@ public class FileManager {
             br.close();
     }
 
-    public void saveHidden() throws IOException {
-
-        BufferedWriter writer = new BufferedWriter(new FileWriter(getDirectoryModule() + "hidden.json"));
-
+    public void saveModule() throws IOException {
         for(Module m : LeapFrog.getModuleManager().getModules()) {
-            String isHidden = m.isHidden() ? "hidden" : "visible";
-
-            writer.write(m.getName() + ":" + isHidden + "\n");
-
+            BufferedWriter writer = new BufferedWriter(new FileWriter(getDirectoryModule() + m.getName() + ".txt")); // change to json in future maybe?
+            writer.write("Module:" + m.getName() + "\r\n");
+            writer.write("Toggled:" + m.isToggled() + "\r\n");
+            writer.write("Bind:" + m.getKey() + "\r\n");
+            writer.write("Hidden:" + m.isHidden() + "\r\n");
+            writer.close();
         }
-        writer.close();
     }
 
-    public void loadHidden() throws IOException {
-        BufferedReader writer = new BufferedReader(new FileReader(getDirectoryModule() + "hidden.json"));
-        ArrayList<String> arrayLine = new ArrayList<>();
-
+    public void loadModule() throws IOException {
         for(Module m : LeapFrog.getModuleManager().getModules()) {
-            String line = writer.readLine();
-
-            while(line != null) {
-                arrayLine.add(line);
-                line = writer.readLine();
-            }
-            writer.close();
-
-            for(String s : arrayLine) {
-                if(s.toLowerCase().contains("hidden")) {
-                    m.setHidden(true);
-                } else if(s.toLowerCase().contains("shown")) {
-                    m.setHidden(false);
+            BufferedReader reader = new BufferedReader(new FileReader(getDirectoryModule() + m.getName() + ".txt"));
+            String line;
+            Module mod = null;
+            while ((line = reader.readLine()) != null) {
+                String[] regex = line.split(":");
+                switch(regex[0]) {
+                    case "Module":
+                        LeapFrog.getModuleManager().getModuleName(regex[1]);
+                        break;
+                    case "Toggled":
+                        if(mod != null && Boolean.parseBoolean(regex[1])) {
+                            mod.setToggled(true);
+                        }
+                    case "Bind":
+                        assert mod != null;
+                            mod.setKey(Keyboard.getKeyIndex(regex[1]));
+                        break;
+                    case "Hidden":
+                        if(mod != null && Boolean.parseBoolean(regex[1])) {
+                            mod.setHidden(true);
+                        }
                 }
             }
+            reader.close();
+        }
+    }
 
+    public void saveOpen() throws IOException {
+        for(Frame f : Click.INSTANCE.getFrame()) {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(getDirectoryGUI() + f.getName() + ".txt"));
+            writer.write("Open: " + f.isOpen());
+            writer.close();
+        }
+    }
+
+    public void loadOpen() throws IOException {
+        for(Frame f : Click.INSTANCE.getFrame()) {
+            BufferedReader reader = new BufferedReader(new FileReader(getDirectoryGUI() + f.getName() + ".txt"));
+            String line;
+            while((line = reader.readLine()) != null) {
+                if(line.toLowerCase().startsWith("open") && line.toLowerCase().contains("true")) {
+                    f.setOpen(true);
+                } else {
+                    f.setOpen(false);
+                }
+            }
+            reader.close();
         }
     }
 
     public void load() {
         try {
-            loadModule();
             loadFriend();
-
-            loadHidden();
+            loadModule();
+            saveOpen();
         } catch (Exception e) {
             verifyDirectory();
         }
@@ -173,10 +157,9 @@ public class FileManager {
 
     public void save() {
         try {
-            verifyDirectory();
             saveModule();
             saveFriends();
-            saveHidden();
+            saveOpen();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -209,16 +192,4 @@ public class FileManager {
     public String getDirectoryBinds() {
         return directoryleapfrog + directoryBinds;
     }
-
-    public String convertBind(String key, Module m) {
-
-        if(m.getKey() < 0) {
-            key = "NONE";
-        }
-
-        key = Keyboard.getKeyName(m.getKey());
-
-        return key;
-    }
-
 }

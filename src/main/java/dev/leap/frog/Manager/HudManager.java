@@ -10,7 +10,7 @@ public class HudManager {
 
     public static ArrayList<Component> HUDComponent = new ArrayList<>();
     public HudManager() {
-        Add(new FPS());
+
     }
 
     private void Add(Component component) {

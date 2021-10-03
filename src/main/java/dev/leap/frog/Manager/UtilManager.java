@@ -34,10 +34,6 @@ public class UtilManager {
         }
     }
 
-    public static String getPrefix() {
-        return Command.getCommandPrefix();
-    }
-
     public static String getSuffix() {
         return "\u23D0 \u029f\u1d07\u1d00\u1d18\ua730\u0280\u1d0f\u0262";
     }

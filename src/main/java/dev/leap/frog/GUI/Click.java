@@ -3,8 +3,8 @@ package dev.leap.frog.GUI;
 import dev.leap.frog.GUI.ClickGUI.Frame;
 import dev.leap.frog.GUI.Effects.Falling;
 import dev.leap.frog.LeapFrog;
-import dev.leap.frog.Module.Client.Effects;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Module.ui.ClickGUIModule;
 import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -45,14 +45,15 @@ public class Click extends GuiScreen {
             f.render(mouseX, mouseY);
         }
 
-        if(!circles.isEmpty() && LeapFrog.getModuleManager().getModule(Effects.class).isToggled() && Effects.INSTANCE.falling.getValue()) {
+        if(!circles.isEmpty() && LeapFrog.getModuleManager().getModule(ClickGUIModule.class).isToggled() && ClickGUIModule.INSTANCE.falling.getValue()) {
             circles.forEach(f -> { f.render(new ScaledResolution(Wrapper.getMC())); });
         }
     }
 
     @Override
     public void onGuiClosed() {
-        //LeapFrog.getFileManager().save();
+        LeapFrog.getFileManager().save();
+        if(LeapFrog.getModuleManager().getModule(ClickGUIModule.class).isToggled()) LeapFrog.getModuleManager().getModule(ClickGUIModule.class).setToggled(false);
     }
 
     @Override
@@ -72,6 +73,14 @@ public class Click extends GuiScreen {
         for(Frame f: frame){
             f.onMouseReleased(mouseX, mouseY, state);
         }
+    }
+
+    @Override
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        for(Frame f : frame) {
+            f.keyTyped(typedChar, keyCode);
+        }
+        super.keyTyped(typedChar, keyCode);
     }
 
     public ArrayList<Frame> getFrame() {

@@ -9,7 +9,7 @@ import net.minecraft.client.audio.SoundHandler;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.util.SoundCategory;
-import net.minecraftforge.client.event.sound.SoundEvent;
+import net.minecraft.util.SoundEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
 public class AntiSound extends Module {
@@ -20,6 +20,7 @@ public class AntiSound extends Module {
 
     Setting<Boolean> explosion = create("Explosions", true);
     Setting<Boolean> wither = create("Wither", false);
+    Setting<Boolean> rain = create("Rain", false);
 
     @EventHandler
     private Listener<EventPacket.ReceivePacket> packetListener = new Listener<>(event -> {
@@ -37,6 +38,10 @@ public class AntiSound extends Module {
             }
 
             if(packet.getCategory() == SoundCategory.BLOCKS && packet.getSound() == SoundEvents.ENTITY_WITHER_HURT && wither.getValue()) {
+                event.cancel();
+            }
+
+            if(packet.getCategory() == SoundCategory.BLOCKS && packet.getSound() == SoundEvents.WEATHER_RAIN && rain.getValue()) {
                 event.cancel();
             }
 

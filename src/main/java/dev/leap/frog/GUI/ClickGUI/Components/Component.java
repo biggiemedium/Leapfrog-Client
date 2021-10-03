@@ -8,7 +8,7 @@ import net.minecraft.client.Minecraft;
 import java.awt.*;
 import java.io.IOException;
 
-public class Component {
+public class Component implements IComponent {
 
     protected Minecraft mc = Minecraft.getMinecraft();
 
@@ -17,6 +17,8 @@ public class Component {
     private int width;
     private int height;
     private ModuleButton moduleButton;
+
+    public boolean shown;
 
     public Component(ModuleButton button, int x, int y, int width, int height) {
         this.moduleButton = button;
@@ -43,6 +45,10 @@ public class Component {
 
     protected boolean isHovered(int mouseX, int mouseY) {
         return mouseX > getX() + 2 && mouseY > getY() && mouseX < getX() + 2 + getWidth() && mouseY < getY() + getHeight() - 1;
+    }
+
+    protected boolean isShown() {
+        return shown;
     }
 
     public int getDeafultHeight() {

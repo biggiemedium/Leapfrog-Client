@@ -21,9 +21,7 @@ import java.util.Comparator;
 public class LawnMower extends Module {
 
     public LawnMower() {
-
         super("LawnMower", "Cuts grass", Type.WORLD);
-
     }
 
     Setting<Integer> distance = create("Distance", 4, 0, 10);

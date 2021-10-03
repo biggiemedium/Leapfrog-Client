@@ -8,17 +8,25 @@ import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Module.Movement.NoRotate;
 import dev.leap.frog.Settings.Setting;
+import dev.leap.frog.Util.Entity.Entityutil;
+import dev.leap.frog.Util.Entity.Playerutil;
 import dev.leap.frog.Util.Timer;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityEnderCrystal;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.ItemEndCrystal;
+import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.server.SPacketSoundEffect;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
+
+import java.util.ArrayList;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CrystalAura extends Module {
     public CrystalAura() {
@@ -38,12 +46,17 @@ public class CrystalAura extends Module {
     Setting<Integer> delay = create("Delay", 1, 0, 10);
     Setting<Boolean> stopWhileSneak = create("Sneak Stop", false);
 
-    Setting<Integer> r = create("Red", 255, 0, 255);
-    Setting<Integer> g = create("Green", 255, 0, 255);
-    Setting<Integer> b = create("Blue", 255, 0, 255);
-    Setting<Integer> a = create("Alpha", 255, 0, 255);
+    Setting<Boolean> switchHand = create("Switch Hand", true);
+
     Setting<Boolean> displayBlockPlace = create("Show place", true);
+    Setting<Integer> r = create("Red", 255, 0, 255, visible -> displayBlockPlace.getValue());
+    Setting<Integer> g = create("Green", 255, 0, 255, visible -> displayBlockPlace.getValue());
+    Setting<Integer> b = create("Blue", 255, 0, 255, visible -> displayBlockPlace.getValue());
+    Setting<Integer> a = create("Alpha", 255, 0, 255, visible -> displayBlockPlace.getValue());
     Setting<Boolean> chams = create("Chams", true);
+
+    private EntityPlayer target;
+    private ArrayList<EntityEnderCrystal> crystalsPlaced;
 
     private boolean isPlacing = false;
     private boolean mainHand = false;
@@ -63,10 +76,23 @@ public class CrystalAura extends Module {
 
     @Override
     public void onUpdate() {
-
-        if(mc.player == null || mc.world == null || getCrystalSlot() == -1) {
+        if(crystalsPlaced == null) {
+            crystalsPlaced = new ArrayList<>();
+        }
+        if(mc.player == null || mc.world == null || getCrystalSlot() == -1 || sneakCheck(mc.player) || shouldPause()) {
             return;
         }
+
+        if(switchHand.getValue() && mc.player.inventory.currentItem != getCrystalSlot()) {
+            swapItems();
+        }
+
+
+
+    }
+
+    private boolean sneakCheck(EntityPlayer player) {
+        return player.isSneaking() && stopWhileSneak.getValue();
     }
 
     @EventHandler
@@ -87,21 +113,24 @@ public class CrystalAura extends Module {
     });
 
     @EventHandler
-    private Listener<EventPacket.SendPacket> sendPacketListener = new Listener<>(event -> {
-        if(event.getPacket() instanceof CPacketPlayer && rotation.getValue() == rotationMode.NoRotate) {
-            CPacketPlayer packet = (CPacketPlayer) event.getPacket();
-            packet.yaw = mc.player.rotationYaw;
-            packet.pitch = mc.player.rotationPitch;
-        }
-    });
-
-    @EventHandler
     public Listener<EventPlayerMotionUpdate> MotionListener = new Listener<>(event -> {
 
         if(event.getEra() != LeapFrogEvent.Era.PRE) {
             return;
         }
     });
+
+    private void swapItems() {
+        int slot = -1;
+        for(int i = 0; i < 9; i++) {
+            if(mc.player.inventory.getStackInSlot(i).getItem() instanceof ItemEndCrystal) {
+                slot = i;
+                mc.player.inventory.currentItem = i;
+                mc.playerController.updateController();
+                break;
+            }
+        }
+    }
 
     int getCrystalSlot() {
         int crystalSlot = -1;
@@ -113,9 +142,6 @@ public class CrystalAura extends Module {
         }
         return crystalSlot;
     }
-
-
-    
 
     @Override
     public void onRender(RenderEvent event) {
@@ -133,7 +159,11 @@ public class CrystalAura extends Module {
             return true;
         }
 
-        if(LeapFrog.getModuleManager().getModuleName("Auto Trap").isToggled()) {
+        if(LeapFrog.getModuleManager().getModule(KillAura.class).isToggled()) {
+            return true;
+        }
+
+        if(LeapFrog.getModuleManager().getModule(AutoTrap.class).isToggled()) {
             return true;
         }
 
@@ -155,5 +185,4 @@ public class CrystalAura extends Module {
     private void breakCrystals() {
 
     }
-
 }

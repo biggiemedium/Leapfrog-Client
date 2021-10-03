@@ -2,13 +2,12 @@ package dev.leap.frog.GUI.ClickGUI.Components;
 
 import dev.leap.frog.GUI.ClickGUI.ModuleButton;
 import dev.leap.frog.LeapFrog;
-import dev.leap.frog.Module.Client.Effects;
+import dev.leap.frog.Module.ui.ClickGUIModule;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Render.Colorutil;
+import dev.leap.frog.Util.Render.Renderutil;
 import dev.leap.frog.Util.Wrapper;
-import net.minecraft.client.audio.ISound;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.init.SoundEvents;
 
 import java.awt.*;
@@ -25,22 +24,22 @@ public class BooleanButton extends Component {
 
     @Override
     public void draw(int mouseX, int mouseY) {
-        Gui.drawRect(getX(), getY(), getX() + 2, getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
-        Gui.drawRect(getX() + 2, getY(), getX() + 2 + getWidth(), getY() + getHeight() - 1, getColor(mouseX, mouseY));
-        Gui.drawRect(getX() + 2, getY() + getHeight() - 1, getX() + 2 + getWidth(), getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
+        Renderutil.drawRect(getX(), getY(), getX() + 2, getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
+        Renderutil.drawRect(getX() + 2, getY(), getX() + 2 + getWidth(), getY() + getHeight() - 1, handleColor(mouseX, mouseY));
+        Renderutil.drawRect(getX() + 2, getY() + getHeight() - 1, getX() + 2 + getWidth(), getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
         Wrapper.getMC().fontRenderer.drawStringWithShadow(bool.getName(), getX() + 4, getY() + 2, -1);
     }
 
-    private int getColor(int mouseX, int mouseY){
-        Color color = bool.getValue() ? Colorutil.getToggledC() : new Color(50, 50, 50, 200);
+    private int handleColor(int mouseX, int mouseY){
+        Color color = bool.getValue() ? Colorutil.subComponentColor() : new Color(50, 50, 50, 200);
         return isHovered(mouseX, mouseY) ? (bool.getValue() ? color.darker().darker().getRGB() : color.brighter().brighter().getRGB()) : color.getRGB();
     }
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
-        if(mouseX > getX() + 2 && mouseY > getY() && mouseX < getX() + 2 + getWidth() && mouseY < getY() + getHeight() - 1 && button == 0){
+        if(isHovered(mouseX, mouseY) && button == 0){
             bool.setValue(!bool.getValue());
-            if(Effects.INSTANCE.clickSound.getValue() && LeapFrog.getModuleManager().getModule(Effects.class).isToggled()) {
+            if(ClickGUIModule.INSTANCE.clickSound.getValue() && LeapFrog.getModuleManager().getModule(ClickGUIModule.class).isToggled()) {
                 mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0f));
             }
         }

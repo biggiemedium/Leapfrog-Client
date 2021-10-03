@@ -8,6 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public class Module implements Listenable {
 
@@ -16,7 +17,7 @@ public class Module implements Listenable {
     public Type type;
     public int key;
     public boolean toggled;
-    private boolean hidden;
+    private boolean drawn;
     protected Minecraft mc = Minecraft.getMinecraft();
 
     public Module(String name, String description, Type type) {
@@ -25,7 +26,7 @@ public class Module implements Listenable {
         this.type = type;
         this.key = -1;
         this.toggled = false;
-        this.hidden = false;
+        this.drawn = false;
     }
 
     public String getName() {
@@ -53,11 +54,11 @@ public class Module implements Listenable {
     }
 
     public boolean isHidden() {
-        return hidden;
+        return drawn;
     }
 
     public void setHidden(boolean hidden) {
-        this.hidden = hidden;
+        this.drawn = hidden;
     }
 
     public void setToggled(boolean toggled) {
@@ -101,6 +102,18 @@ public class Module implements Listenable {
 
     protected Setting create(String name, Object value, Object min, Object max) {
         return LeapFrog.getSettingManager().Build(new Setting<>(name, this, value, min, max));
+    }
+
+    protected Setting create(String name, Object value, Object min, Object max, Predicate visible) {
+        return LeapFrog.getSettingManager().Build(new Setting<>(name, this, value, min, max, visible));
+    }
+
+    protected Setting create(String name, Object value, Predicate<Object> predicate) {
+        return LeapFrog.getSettingManager().Build(new Setting<>(name, this, value, predicate));
+    }
+
+    protected Setting create(String name, Object value, Predicate<Object> predicate, String description) {
+        return LeapFrog.getSettingManager().Build(new Setting<>(name, this, value, predicate));
     }
 
     protected List<Setting> getSetting(Module module){

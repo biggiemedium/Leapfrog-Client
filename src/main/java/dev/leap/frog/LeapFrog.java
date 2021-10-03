@@ -30,6 +30,7 @@ public class LeapFrog {
     private static ModuleManager moduleManager;
     private static SettingManager settingManager;
     private static DiscordManager discordManager;
+    private static CommandManager commandManager;
     private static CapeManager capeManager;
     public static FriendManager friendManager;
     private static EventProcessor eventManager;
@@ -50,6 +51,7 @@ public class LeapFrog {
         eventManager = new EventProcessor();
         hudManager = new HudManager();
         capeManager = new CapeManager();
+        commandManager = new CommandManager();
         discordManager = new DiscordManager();
         friendManager = new FriendManager();
         hudManager = new HudManager();

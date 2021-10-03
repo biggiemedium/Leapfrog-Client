@@ -1,6 +1,7 @@
 package dev.leap.frog.Util.Render;
 
 import dev.leap.frog.Manager.UtilManager;
+import dev.leap.frog.Module.ui.ClickGUIModule;
 
 import java.awt.*;
 
@@ -18,6 +19,10 @@ public class Colorutil extends UtilManager {
 
     public static Color getToggledC() {
         return new Color(0.0f, 1, 0.0f, 0.5f);
+    }
+
+    public static Color subComponentColor() {
+        return ClickGUIModule.INSTANCE.subComponentColors();
     }
 
     public static int getOffColor() {

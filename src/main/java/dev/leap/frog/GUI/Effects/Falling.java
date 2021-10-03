@@ -7,7 +7,7 @@ import net.minecraft.util.math.MathHelper;
 import java.util.Random;
 
 /*
-    Credits to Ionar for making this
+    Credits to Ionar
  */
 
 public class Falling {

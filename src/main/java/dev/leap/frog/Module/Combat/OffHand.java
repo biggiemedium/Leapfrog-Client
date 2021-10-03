@@ -185,7 +185,7 @@ public class OffHand extends Module {
     }
 
     private boolean isPlayerInHole() {
-        BlockPos pos = Playerutil.getLocalPlayerPosFloored();
+        BlockPos pos = Playerutil.getPlayerPosFloored();
 
         return mc.world.getBlockState(pos.east()).getBlock() != Blocks.AIR
                 && mc.world.getBlockState(pos.west()).getBlock() != Blocks.AIR
@@ -237,4 +237,7 @@ public class OffHand extends Module {
         }
         return totemSlot;
     }
+
+    public static OffHand INSTANCE = new OffHand();
+
 }

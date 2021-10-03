@@ -1,9 +1,13 @@
 package dev.leap.frog.GUI.ClickGUI.Components;
 
 import dev.leap.frog.GUI.ClickGUI.ModuleButton;
+import dev.leap.frog.LeapFrog;
+import dev.leap.frog.Module.ui.ClickGUIModule;
 import dev.leap.frog.Util.Render.Colorutil;
+import dev.leap.frog.Util.Render.Renderutil;
 import dev.leap.frog.Util.Wrapper;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.init.SoundEvents;
 
 import java.awt.*;
 import java.io.IOException;
@@ -16,14 +20,14 @@ public class HiddenButton extends Component {
 
     @Override
     public void draw(int mouseX, int mouseY) {
-        Gui.drawRect(getX(), getY(), getX() + 2, getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
-        Gui.drawRect(getX() + 2, getY(), getX() + 2 + getWidth(), getY() + getHeight() - 1, getColor(mouseX, mouseY));
-        Gui.drawRect(getX() + 2, getY() + getHeight() - 1, getX() + 2 + getWidth(), getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
+        Renderutil.drawRect(getX(), getY(), getX() + 2, getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
+        Renderutil.drawRect(getX() + 2, getY(), getX() + 2 + getWidth(), getY() + getHeight() - 1, handleColor(mouseX, mouseY));
+        Renderutil.drawRect(getX() + 2, getY() + getHeight() - 1, getX() + 2 + getWidth(), getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
         Wrapper.getMC().fontRenderer.drawStringWithShadow(getModuleButton().getModule().isHidden() ? "UnHide" : "Hide", getX() + 4, getY() + 2, -1);
     }
 
-    private int getColor(int mouseX, int mouseY){
-        Color color = getModuleButton().getModule().isHidden() ? Colorutil.getToggledC() : new Color(50, 50, 50, 200);
+    private int handleColor(int mouseX, int mouseY){
+        Color color = getModuleButton().getModule().isHidden() ? Colorutil.subComponentColor() : new Color(50, 50, 50, 200);
         return isHovered(mouseX, mouseY) ? (getModuleButton().getModule().isHidden() ? color.darker().darker().getRGB() : color.brighter().brighter().getRGB()) : color.getRGB();
     }
 
@@ -33,6 +37,11 @@ public class HiddenButton extends Component {
             if(button == 0) {
                 getModuleButton().getModule().setHidden(!getModuleButton().getModule().isHidden());
             }
+
+            if(ClickGUIModule.INSTANCE.clickSound.getValue() && LeapFrog.getModuleManager().getModule(ClickGUIModule.class).isToggled()) {
+                mc.getSoundHandler().playSound(PositionedSoundRecord.getMasterRecord(SoundEvents.UI_BUTTON_CLICK, 1.0f));
+            }
+
         }
     }
 }

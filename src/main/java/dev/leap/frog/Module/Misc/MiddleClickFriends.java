@@ -32,11 +32,8 @@ public class MiddleClickFriends extends Module {
         }
 
         if (!clicked) {
-
             clicked = true;
-
-            final RayTraceResult result = mc.objectMouseOver;
-
+            RayTraceResult result = mc.objectMouseOver;
             if (result == null || result.typeOfHit != RayTraceResult.Type.ENTITY) {
                 return;
             }

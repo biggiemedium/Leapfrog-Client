@@ -15,7 +15,9 @@ import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.commons.io.IOUtils;
@@ -76,6 +78,16 @@ public class EventProcessor {
 
     @SubscribeEvent
     public void onJoin(EntityJoinWorldEvent event) {
+        LeapFrog.EVENT_BUS.post(event);
+    }
+
+    @SubscribeEvent
+    public void onAttack(AttackEntityEvent event) {
+        LeapFrog.EVENT_BUS.post(event);
+    }
+
+    @SubscribeEvent
+    public void onLivingDeathEvent(LivingDeathEvent event) {
         LeapFrog.EVENT_BUS.post(event);
     }
 

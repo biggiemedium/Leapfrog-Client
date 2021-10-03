@@ -108,7 +108,6 @@ public class FreeCam extends Module {
         mc.player.setPosition(x, y, z);
         mc.setRenderViewEntity(mc.player);
         mc.player.setVelocity(0, 0, 0);
-        mc.player.capabilities.isFlying = false;
         if(!isCreateive) {
             mc.player.capabilities.allowFlying = false;
         }

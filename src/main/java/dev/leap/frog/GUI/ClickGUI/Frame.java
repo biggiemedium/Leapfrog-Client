@@ -2,6 +2,9 @@ package dev.leap.frog.GUI.ClickGUI;
 
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Module.ui.ClickGUIModule;
+import dev.leap.frog.Util.Render.Colorutil;
+import dev.leap.frog.Util.Render.Renderutil;
 import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.gui.Gui;
 
@@ -22,6 +25,7 @@ public class Frame {
     public int plusY;
     private Module.Type type;
     private boolean open;
+    private String name;
 
     public Frame(Module.Type type, int x, int y) {
         this.x = x;
@@ -30,6 +34,7 @@ public class Frame {
         this.height = 13;
         this.type = type;
         this.open = false;
+        this.name = type.getName();
 
         moduleButton = new ArrayList<>();
         int offsetY = height; // this is to ensure that the mod buttons dont start rendering over frame
@@ -50,11 +55,31 @@ public class Frame {
     public int getPlusY(){
         return plusY;
     }
+    public String getName() {
+        return name;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
 
     public void render(int mouseX, int mouseY) {
         int c = new Color(29, 37, 48, 255).getRGB();
+        int valueChange = new Color(ClickGUIModule.INSTANCE.red.getValue(), ClickGUIModule.INSTANCE.green.getValue(), ClickGUIModule.INSTANCE.blue.getValue(), ClickGUIModule.INSTANCE.alpha.getValue()).getRGB();
 
-        Gui.drawRect(x - 2, y - 2, x + width + 2, y + 13 - 1, c);
+        if (LeapFrog.getModuleManager().getModule(ClickGUIModule.class).isToggled() && ClickGUIModule.INSTANCE.GUIColors.getValue() && !ClickGUIModule.INSTANCE.rainbow.getValue()) {
+            Renderutil.drawRect(x - 2, y - 2, x + width + 2, y + 13 - 1, valueChange);
+        } else if (ClickGUIModule.INSTANCE.rainbow.getValue() && LeapFrog.getModuleManager().getModule(ClickGUIModule.class).isToggled() && ClickGUIModule.INSTANCE.GUIColors.getValue()) {
+            int counter[] = {1};
+            Renderutil.drawRect(x - 2, y - 2, x + width + 2, y + 13 - 1, Colorutil.Rainbow(counter[0] * 300));
+        } else if (!LeapFrog.getModuleManager().getModule(ClickGUIModule.class).isToggled()) {
+            Renderutil.drawRect(x - 2, y - 2, x + width + 2, y + 13 - 1, c);
+        }
+
         Gui.drawRect(x, y + 13 - 1, x + width, y + 13, new Color(10, 10, 10, 200).getRGB());
         Wrapper.getMC().fontRenderer.drawString(type.getName(), x + 2, y + 2, new Color(255,255, 255).getRGB());
 
@@ -98,6 +123,8 @@ public class Frame {
                 }
             }
         }
+
+        if(!open) return;
         for(ModuleButton m : moduleButton){
             m.mouseClick(mouseX, mouseY, button);
         }
@@ -107,5 +134,11 @@ public class Frame {
             moduleButton.MouseReleased(x, y, button);
         }
         dragging = false;
+    }
+
+    public void keyTyped(char typedChar, int keyCode) throws IOException {
+        for(ModuleButton b : moduleButton) {
+            b.keyTyped(typedChar, keyCode);
+        }
     }
 }

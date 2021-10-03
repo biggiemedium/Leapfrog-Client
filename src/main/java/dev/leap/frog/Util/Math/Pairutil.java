@@ -1,29 +1,30 @@
 package dev.leap.frog.Util.Math;
 
-public class Pairutil<T, S> {
+import dev.leap.frog.Manager.UtilManager;
 
-    T key;
-    S value;
+public class PairUtil<T, E> extends UtilManager {
 
-    public Pairutil(T key, S value) {
-        this.key = key;
+    private T value;
+    private E key;
+
+    public PairUtil(T value, E key) {
         this.value = value;
+        this.key = key;
     }
 
-    public T getKey() {
-        return key;
-    }
-
-    public S getValue() {
+    public T getValue() {
         return value;
     }
 
-    public void setKey(T key) {
-        this.key = key;
-    }
-
-    public void setValue(S value) {
+    public void setValue(T value) {
         this.value = value;
     }
 
+    public E getKey() {
+        return key;
+    }
+
+    public void setKey(E key) {
+        this.key = key;
+    }
 }

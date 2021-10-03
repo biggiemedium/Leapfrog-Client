@@ -3,12 +3,13 @@ package dev.leap.frog.Module.Combat;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
+import dev.leap.frog.Util.Entity.Playerutil;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.ClickType;
 import net.minecraft.item.ItemStack;
 
-public class AutoTotem extends Module {
+public class AutoTotem extends Module { // TODO: Rewite so return methods + fix offhand glitches
 
     public AutoTotem() {
         super("Auto Totem", "Puts totem in offhand", Type.COMBAT);
@@ -26,11 +27,10 @@ public class AutoTotem extends Module {
         if(mc.player == null)
             return;
 
-        if (mc.currentScreen instanceof GuiContainer || LeapFrog.getModuleManager().getModule(OffHand.class).isToggled())
+        if (mc.currentScreen instanceof GuiContainer || LeapFrog.getModuleManager().getModule(OffHand.class).isToggled() && OffHand.INSTANCE.health.getValue() < Playerutil.getPlayerHealth())
             return;
 
         if (mc.player.getHeldItemOffhand().getItem() != Items.TOTEM_OF_UNDYING) {
-
             if (returnI) {
                 int t = -1;
                 for (int i = 0; i < 45; i++) {

@@ -32,7 +32,7 @@ public class EventPlayerMove extends LeapFrogEvent {
         this.z = z;
     }
 
-    public MoverType get_move_type() {
+    public MoverType getMoveType() {
         return this.moverType;
     }
 

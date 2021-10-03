@@ -31,7 +31,6 @@ public class ModuleManager {
         // Client
         Add(new AutoEZ());
         Add(new AutoReply());
-        Add(new Effects());
         Add(new Suffix());
         Add(new Blur());
 
@@ -67,6 +66,7 @@ public class ModuleManager {
         Add(new StrengthDetect());
         Add(new LawnMower());
         Add(new FakePlayer());
+        Add(new SkyColor());
 
         // Render
         Add(new FullBright());
