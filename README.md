@@ -13,9 +13,10 @@ If you want to contribute to Leapfrog client DM me px#0881 on discord and messag
 Big thank you to [Boncorde](https://github.com/PalitXD) for being helping through the entire development process
 
 Some code was sampled from these clients, feel free to check them out:
-
 [Aurora](https://github.com/Memeszz/Aurora-public)
+
 [Salhack](https://github.com/ionar2/spidermod)
+
 [Xulu](https://github.com/Elementars/Xulu-v1.5.2)
 
 ## Building
