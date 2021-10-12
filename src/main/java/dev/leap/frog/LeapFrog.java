@@ -59,7 +59,7 @@ public class LeapFrog {
         fileManager.load();
 
         Display.setTitle("LeapFrog Client");
-        Sessionutil.getInstance().setUser("halop56yt@gmail.com", "bhfwb*^GYD7HNj");
+       
     }
 
 
