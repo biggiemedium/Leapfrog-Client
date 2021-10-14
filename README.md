@@ -1,6 +1,8 @@
 # Leapfrog-Client
 Leapfrog client is a utility mod for anarchy servers (blah blah blah you know the rest). If you need any support or have any interests regarding the client you can join [here](https://discord.gg/fT5JVKVUyt)
 
+***This client is not finished yet***
+
 ## Download
 
 You can use the [release](https://github.com/biggiemedium/Leapfrog-Client/tags) page to find all the latest buildable sources
