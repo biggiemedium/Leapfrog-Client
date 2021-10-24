@@ -6,27 +6,34 @@ import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TextComponentString;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public abstract class Command extends UtilManager {
+public class Command extends UtilManager {
 
-    private String name;
+    protected String name;
     private String description;
-    private String[] commands;
-    private String prefix;
+    protected String[] syntax;
+    public String prefix;
 
-    public Command(String name, String description, String[] syntax) {
+    public Command(String name, String description, String... syntax) {
         this.name = name;
         this.description = description;
-        this.commands = syntax;
+        this.syntax = syntax;
         this.prefix = ".";
     }
 
-    public void commandCheck(String[] args) {
-        if(args.length < 1 && args[1].equalsIgnoreCase("help")) {
-            this.sendChatMessage("An error has occured");
-            return;
-        }
+    public Command() {
+
+    }
+
+    public void execute(String[] args) {
+
     }
 
     public String getName() {
@@ -45,6 +52,13 @@ public abstract class Command extends UtilManager {
         this.description = description;
     }
 
+    public String[] getSyntax() {
+        return syntax;
+    }
+
+    public void setSyntax(String[] syntax) {
+        this.syntax = syntax;
+    }
 
     public String getPrefix() {
         return prefix;
@@ -54,19 +68,5 @@ public abstract class Command extends UtilManager {
         this.prefix = prefix;
     }
 
-    public abstract void execute(String[] args);
-
-    protected void sendChatMessage(String message) {
-        if(!UtilManager.nullCheck()) {
-            mc.ingameGUI.getChatGUI().printChatMessage(new TextComponentString( ChatFormatting.GREEN + "Leapfrog >" + ChatFormatting.RESET + " " + message));
-        }
-    }
-
-    public String[] getCommands() {
-        return commands;
-    }
-
-    public void setCommands(String[] commands) {
-        this.commands = commands;
-    }
+    public static Command Get = new Command();
 }

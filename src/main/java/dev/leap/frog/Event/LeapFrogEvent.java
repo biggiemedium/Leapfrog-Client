@@ -10,16 +10,16 @@ public class LeapFrogEvent extends Cancellable implements Listenable {
     public static LeapFrogEvent INSTANCE;
     protected Minecraft mc = Minecraft.getMinecraft();
     private Era era = Era.PRE;
-    private final float partialTicks;
+    private float partialTicks;
 
     public LeapFrogEvent() {
         partialTicks = mc.getRenderPartialTicks();
     }
 
-    public LeapFrogEvent(Era p_Era) {
+    public LeapFrogEvent(Era era) {
         LeapFrog.EVENT_BUS.post(this);
         partialTicks = mc.getRenderPartialTicks();
-        era = p_Era;
+        this.era = era;
     }
 
     public Era getEra() {
@@ -30,9 +30,28 @@ public class LeapFrogEvent extends Cancellable implements Listenable {
         return partialTicks;
     }
 
+    public boolean isPre() {
+        if(era == null) {
+            return false;
+        }
+
+        return era == Era.PRE;
+    }
+
+    public boolean isPost() {
+        if(era == null) {
+            return false;
+        }
+
+        return era == Era.POST;
+    }
+
     public enum Era {
         PRE,
         POST
     }
 
+    static {
+        INSTANCE = new LeapFrogEvent();
+    }
 }

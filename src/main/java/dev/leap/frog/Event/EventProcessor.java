@@ -1,38 +1,24 @@
 package dev.leap.frog.Event;
 
-import com.google.common.collect.Maps;
-import dev.leap.frog.Event.Network.EventPacket;
+
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Manager.ModuleManager;
-import dev.leap.frog.Util.Wrapper;
-import me.zero.alpine.fork.listener.EventHandler;
-import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.play.server.SPacketPlayerListItem;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.client.event.InputUpdateEvent;
-import net.minecraftforge.client.event.RenderBlockOverlayEvent;
-import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-import org.apache.commons.io.IOUtils;
-import scala.util.parsing.json.JSONArray;
-import scala.util.parsing.json.JSONObject;
-
-import java.net.URL;
-import java.util.Map;
 
 public class EventProcessor {
 
-    private Minecraft mc = Minecraft.getMinecraft();
+    private final Minecraft mc = Minecraft.getMinecraft();
 
-    public EventProcessor()
-    {
+    public EventProcessor() {
         MinecraftForge.EVENT_BUS.register(this);
     }
 
@@ -67,7 +53,17 @@ public class EventProcessor {
     }
 
     @SubscribeEvent
+    public void onMouseClick(InputEvent.MouseInputEvent event) {
+        LeapFrog.EVENT_BUS.post(event);
+    }
+
+    @SubscribeEvent
     public void onChatReceived(ClientChatReceivedEvent event){
+        LeapFrog.EVENT_BUS.post(event);
+    }
+
+    @SubscribeEvent
+    public void onChatSend(ClientChatEvent event) {
         LeapFrog.EVENT_BUS.post(event);
     }
 
@@ -88,6 +84,11 @@ public class EventProcessor {
 
     @SubscribeEvent
     public void onLivingDeathEvent(LivingDeathEvent event) {
+        LeapFrog.EVENT_BUS.post(event);
+    }
+
+    @SubscribeEvent
+    public void setSky(EntityViewRenderEvent.FogColors event) {
         LeapFrog.EVENT_BUS.post(event);
     }
 

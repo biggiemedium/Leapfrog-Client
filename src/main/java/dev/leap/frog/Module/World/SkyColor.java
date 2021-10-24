@@ -1,21 +1,23 @@
 package dev.leap.frog.Module.World;
 
+import dev.leap.frog.Event.Network.EventPacket;
+import dev.leap.frog.Event.Network.EventPacketUpdate;
 import dev.leap.frog.Event.World.EventSetDayTime;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
+import net.minecraft.network.play.server.SPacketTimeUpdate;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 
 public class SkyColor extends Module {
 
     public SkyColor() {
         super("SkyColor", "Changes the color of the sky", Type.WORLD);
+        Get = this;
     }
 
-    Setting<Boolean> setTime = create("Set time", false);
-    Setting<Integer> time = create("Time", 0, 1600, 1800, v -> setTime.getValue());
-    Setting<Boolean> setColor = create("SetColor", false);
+    public Setting<Boolean> setColor = create("SetColor", false);
     public Setting<Integer> red = create("Red", 255, 0, 255, v -> setColor.getValue());
     public Setting<Integer> green = create("green", 255, 0, 255, v -> setColor.getValue());
     public Setting<Integer> blue = create("blue", 255, 0, 255, v -> setColor.getValue());
@@ -45,13 +47,6 @@ public class SkyColor extends Module {
         }
     });
 
-    @EventHandler
-    private Listener<EventSetDayTime> timeListener = new Listener<>(event -> {
-
-        if(setTime.getValue()) {
-            event.setTime((long) time.getValue());
-        }
-
-    });
+    public static SkyColor Get;
 
 }

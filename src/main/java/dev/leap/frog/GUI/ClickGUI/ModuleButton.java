@@ -10,7 +10,6 @@ import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Render.Colorutil;
 import dev.leap.frog.Util.Render.Renderutil;
 import dev.leap.frog.Util.Wrapper;
-import net.minecraft.client.gui.Gui;
 
 
 import java.awt.Color;
@@ -28,6 +27,7 @@ public class ModuleButton {
 
     private boolean opened;
     private ArrayList<Component> components;
+    private boolean visible;
 
     private int width;
     private int height;
@@ -65,6 +65,7 @@ public class ModuleButton {
             if (s.getValue() instanceof Double) {
 
             }
+
             if (s.getValue() instanceof Enum || s.getValue() instanceof ArrayList) {
                 this.components.add(new EnumButton(s, x, y + height + offsetY, this));
                 offsetY += 13;
@@ -162,17 +163,19 @@ public class ModuleButton {
         height = 13;
         if(opened) {
             for(Component c : components) {
-                if(c.getX() != x) {
-                    c.setX(x);
-                }
-                if(c.getY() != y) {
-                    c.setY(y + height);
-                }
-                if(ClickGUIModule.INSTANCE.sideProfile.getValue() && LeapFrog.getModuleManager().getModule(ClickGUIModule.class).isToggled() && isHovered(mouseX, mouseY) || mouseX > c.getX() && mouseY > c.getY() && mouseX < c.getX() + width && mouseY < c.getY() + 13) {
-                    Renderutil.drawRect(getX(), getY(), this.x + this.width - 99, getY() + this.height, -1);
-                }
-                c.draw(mouseX, mouseY);
-                height += c.getHeight();
+                if(c.isShown()) continue;
+                    if (c.getX() != x) {
+                        c.setX(x);
+                    }
+                    if (c.getY() != y) {
+                        c.setY(y + height);
+                    }
+                    if (ClickGUIModule.INSTANCE.sideProfile.getValue() && LeapFrog.getModuleManager().getModule(ClickGUIModule.class).isToggled() && isHovered(mouseX, mouseY) || mouseX > c.getX() && mouseY > c.getY() && mouseX < c.getX() + width && mouseY < c.getY() + 13) {
+                        Renderutil.drawRect(getX(), getY(), this.x + this.width - 99, getY() + this.height, -1);
+                    }
+                    c.draw(mouseX, mouseY);
+                    height += c.getHeight();
+
             }
         }
     }

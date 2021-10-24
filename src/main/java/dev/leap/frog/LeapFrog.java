@@ -48,15 +48,13 @@ public class LeapFrog {
         settingManager = new SettingManager(); // settings manager must come BEFORE module manager or returns null
         fileManager = new FileManager();
         moduleManager = new ModuleManager();
+        commandManager = new CommandManager();
         eventManager = new EventProcessor();
         hudManager = new HudManager();
         capeManager = new CapeManager();
-        commandManager = new CommandManager();
         discordManager = new DiscordManager();
         friendManager = new FriendManager();
-        hudManager = new HudManager();
 
-        fileManager.load();
 
         Display.setTitle("LeapFrog Client");
         Sessionutil.getInstance().setUser("halop56yt@gmail.com", "bhfwb*^GYD7HNj");

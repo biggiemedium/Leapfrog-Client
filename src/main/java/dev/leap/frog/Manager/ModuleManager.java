@@ -33,10 +33,13 @@ public class ModuleManager {
         Add(new AutoReply());
         Add(new Suffix());
         Add(new Blur());
+        Add(new ToggleMessage());
 
         //// Combat
         Add(new AutoTotem());
         Add(new AutoTrap());
+        Add(new AutoWeb());
+        Add(new AutoLog());
         Add(new AutoXP());
         Add(new BedAura());
         Add(new CrystalAura());
@@ -55,18 +58,23 @@ public class ModuleManager {
         Add(new Test());
         Add(new FastUse());
         Add(new MiddleClickFriends());
+        Add(new MiddleClickPearl());
         Add(new TotemPopCounter());
 
         // Exploit
         Add(new XCarry());
         Add(new CoordExploit());
+        Add(new LagBack());
         Add(new ElytraBypass());
+        Add(new SpeedMine());
 
         // World
         Add(new StrengthDetect());
         Add(new LawnMower());
         Add(new FakePlayer());
         Add(new SkyColor());
+        Add(new GOTO());
+        Add(new OffhandSwing());
 
         // Render
         Add(new FullBright());
@@ -77,10 +85,12 @@ public class ModuleManager {
         Add(new Tracers());
         Add(new ESP());
         Add(new FreeCam());
+        Add(new SuperHeroFX());
         Add(new XRay());
 
         //Movement
         Add(new Speed());
+        Add(new Sprint());
         Add(new ElytraFly());
         Add(new NoSlow());
         Add(new NoRotate());
@@ -137,23 +147,17 @@ public class ModuleManager {
         GlStateManager.tryBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, 1, 0);
         GlStateManager.shadeModel(GL11.GL_SMOOTH);
         GlStateManager.disableDepth();
-
         GlStateManager.glLineWidth(1f);
 
         Vec3d pos = Mathutil.getInterpolatedPos(Wrapper.getPlayer(), event.getPartialTicks());
-
         RenderEvent renderEvent = new RenderEvent(RenderHelputil.INSTANCE, pos);
-
         renderEvent.resetTranslation();
-
         Wrapper.getMC().mcProfiler.endSection();
 
         for (Module modules : modules) {
             if (modules.isToggled()) {
                 Wrapper.getMC().mcProfiler.startSection(modules.getName());
-
                 modules.onRender(renderEvent);
-
                 Wrapper.getMC().mcProfiler.endSection();
             }
         }
@@ -161,7 +165,6 @@ public class ModuleManager {
         Wrapper.getMC().mcProfiler.startSection("release");
 
         GlStateManager.glLineWidth(1f);
-
         GlStateManager.shadeModel(GL11.GL_FLAT);
         GlStateManager.disableBlend();
         GlStateManager.enableAlpha();
@@ -187,5 +190,4 @@ public class ModuleManager {
             }
         }
     }
-
 }

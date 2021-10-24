@@ -12,6 +12,7 @@
     "MixinMinecraft",
     "MixinEntity",
     "MixinEntityPlayerSP",
+    "MixinPlayerControllerMP",
     "MixinEntityRenderer",
     "MixinGuiBossBar",
     "MixinWorld",

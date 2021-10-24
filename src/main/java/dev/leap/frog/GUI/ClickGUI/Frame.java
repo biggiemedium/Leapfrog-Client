@@ -80,7 +80,7 @@ public class Frame {
             Renderutil.drawRect(x - 2, y - 2, x + width + 2, y + 13 - 1, c);
         }
 
-        Gui.drawRect(x, y + 13 - 1, x + width, y + 13, new Color(10, 10, 10, 200).getRGB());
+        Renderutil.drawRect(x, y + 13 - 1, x + width, y + 13, new Color(10, 10, 10, 200).getRGB());
         Wrapper.getMC().fontRenderer.drawString(type.getName(), x + 2, y + 2, new Color(255,255, 255).getRGB());
 
         if(dragging){

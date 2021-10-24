@@ -13,6 +13,7 @@ public class AutoTotem extends Module { // TODO: Rewite so return methods + fix 
 
     public AutoTotem() {
         super("Auto Totem", "Puts totem in offhand", Type.COMBAT);
+        Get = this;
     }
 
     Setting<Boolean> soft = create("Soft", true);
@@ -92,4 +93,7 @@ public class AutoTotem extends Module { // TODO: Rewite so return methods + fix 
             }
         }
     }
+
+
+    public static AutoTotem Get;
 }

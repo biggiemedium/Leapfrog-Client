@@ -49,6 +49,11 @@ public class SettingManager {
         return setting;
     }
 
+    public <T> Setting BuildValue(Setting<T> value) {
+        this.settings.add(value);
+        return value;
+    }
+
     public ArrayList<Setting> getSettingsArrayList() {
         return settings;
     }

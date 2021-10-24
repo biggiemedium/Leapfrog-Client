@@ -42,7 +42,7 @@ public class ClickGUIModule extends Module {
     public Setting<Float> buttonblue = create("Button blue", 0.0f, 0.0f, 1.0f, v -> GUIColors.getValue() && !rainbow.getValue());
     public Setting<Float> buttonalpha = create(" Button Alpha", 0.5f, 0.1f, 1.0f, v -> GUIColors.getValue() && !rainbow.getValue()); // 0.0f, 1, 0.0f, 0.5f
 
-    private ResourceLocation waterMark = new ResourceLocation("minecraft","Leapfrog.png");
+    private ResourceLocation waterMark = new ResourceLocation("Leapfrog.png");
 
     @Override
     public void onUpdate() {
@@ -56,6 +56,14 @@ public class ClickGUIModule extends Module {
         }
     }
 
+    @Override
+    public void onRender() {
+        if(watermark.getValue()) {
+            ScaledResolution sr = new ScaledResolution(mc);
+            mc.renderEngine.bindTexture(waterMark);
+            Gui.drawScaledCustomSizeModalRect(0, sr.getScaledHeight() - 80, 0, 0, 80, 80, 80, 80, 80, 80);
+        }
+    }
 
     @Override
     public void onEnable() {

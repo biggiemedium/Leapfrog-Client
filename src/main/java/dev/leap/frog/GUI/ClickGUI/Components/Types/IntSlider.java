@@ -37,6 +37,11 @@ public class IntSlider extends Component {
         Wrapper.getMC().fontRenderer.drawStringWithShadow(String.valueOf(value.getValue()), getX() + getWidth() - mc.fontRenderer.getStringWidth(String.valueOf(value.getValue())), getY() + 1, -1);
     }
 
+    @Override
+    public void update() {
+        this.setShown(!this.value.isShown());
+    }
+
     private int handleColor(int mouseX, int mouseY){
         Color color = dragging ? Colorutil.getToggledC() : new Color(50, 50, 50, 200);
         return isHovered(mouseX, mouseY) ? color.darker().darker().getRGB() : color.getRGB();

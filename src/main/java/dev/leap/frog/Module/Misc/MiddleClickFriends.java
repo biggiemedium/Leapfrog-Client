@@ -11,6 +11,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.RayTraceResult;
 import org.lwjgl.input.Mouse;
 
+import java.io.IOException;
+
 public class MiddleClickFriends extends Module {
 
     public MiddleClickFriends() {
@@ -47,11 +49,19 @@ public class MiddleClickFriends extends Module {
                 Friendutil f = FriendManager.friend.stream().filter(friend -> friend.getName().equalsIgnoreCase(player.getName())).findFirst().get();
                 LeapFrog.getFriendManager().removeFriend(f);
                 Chatutil.sendClientSideMessgage("Player " + player.getName() + " is no longer your" + ChatFormatting.RED + " " + "friend");
-                LeapFrog.getFileManager().saveFriendsOnly();
+                try {
+                    LeapFrog.getFileManager().saveFriends();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
                 LeapFrog.getFriendManager().addFriend(mc.objectMouseOver.entityHit.getName());
                 Chatutil.sendClientSideMessgage("Player " + player.getName() + " is now your" + ChatFormatting.GREEN + " " +  "friend");
-                LeapFrog.getFileManager().saveFriendsOnly();
+                try {
+                    LeapFrog.getFileManager().saveFriends();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

@@ -43,6 +43,10 @@ public class Playerutil extends UtilManager {
         return new BlockPos(Math.floor(Wrapper.getMC().player.posX), Math.floor(Wrapper.getMC().player.posY), Math.floor(Wrapper.getMC().player.posZ));
     }
 
+    public static BlockPos getPlayerPos() {
+        return new BlockPos(Wrapper.getMC().player.posX, Wrapper.getMC().player.posY, Wrapper.getMC().player.posZ);
+    }
+
     public static boolean isEating() {
         return mc.player.getHeldItemOffhand().getItem() instanceof ItemFood && mc.player.isHandActive();
     }

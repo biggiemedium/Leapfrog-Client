@@ -17,7 +17,7 @@ public class Setting<T> {
     private T min;
     private T max;
 
-    private ArrayList<T> combobox;
+    private List<String> combobox;
     private Predicate<T> visible;
 
     public Setting(String name, Module module, T value) {
@@ -43,13 +43,6 @@ public class Setting<T> {
         this.visible = visible;
     }
 
-    public Setting(String name, Module module, T value, T[] values) {
-        this.name = name;
-        this.module = module;
-        this.value = value;
-        this.combobox = new ArrayList<>(Arrays.asList(values));
-    }
-
     public Setting(String name, Module module, T value, Predicate<T> visible) {
         this.name = name;
         this.module = module;
@@ -63,6 +56,13 @@ public class Setting<T> {
         this.value = value;
         this.visible = visible;
         this.description = description;
+    }
+
+    public Setting(String name, Module module, T value, List<String> modes) {
+        this.name = name;
+        this.module = module;
+        this.value = value;
+        this.combobox = modes;
     }
 
     public String getName() {
@@ -101,11 +101,11 @@ public class Setting<T> {
         this.max = max;
     }
 
-    public ArrayList<T> getCombobox() {
+    public List<String> getCombobox() {
         return this.combobox;
     }
 
-    public void setCombobox(ArrayList<T> combobox) {
+    public void setCombobox(ArrayList<String> combobox) {
         this.combobox = combobox;
     }
 
@@ -141,6 +141,10 @@ public class Setting<T> {
 
     public boolean is(String mode, Enum e) {
         return e.name().equalsIgnoreCase(mode);
+    }
+
+    public boolean in(String val) {
+        return val.equalsIgnoreCase((String) value);
     }
 
     public boolean isShown() {

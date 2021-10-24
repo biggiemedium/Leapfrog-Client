@@ -24,10 +24,15 @@ public class BooleanButton extends Component {
 
     @Override
     public void draw(int mouseX, int mouseY) {
-        Renderutil.drawRect(getX(), getY(), getX() + 2, getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
+        Renderutil.drawRect(getX(), getY(), getX() + 2, getY() + getHeight(), new Color(15, 15, 15, 195).getRGB());
         Renderutil.drawRect(getX() + 2, getY(), getX() + 2 + getWidth(), getY() + getHeight() - 1, handleColor(mouseX, mouseY));
         Renderutil.drawRect(getX() + 2, getY() + getHeight() - 1, getX() + 2 + getWidth(), getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
         Wrapper.getMC().fontRenderer.drawStringWithShadow(bool.getName(), getX() + 4, getY() + 2, -1);
+    }
+
+    @Override
+    public void update() {
+        this.setShown(!bool.isShown());
     }
 
     private int handleColor(int mouseX, int mouseY){

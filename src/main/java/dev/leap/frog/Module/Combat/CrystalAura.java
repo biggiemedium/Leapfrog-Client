@@ -86,9 +86,7 @@ public class CrystalAura extends Module {
         if(switchHand.getValue() && mc.player.inventory.currentItem != getCrystalSlot()) {
             swapItems();
         }
-
-
-
+        
     }
 
     private boolean sneakCheck(EntityPlayer player) {
@@ -125,7 +123,6 @@ public class CrystalAura extends Module {
         for(int i = 0; i < 9; i++) {
             if(mc.player.inventory.getStackInSlot(i).getItem() instanceof ItemEndCrystal) {
                 slot = i;
-                mc.player.inventory.currentItem = i;
                 mc.playerController.updateController();
                 break;
             }

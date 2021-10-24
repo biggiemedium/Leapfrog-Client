@@ -1,8 +1,11 @@
 package dev.leap.frog.Module;
 
+import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.leap.frog.Event.Render.RenderEvent;
 import dev.leap.frog.LeapFrog;
+import dev.leap.frog.Module.Client.ToggleMessage;
 import dev.leap.frog.Settings.Setting;
+import dev.leap.frog.Util.Render.Chatutil;
 import me.zero.alpine.fork.listener.Listenable;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
@@ -114,6 +117,15 @@ public class Module implements Listenable {
 
     protected Setting create(String name, Object value, Predicate<Object> predicate, String description) {
         return LeapFrog.getSettingManager().Build(new Setting<>(name, this, value, predicate));
+    }
+
+    protected Setting create(String name, String value, List<String> values) {
+        return LeapFrog.getSettingManager().Build(new Setting<>(name, this, value, values));
+    }
+
+    protected <T> Setting create(Setting<T> value) {
+        LeapFrog.getSettingManager().BuildValue(value);
+        return value;
     }
 
     protected List<Setting> getSetting(Module module){

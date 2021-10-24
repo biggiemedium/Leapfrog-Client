@@ -34,5 +34,4 @@ public class MixinEntityPlayerSP {
             ci.cancel();
         }
     }
-
 }

@@ -43,12 +43,20 @@ public class Component implements IComponent {
 
     }
 
+    public void update() {
+
+    }
+
     protected boolean isHovered(int mouseX, int mouseY) {
         return mouseX > getX() + 2 && mouseY > getY() && mouseX < getX() + 2 + getWidth() && mouseY < getY() + getHeight() - 1;
     }
 
-    protected boolean isShown() {
+    public boolean isShown() {
         return shown;
+    }
+
+    protected void setShown(boolean shown) {
+        this.shown = shown;
     }
 
     public int getDeafultHeight() {

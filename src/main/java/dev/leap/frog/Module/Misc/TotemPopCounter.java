@@ -41,6 +41,7 @@ public class TotemPopCounter extends Module {
         }
 
         for (EntityPlayer player : mc.world.playerEntities) {
+            assert pops != null;
             if(!pops.containsKey(player.getName())) continue;
             if(player.getHealth() <= 0 || player.isDead) {
                 if(pops.containsKey(player.getName())) {

@@ -8,28 +8,19 @@ import dev.leap.frog.Module.Module;
 public class Toggle extends Command {
 
     public Toggle() {
-        super("Toggle", "Toggles mod for you", new String[0]);
+        super("Toggle", "Toggles Module for you", new String[0]);
     }
 
     @Override
     public void execute(String[] args) {
+
         if(args.length <= 1) {
-            sendMessage("Something went wrong");
-            return;
+            sendMessage("Module not specified!");
         }
 
-        Module m = LeapFrog.getModuleManager().getModuleName(args[1]);
-        if(m == null) {
-            sendMessage("Module does not exist!");
-        } else {
-            if(m.isToggled()) {
-                m.toggle();
-                sendMessage(ChatFormatting.RED + "Toggled " + ChatFormatting.RESET + m.getName());
-            } else {
-                m.setToggled(true);
-                sendMessage(ChatFormatting.GREEN + "Toggled " + ChatFormatting.RESET + m.getName());
-            }
+        if(LeapFrog.getModuleManager().getModuleName(args[1]) != null) {
+            Module m = LeapFrog.getModuleManager().getModuleName(args[1]);
+            m.toggle();
         }
-
     }
 }
