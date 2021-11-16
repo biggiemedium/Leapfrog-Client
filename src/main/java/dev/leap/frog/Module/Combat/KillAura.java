@@ -28,7 +28,10 @@ public class KillAura extends Module {
 
     public KillAura() {
         super("KillAura", "Attacks entites for you", Type.COMBAT);
+        INSTANCE = this;
     }
+
+    public static KillAura INSTANCE = new KillAura();
 
     Setting<Integer> distance = create("Distance", 5, 0, 10);
     Setting<Boolean> delay = create("Delay", true); // vanilla hit delay
@@ -42,6 +45,10 @@ public class KillAura extends Module {
 
     Setting<Boolean> ignoreFriends = create("Ignore friends", true);
 
+    Setting<Boolean> webTarget = create("Web target", false);
+
+    private EntityPlayer target;
+
     @Override
     public void onUpdate() {
 
@@ -51,8 +58,21 @@ public class KillAura extends Module {
             swapItems();
         }
 
+        if(webTarget.getValue() && !target.isInWeb) {
+            LeapFrog.getModuleManager().getModule(AutoWeb.class).setToggled(true);
 
+        } else if(target.isInWeb) {
+            LeapFrog.getModuleManager().getModule(AutoWeb.class).setToggled(false);
+        }
 
+    }
+
+    public EntityPlayer getTarget() {
+        return target;
+    }
+
+    public void setTarget(EntityPlayer target) {
+        this.target = target;
     }
 
     private void swapItems() {

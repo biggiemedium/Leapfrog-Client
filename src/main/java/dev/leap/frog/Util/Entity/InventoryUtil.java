@@ -4,6 +4,7 @@ import dev.leap.frog.Manager.UtilManager;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -27,4 +28,9 @@ public class InventoryUtil extends UtilManager {
 
         return slot;
     }
+
+    public static int getTotems() {
+        return mc.player.inventory.mainInventory.stream().filter(itemStack -> itemStack.getItem() == Items.TOTEM_OF_UNDYING).mapToInt(ItemStack::getCount).sum();
+    }
+
 }

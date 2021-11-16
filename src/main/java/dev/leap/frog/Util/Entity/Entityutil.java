@@ -48,6 +48,10 @@ public class Entityutil extends UtilManager {
                 && mc.world.getBlockState(pos.south()).getBlock() != Blocks.AIR;
     }
 
+    public static Float getDistanceToPlayer(EntityPlayer entityPlayer) {
+        return mc.player.getDistance(entityPlayer);
+    }
+
     public static boolean isPlayer(Entity entity) {
         return entity instanceof EntityPlayer;
     }

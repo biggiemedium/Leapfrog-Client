@@ -1,13 +1,16 @@
 package dev.leap.frog.Module.Combat;
 
+import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Manager.FriendManager;
 import dev.leap.frog.Manager.UtilManager;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Block.Blockutil;
 import dev.leap.frog.Util.Entity.Entityutil;
+import dev.leap.frog.Util.Entity.Friendutil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockWeb;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityExpBottle;
 import net.minecraft.entity.item.EntityFireworkRocket;
@@ -17,10 +20,13 @@ import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
+import net.minecraft.network.play.client.CPacketPlayerTryUseItemOnBlock;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,94 +36,122 @@ public class AutoWeb extends Module {
 
     public AutoWeb() {
         super("AutoWeb", "Webs enemies near you", Type.COMBAT);
+        INSTANCE = this;
     }
 
     Setting<Boolean> friends = create("Friends", false);
     Setting<Integer> distance = create("Distance", 4, 0, 6);
     Setting<Boolean> rotate = create("Rotate", true);
-    Setting<Integer> delayValue = create("Delay", 1, 0, 5);
+    Setting<Boolean> holeOnly = create("Hole only", false);
 
     private EntityPlayer target;
     private int webSlot;
-    private boolean running = false;
-    private List<Vec3d> placePositions = new ArrayList<>();
-    private boolean place = false;
+    private boolean sneaking = false;
+    private BlockPos targetPos;
+    private ArrayList<Vec3d> placeList;
+    private int delay;
+
+    public static AutoWeb INSTANCE = new AutoWeb();
 
     @Override
     public void onEnable() {
         if(webSlot == -1) {
             toggle();
         }
+        placeList = new ArrayList<>();
         webSlot = this.findWebsInHotbar();
-        this.running = true;
+        delay = 0;
+    }
+
+    @Override
+    public void onDisable() {
+        if(sneaking) {
+            mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
+            sneaking = false;
+        }
     }
 
     @Override
     public void onUpdate() {
-        if(UtilManager.nullCheck()) return;
+        if (UtilManager.nullCheck()) return;
+        if (findWebsInHotbar() == -1) return;
+        if (LeapFrog.getModuleManager().getModule(CrystalAura.class).isToggled()) return;
+        target = findTarget(distance.getValue());
+        if(target == null) return;
+        if(placeList == null) return;
+        Collections.addAll(placeList, feet);
 
-        findTarget();
-        if(target == null) {
-            if(running) {
-                running = false;
-            }
+        if(holeOnly.getValue() && !Entityutil.isPlayerInHole(target)) return;
+        placeBlock(Entityutil.getPositionEntity(target));
+    }
+
+    private void placeBlock(BlockPos pos) {
+        if (!mc.world.getBlockState(pos).getMaterial().isReplaceable()) {
+            return;
+        }
+        if (!Blockutil.checkForNeighbours(pos)) {
             return;
         }
 
-        if(target.isInWeb) {
-            return;
-        }
+        Vec3d eyesPos = new Vec3d(mc.player.posX, mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
 
-        if(findWebsInHotbar() == -1) {
-            toggle();
-            return;
-        }
+        for(EnumFacing side : EnumFacing.values()) {
+            BlockPos neighbour = pos.offset(side);
+            EnumFacing side2 = side.getOpposite();
+            if (mc.world.getBlockState(neighbour).getBlock().canCollideCheck(mc.world.getBlockState(neighbour), false)) {
+                Vec3d hitVec = new Vec3d((Vec3i) neighbour).add(new Vec3d(0.5, 0.5, 0.5)).add(new Vec3d(side2.getDirectionVec()).scale(0.5));
+                if (eyesPos.distanceTo(hitVec) <= distance.getValue()) {
+                    int web = findWebsInHotbar();
+                    if(web == -1) {
+                        toggle();
+                        return;
+                    }
 
-        Collections.addAll(placePositions, feet);
-        int placeSpeed = 0;
-        int offset = 0;
-        while(placeSpeed < delayValue.getValue()) {
+                    int oldSlot = mc.player.inventory.currentItem;
+                    if(oldSlot != web) {
+                        mc.player.inventory.currentItem = web;
+                    }
 
-            if(offset >= placePositions.size()) {
-                offset = 0;
-                break;
-            }
-            BlockPos pos = new BlockPos(placePositions.get(offset));
-            BlockPos pos1 = new BlockPos(target.getPositionVector()).down().add(pos.getX(), pos.getY(), pos.getZ());
+                    if(!mc.player.isSneaking() && Blockutil.blackList.contains(neighbour)) {
+                        mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SNEAKING));
+                        this.sneaking = true;
+                    }
 
-            Blockutil.placeBlock(pos1, findWebsInHotbar(), rotate.getValue(), rotate.getValue(), EnumHand.MAIN_HAND);
+                    if(rotate.getValue()) {
+                        Blockutil.faceVectorPacketInstant(hitVec);
+                    }
 
-
-            for(Entity target : mc.world.getEntitiesWithinAABBExcludingEntity(null, new AxisAlignedBB(pos1))) {
-                if(!(target instanceof EntityItem) && !(target instanceof EntityExpBottle) && !(target instanceof EntityFireworkRocket)) {
-                    place = true;
-                    break;
+                    mc.playerController.processRightClickBlock(mc.player, mc.world, neighbour, side2, hitVec, EnumHand.MAIN_HAND);
+                    mc.player.swingArm(EnumHand.MAIN_HAND);
                 }
             }
-
-            offset++;
         }
     }
 
-    private void findTarget() {
-        for(EntityPlayer player : mc.world.playerEntities) {
-            if(target == mc.player) continue;
-            if(!friends.getValue() && FriendManager.isFriend(player.getName())) continue;
-            if(Entityutil.isLiving(player)) continue;
-            if(target.isDead || target.getHealth() <= 0) continue;
-
-            if (target == null) {
-                target = player;
-                continue;
-            }
-
-            if (mc.player.getDistance(player) < mc.player.getDistance(target)) {
-                target = player;
-            }
-        }
+    private boolean isTrapped(Entity entity) {
+        return entity.isInWeb;
     }
 
-    private int findWebsInHotbar() {
+    private EntityPlayer findTarget(int range) {
+        EntityPlayer player = null;
+        if(mc.world.playerEntities.isEmpty()) {
+            return null;
+        }
+
+        for(EntityPlayer targets : mc.world.playerEntities) {
+            if(targets == null) continue;
+            if(targets == mc.player) continue;
+            if(targets.isDead || !Entityutil.isLiving(targets)) continue;
+            if(!friends.getValue() && FriendManager.isFriend(targets.getName())) continue;
+            if(mc.player.getDistance(targets) > range) continue; // check
+
+            player = targets;
+        }
+
+        return player;
+    }
+
+    public int findWebsInHotbar() {
         for (int i = 0; i < 9; i++) {
             final ItemStack stack = mc.player.inventory.getStackInSlot(i);
             if (stack == ItemStack.EMPTY || !(stack.getItem() instanceof ItemBlock)) {

@@ -6,13 +6,12 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,111 +20,85 @@ import java.util.List;
 
 public class Blockutil extends UtilManager {
 
-    public static List<Block> emptyBlocks;
-    public static List<Block> rightclickableBlocks;
+    public static List<Block> blackList = Arrays.asList(Blocks.ENDER_CHEST, Blocks.CHEST, Blocks.TRAPPED_CHEST, Blocks.CRAFTING_TABLE, Blocks.ANVIL, Blocks.BREWING_STAND, Blocks.HOPPER, Blocks.DROPPER, Blocks.DISPENSER);
 
-    static {
-        emptyBlocks = Arrays.asList(Blocks.AIR, Blocks.FLOWING_LAVA, Blocks.LAVA, Blocks.FLOWING_WATER, Blocks.WATER, Blocks.VINE, Blocks.SNOW_LAYER, Blocks.TALLGRASS, Blocks.FIRE);
-        rightclickableBlocks = Arrays.asList(Blocks.CHEST, Blocks.TRAPPED_CHEST, Blocks.ENDER_CHEST, Blocks.WHITE_SHULKER_BOX, Blocks.ORANGE_SHULKER_BOX, Blocks.MAGENTA_SHULKER_BOX, Blocks.LIGHT_BLUE_SHULKER_BOX, Blocks.YELLOW_SHULKER_BOX, Blocks.LIME_SHULKER_BOX, Blocks.PINK_SHULKER_BOX, Blocks.GRAY_SHULKER_BOX, Blocks.SILVER_SHULKER_BOX, Blocks.CYAN_SHULKER_BOX, Blocks.PURPLE_SHULKER_BOX, Blocks.BLUE_SHULKER_BOX, Blocks.BROWN_SHULKER_BOX, Blocks.GREEN_SHULKER_BOX, Blocks.RED_SHULKER_BOX, Blocks.BLACK_SHULKER_BOX, Blocks.ANVIL, Blocks.WOODEN_BUTTON, Blocks.STONE_BUTTON, Blocks.UNPOWERED_COMPARATOR, Blocks.UNPOWERED_REPEATER, Blocks.POWERED_REPEATER, Blocks.POWERED_COMPARATOR, Blocks.OAK_FENCE_GATE, Blocks.SPRUCE_FENCE_GATE, Blocks.BIRCH_FENCE_GATE, Blocks.JUNGLE_FENCE_GATE, Blocks.DARK_OAK_FENCE_GATE, Blocks.ACACIA_FENCE_GATE, Blocks.BREWING_STAND, Blocks.DISPENSER, Blocks.DROPPER, Blocks.LEVER, Blocks.NOTEBLOCK, Blocks.JUKEBOX, Blocks.BEACON, Blocks.BED, Blocks.FURNACE, Blocks.OAK_DOOR, Blocks.SPRUCE_DOOR, Blocks.BIRCH_DOOR, Blocks.JUNGLE_DOOR, Blocks.ACACIA_DOOR, Blocks.DARK_OAK_DOOR, Blocks.CAKE, Blocks.ENCHANTING_TABLE, Blocks.DRAGON_EGG, Blocks.HOPPER, Blocks.REPEATING_COMMAND_BLOCK, Blocks.COMMAND_BLOCK, Blocks.CHAIN_COMMAND_BLOCK, Blocks.CRAFTING_TABLE);
-    }
+    public static void placeBlock(BlockPos pos, int slot) {
+        if(slot != -1) {
+            int prev = mc.player.inventory.currentItem;
 
-    public static boolean placeBlock(BlockPos pos, int slot, boolean rotate, boolean rotateBack, EnumHand hand) {
-        if (isBlockEmpty(pos)) {
-            int old_slot = -1;
-            if (slot != getMc().player.inventory.currentItem) {
-                old_slot = getMc().player.inventory.currentItem;
-                getMc().player.inventory.currentItem = slot;
-            }
+            mc.player.inventory.currentItem = slot;
+            EnumFacing[] facing = EnumFacing.values();
+            int k = facing.length;
 
-            EnumFacing[] facings = EnumFacing.values();
+            for(int i = 0; i < k; i++) {
+                EnumFacing facings = facing[i];
 
-            for (EnumFacing f : facings) {
-                Block neighborBlock = getMc().world.getBlockState(pos.offset(f)).getBlock();
-                Vec3d vec = new Vec3d(pos.getX() + 0.5D + (double) f.getFrontOffsetX() * 0.5D, pos.getY() + 0.5D + (double) f.getFrontOffsetY() * 0.5D, pos.getZ() + 0.5D + (double) f.getFrontOffsetZ() * 0.5D);
+                if(!mc.world.getBlockState(pos.offset(facings)).getBlock().equals(Blocks.AIR)) {
 
-                if (!emptyBlocks.contains(neighborBlock) && getMc().player.getPositionEyes(getMc().getRenderPartialTicks()).distanceTo(vec) <= 4.25D) {
-                    float[] rot = new float[]{getMc().player.rotationYaw, getMc().player.rotationPitch};
-
-                    if (rotate) {
-                        rotatePacket(vec.x, vec.y, vec.z);
-                    }
-
-                    if (rightclickableBlocks.contains(neighborBlock)) {
-                        getMc().player.connection.sendPacket(new CPacketEntityAction(getMc().player, CPacketEntityAction.Action.START_SNEAKING));
-                    }
-
-                    getMc().playerController.processRightClickBlock(getMc().player, getMc().world, pos.offset(f), f.getOpposite(), new Vec3d(pos), EnumHand.MAIN_HAND);
-                    if (rightclickableBlocks.contains(neighborBlock)) {
-                        getMc().player.connection.sendPacket(new CPacketEntityAction(getMc().player, CPacketEntityAction.Action.STOP_SNEAKING));
-                    }
-
-                    if (rotateBack) {
-                        getMc().player.connection.sendPacket(new CPacketPlayer.Rotation(rot[0], rot[1], getMc().player.onGround));
-                    }
-
-                    Wrapper.getMC().player.swingArm(hand);
-
-                    if (old_slot != -1) {
-                        getMc().player.inventory.currentItem = old_slot;
-                    }
-
-                    return true;
                 }
             }
 
+
+            mc.player.inventory.currentItem = prev;
         }
-
-        return false;
     }
 
-    public static boolean isBlockEmpty(BlockPos pos) {
-        try {
-            if (emptyBlocks.contains(getMc().world.getBlockState(pos).getBlock())) {
-                AxisAlignedBB box = new AxisAlignedBB(pos);
-                Iterator entityIter = getMc().world.loadedEntityList.iterator();
+    public static void faceVectorPacketInstant(Vec3d vec) {
+        float[] rotations = getNeededRotations2(vec);
 
-                Entity e;
-
-                do {
-                    if (!entityIter.hasNext()) {
-                        return true;
-                    }
-
-                    e = (Entity) entityIter.next();
-                } while (!(e instanceof EntityLivingBase) || !box.intersects(e.getEntityBoundingBox()));
-
-            }
-        } catch (Exception ignored) { }
-        return false;
+        mc.player.connection.sendPacket(new CPacketPlayer.Rotation(rotations[0],
+                rotations[1], mc.player.onGround));
     }
 
-    public static boolean canPlaceBlock(BlockPos pos) {
-        if (isBlockEmpty(pos)) {
-            EnumFacing[] facings = EnumFacing.values();
 
-            for (EnumFacing f : facings) {
-                if (!emptyBlocks.contains(getMc().world.getBlockState(pos.offset(f)).getBlock()) && getMc().player.getPositionEyes(getMc().getRenderPartialTicks()).distanceTo(new Vec3d(pos.getX() + 0.5D + (double) f.getFrontOffsetX() * 0.5D, pos.getY() + 0.5D + (double) f.getFrontOffsetY() * 0.5D, pos.getZ() + 0.5D + (double) f.getFrontOffsetZ() * 0.5D)) <= 4.25D) {
-                    return true;
-                }
-            }
+    private static float[] getNeededRotations2(Vec3d vec) {
+        Vec3d eyesPos = new Vec3d(mc.player.posX, mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
 
-        }
-        return false;
-    }
+        double diffX = vec.x - eyesPos.x;
+        double diffY = vec.y - eyesPos.y;
+        double diffZ = vec.z - eyesPos.z;
 
-    public static void rotatePacket(double x, double y, double z) {
-        double diffX = x - getMc().player.posX;
-        double diffY = y - (getMc().player.posY + (double) getMc().player.getEyeHeight());
-        double diffZ = z - getMc().player.posZ;
         double diffXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
 
-        float yaw = (float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90.0F;
-        float pitch = (float) (-Math.toDegrees(Math.atan2(diffY, diffXZ)));
+        float yaw = (float) Math.toDegrees(Math.atan2(diffZ, diffX)) - 90F;
+        float pitch = (float) -Math.toDegrees(Math.atan2(diffY, diffXZ));
 
-        getMc().player.connection.sendPacket(new CPacketPlayer.Rotation(yaw, pitch, getMc().player.onGround));
+        return new float[]{
+                mc.player.rotationYaw
+                        + MathHelper.wrapDegrees(yaw - mc.player.rotationYaw),
+                mc.player.rotationPitch + MathHelper
+                        .wrapDegrees(pitch - mc.player.rotationPitch)};
     }
 
-    public static List<BlockPos> getSphere(BlockPos loc, float r, int h, boolean hollow, boolean sphere, int i) {
+    public static boolean checkForNeighbours(BlockPos blockPos) {
+        if (!hasNeighbour(blockPos)) {
+            for (EnumFacing side : EnumFacing.values()) {
+                BlockPos neighbour = blockPos.offset(side);
+                if (hasNeighbour(neighbour)) {
+                    return true;
+                }
+
+                if (side == EnumFacing.UP && mc.world.getBlockState(blockPos).getBlock() == Blocks.WATER) {
+                    if (mc.world.getBlockState(blockPos.up()).getBlock() == Blocks.AIR)
+                        return true;
+                }
+            }
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean hasNeighbour(BlockPos blockPos) {
+        for (EnumFacing side : EnumFacing.values()) {
+            BlockPos neighbour = blockPos.offset(side);
+            if (!mc.world.getBlockState(neighbour).getMaterial().isReplaceable()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static List<BlockPos> getSphere(BlockPos loc, float r, int h, boolean hollow, boolean sphere, int plus_y) {
         List<BlockPos> circleblocks = new ArrayList<>();
         int cx = loc.getX();
         int cy = loc.getY();
@@ -135,12 +108,11 @@ public class Blockutil extends UtilManager {
                 for (int y = (sphere ? cy - (int) r : cy); y < (sphere ? cy + r : cy + h); y++) {
                     double dist = (cx - x) * (cx - x) + (cz - z) * (cz - z) + (sphere ? (cy - y) * (cy - y) : 0);
                     if (dist < r * r && !(hollow && dist < (r - 1) * (r - 1))) {
-                        circleblocks.add(new BlockPos(x, y + i, z));
+                        circleblocks.add(new BlockPos(x, y + plus_y, z));
                     }
                 }
             }
         }
         return circleblocks;
     }
-
 }

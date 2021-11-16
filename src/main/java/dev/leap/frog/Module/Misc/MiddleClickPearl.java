@@ -6,7 +6,10 @@ import dev.leap.frog.Settings.Setting;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.init.Items;
+import net.minecraft.network.play.client.CPacketHeldItemChange;
+import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Mouse;
 
@@ -19,7 +22,7 @@ No clue if this works, im high rn - px
 public class MiddleClickPearl extends Module {
 
     public MiddleClickPearl() {
-        super("MCP", "Throws a pearl for you when you press your middle mouse button", Type.MISC);
+        super("Middle click pearl", "Throws a pearl for you when you press your middle mouse button", Type.MISC);
     }
 
     Setting<Boolean> inventory = create("Inventory", false);
@@ -29,14 +32,22 @@ public class MiddleClickPearl extends Module {
 
     @Override
     public void onUpdate() {
-        if(UtilManager.nullCheck() || mc.player.inventory == null || getPearlSlot() == -1) return;
+        if(UtilManager.nullCheck() || mc.player.inventory == null || getPearlSlotHotbar() == -1) return;
 
         if(Mouse.isButtonDown(2)) {
             if(!inventory.getValue() && !spoof.getValue()) {
-                mc.player.inventory.currentItem = getPearlSlotHotbar();
-                mc.playerController.processRightClick(mc.player, mc.world, EnumHand.MAIN_HAND);
+                RayTraceResult ray = mc.objectMouseOver;
+                if(ray.typeOfHit == RayTraceResult.Type.MISS) {
+                    int startHand = mc.player.inventory.currentItem;
+                    assert getPearlSlotHotbar() != -1;
+
+                    mc.player.inventory.currentItem = getPearlSlotHotbar();
+                    mc.rightClickMouse();
+                    mc.player.inventory.currentItem = startHand;
+                }
             }
         }
+
     }
 
     @EventHandler

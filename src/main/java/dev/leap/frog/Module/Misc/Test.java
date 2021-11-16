@@ -4,6 +4,7 @@ import baritone.api.BaritoneAPI;
 import baritone.api.pathing.goals.GoalXZ;
 import dev.leap.frog.Event.Movement.EventPlayerStoppedUsingItem;
 import dev.leap.frog.Event.Network.EventPacket;
+import dev.leap.frog.Event.Render.RenderEvent;
 import dev.leap.frog.GUI.Click;
 import dev.leap.frog.Manager.UtilManager;
 import dev.leap.frog.Module.Module;
@@ -13,6 +14,7 @@ import dev.leap.frog.Util.Entity.Playerutil;
 import dev.leap.frog.Util.Render.Chatutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
+import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemChorusFruit;
 import net.minecraft.item.ItemStack;
@@ -40,6 +42,7 @@ public class Test extends Module {
 
     private boolean listening = false;
     int startingHand;
+    private ICamera camera;
 
     @Override
     public void onEnable() {
@@ -64,7 +67,7 @@ public class Test extends Module {
     }
 
     @Override
-    public void onRender() {
+    public void onRender(RenderEvent event) {
 
     }
 

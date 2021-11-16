@@ -34,6 +34,8 @@ public class Suffix extends Module {
             if (message.startsWith("#")) return;
             if (message.startsWith("(")) return;
             if (message.startsWith(")")) return;
+            if (message.startsWith("-")) return;
+            if (message.startsWith("++")) return; // cookie client prefix
 
             message += suffix;
 

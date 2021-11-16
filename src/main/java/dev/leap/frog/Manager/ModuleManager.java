@@ -37,11 +37,11 @@ public class ModuleManager {
 
         //// Combat
         Add(new AutoTotem());
-        Add(new AutoTrap());
         Add(new AutoWeb());
         Add(new AutoLog());
         Add(new AutoXP());
         Add(new BedAura());
+        Add(new Burrow());
         Add(new CrystalAura());
         Add(new Criticals());
         Add(new KillAura());
@@ -67,13 +67,13 @@ public class ModuleManager {
         Add(new LagBack());
         Add(new ElytraBypass());
         Add(new SpeedMine());
+        Add(new TimerModule());
 
         // World
         Add(new StrengthDetect());
         Add(new LawnMower());
         Add(new FakePlayer());
         Add(new SkyColor());
-        Add(new GOTO());
         Add(new OffhandSwing());
 
         // Render
@@ -82,7 +82,6 @@ public class ModuleManager {
         Add(new HoleESP());
         Add(new Capes());
         Add(new HandSize());
-        Add(new Tracers());
         Add(new ESP());
         Add(new FreeCam());
         Add(new SuperHeroFX());

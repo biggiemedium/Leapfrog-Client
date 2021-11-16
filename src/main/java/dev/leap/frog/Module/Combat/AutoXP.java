@@ -114,7 +114,7 @@ public class AutoXP extends Module {
 
         for(int i = 0; i < armour.size(); i++) {
             ItemStack stack = armour.get(i);
-            if(stack.isEmpty || stack == null) continue;
+            if(stack.isEmpty() || stack == null) continue;
             float damageOnArmor = (float) (stack.getMaxDamage() - stack.getItemDamage());
             float damagePercent = 100 - (100 * (1 - damageOnArmor / stack.getMaxDamage()));
 
@@ -141,7 +141,7 @@ public class AutoXP extends Module {
         boolean shouldRepair = false;
         for (int i = 0; i < armour.size(); i++) {
             ItemStack itemStack = armour.get(i);
-            if (itemStack.isEmpty) {
+            if (itemStack.isEmpty()) {
                 continue;
             }
 

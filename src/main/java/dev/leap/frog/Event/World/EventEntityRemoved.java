@@ -9,4 +9,8 @@ public class EventEntityRemoved extends LeapFrogEvent {
     public EventEntityRemoved(Entity entity) {
         this.entity = entity;
     }
+
+    public Entity getEntity() {
+        return entity;
+    }
 }

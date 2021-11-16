@@ -55,7 +55,7 @@ public class Playerutil extends UtilManager {
         int slot = -1;
         for(int i = 0; i < 9; i++) {
             ItemStack stack = mc.player.inventory.getItemStack();
-            if(stack.isEmpty) {
+            if(stack.isEmpty()) {
                 continue;
             }
             Item f = stack.getItem();

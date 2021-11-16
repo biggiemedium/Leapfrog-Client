@@ -30,7 +30,7 @@ public class Speed extends Module {
 
     private int delay;
 
-    public enum SpeedMode {
+    private enum SpeedMode {
         Strafe,
         NCP
     }

@@ -22,6 +22,5 @@ public class MixinMainMenuGUI {
         ScaledResolution sc = new ScaledResolution(Wrapper.getMC());
 
         fr.drawStringWithShadow(ChatFormatting.GREEN + "LeapFrog Client " + LeapFrog.VERSION, sc.getScaledWidth() - Wrapper.getMC().fontRenderer.getStringWidth("LeapFrog Client" + LeapFrog.VERSION) - 5, 2, 0xffffff);
-
     }
 }

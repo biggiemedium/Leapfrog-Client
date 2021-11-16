@@ -19,7 +19,7 @@ public class NoRender extends Module {
     Setting<Boolean> fire = create("Fire", true);
     Setting<Boolean> armor = create("Armor",false);
     Setting<Boolean> pumpkin = create("pumpkin",true);
-    Setting<Boolean> falling = create("Falling Animation", true); // TODO: add falling block animation removal
+    Setting<Boolean> falling = create("Falling Animation", true);
     Setting<Boolean> bossbar = create("BossBar", false);
     Setting<Boolean> weather = create("Weather", true);
     Setting<Boolean> nametags = create("NameTags", false);

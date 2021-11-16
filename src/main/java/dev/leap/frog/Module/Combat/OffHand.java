@@ -226,6 +226,17 @@ public class OffHand extends Module {
         return crystalSlot;
     }
 
+    int getOffhandSlot(Item item) {
+        int slot = -1;
+        for(int i = 0; i < 45; i++) {
+            if(mc.player.inventory.getStackInSlot(i).getItem() == item) {
+                slot = i;
+                break;
+            }
+        }
+        return slot;
+    }
+
 
     int getTotemSlot() {
         int totemSlot = -1;

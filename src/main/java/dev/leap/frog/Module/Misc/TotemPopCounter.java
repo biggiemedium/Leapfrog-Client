@@ -31,7 +31,6 @@ public class TotemPopCounter extends Module {
     private HashMap<String, Integer> pops = new HashMap<>();
 
     Setting<Boolean> ignoreFriends = create("IgnoreFriends", false);
-    Setting<Boolean> msgPlayer = create("Msg User", false);
     Setting<Boolean> suffix = create("Suffix", true);
 
     @Override
@@ -69,9 +68,6 @@ public class TotemPopCounter extends Module {
                 }
                 if(e == mc.player) return;
                 if(ignoreFriends.getValue() && FriendManager.isFriend(e.getName())) return;
-                if(msgPlayer.getValue() && !LeapFrog.getModuleManager().getModule(AutoEZ.class).isToggled()) {
-                    mc.player.sendChatMessage("/msg " + e.getName() + " " + "You're poppin!" + " " + UtilManager.getSuffix());
-                }
                 if(suffix.getValue()) {
                     Chatutil.sendMessage("Player " + ChatFormatting.RED + e.getName() + ChatFormatting.RESET + " " + "has popped " + totalpops + " times!" + UtilManager.getSuffix());
                 } else {
