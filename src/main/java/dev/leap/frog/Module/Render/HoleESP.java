@@ -17,6 +17,8 @@ public class HoleESP extends Module {
 
     Setting<Integer> distance = create("Distance", 75, 0, 250);
 
+
+
     private ArrayList<BlockPos> holes = new ArrayList<>();
     private double x;
     private double y;

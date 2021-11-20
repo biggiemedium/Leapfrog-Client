@@ -1,5 +1,6 @@
 package dev.leap.frog.Module.Movement;
 
+import dev.leap.frog.Manager.UtilManager;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Entity.Playerutil;
@@ -21,6 +22,7 @@ public class Sprint extends Module {
 
     @Override
     public void onUpdate() {
+        if(UtilManager.nullCheck()) return;
         if(mode.getValue() == Mode.Legit && mc.player.moveForward > 0 || mc.player.moveStrafing > 0 && mc.gameSettings.keyBindForward.isKeyDown() || mc.gameSettings.keyBindBack.isKeyDown() && !mc.player.isSneaking()) {
             mc.player.setSprinting(true);
         }

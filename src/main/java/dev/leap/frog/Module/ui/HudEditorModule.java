@@ -13,4 +13,9 @@ public class HudEditorModule extends Module {
     public void onEnable() {
         LeapFrog.getModuleManager().getModule(ClickGUIModule.class).setToggled(false);
     }
+
+    @Override
+    public void onDisable() {
+        LeapFrog.getModuleManager().getModule(ClickGUIModule.class).setToggled(true);
+    }
 }

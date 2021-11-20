@@ -2,6 +2,7 @@ package dev.leap.frog.Command;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.leap.frog.Manager.UtilManager;
+import dev.leap.frog.Util.Listeners.Util;
 import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.TextComponentString;
@@ -14,27 +15,29 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Command extends UtilManager {
+public abstract class Command extends UtilManager {
 
     protected String name;
     private String description;
     protected String[] syntax;
-    public String prefix;
+
+    public Command(String name, String... syntax) {
+        this.name = name;
+        this.syntax = syntax;
+
+    }
 
     public Command(String name, String description, String... syntax) {
         this.name = name;
         this.description = description;
         this.syntax = syntax;
-        this.prefix = ".";
     }
 
     public Command() {
 
     }
 
-    public void execute(String[] args) {
-
-    }
+    public abstract void execute(String[] args);
 
     public String getName() {
         return name;
@@ -59,14 +62,4 @@ public class Command extends UtilManager {
     public void setSyntax(String[] syntax) {
         this.syntax = syntax;
     }
-
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public void setPrefix(String prefix) {
-        this.prefix = prefix;
-    }
-
-    public static Command Get = new Command();
 }

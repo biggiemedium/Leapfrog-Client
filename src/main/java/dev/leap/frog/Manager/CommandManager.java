@@ -14,12 +14,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class CommandManager implements Listenable, Util {
 
     public static List<Command> commands = new ArrayList<>();
-    private String prefix = Command.Get.getPrefix();
+    public String PREFIX = ".";
 
     public CommandManager() {
         if(commands == null) {
@@ -34,23 +35,36 @@ public class CommandManager implements Listenable, Util {
         commands.add(command);
     }
 
-    //@SubscribeEvent
-    //public void onChat(ClientChatEvent event) {
-    //    if (event.getMessage().startsWith(Command.Get.getPrefix())) {
-    //        event.setCanceled(true);
-    //        try {
-    //            mc.ingameGUI.getChatGUI().addToSentMessages(event.getMessage());
-    //            if (event.getMessage().length() > 1) {
-    //                Command.Get.execute(new String[] {event.getMessage().substring(Command.Get.getPrefix().length() - 1)});
-    //            } else {
-    //                Command.sendMessage("Please enter a command.");
-    //            }
-    //        } catch (Exception e) {
-    //            e.printStackTrace();
-    //            Command.sendMessage("An error occurred while running this command.");
-    //        }
-    //        event.setMessage("");
-    //    }
-    //}
+    @SubscribeEvent
+    public void onChat(ClientChatEvent event) {
+        if (event.getMessage().startsWith(this.PREFIX)) {
+            String sub = event.getMessage().substring(1);
+            String[] args = sub.split(" ");
+
+            if (args.length > 0) {
+                Iterator iterator = this.commands.iterator();
+
+                while (iterator.hasNext()) {
+                    Command command = (Command) iterator.next();
+                    String[] astring = command.getSyntax();
+                    int i = astring.length;
+
+                    for (int j = 0; j < i; ++j) {
+                        String s = astring[j];
+
+                        if (s.equalsIgnoreCase(args[0])) {
+                            command.execute(args);
+                            break;
+                        }
+                    }
+                }
+            } else {
+                Chatutil.sendClientSideMessgage("Invalid command");
+            }
+
+            event.setCanceled(true);
+        }
+
+    }
 
 }

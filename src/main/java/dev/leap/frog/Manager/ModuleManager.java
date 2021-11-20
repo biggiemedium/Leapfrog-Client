@@ -91,6 +91,7 @@ public class ModuleManager {
         Add(new Speed());
         Add(new Sprint());
         Add(new ElytraFly());
+        Add(new Nofall());
         Add(new NoSlow());
         Add(new NoRotate());
         Add(new ReverseStep());

@@ -80,6 +80,12 @@ public class FreeCam extends Module {
             EntityPlayerSP me = mc.player;
             me.motionY -= speed.getValue();
         }
+
+        if(!renderBody.getValue()) {
+            mc.entityRenderer.renderHand = false;
+        } else {
+            mc.entityRenderer.renderHand = true;
+        }
     }
 
     @Override

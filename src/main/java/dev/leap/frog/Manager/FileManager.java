@@ -6,6 +6,7 @@ import dev.leap.frog.GUI.ClickGUI.Frame;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Module.ui.ClickGUIModule;
+import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Entity.Friendutil;
 import dev.leap.frog.Util.Wrapper;
 import org.lwjgl.input.Keyboard;
@@ -29,6 +30,7 @@ public class FileManager {
     private String directoryGUI = "/GUI/";
     private String directoryFriends = "/Friends/";
     private String directoryBinds = "/Binds/";
+    private String directorySettings = "/Setting/";
 
     private File path;
     private String splitter = "\r\n";
@@ -38,7 +40,7 @@ public class FileManager {
         if(!path.exists())
             path.mkdir();
 
-        save();
+        load();
     }
 
     public void saveFriends() throws IOException {
@@ -66,13 +68,13 @@ public class FileManager {
 
     public void saveModule() {
         for(Module m : LeapFrog.getModuleManager().getModules()) {
-            File catogoryPath = new File(path + File.separator + m.getType().getName()); // name instead of to string
+            File f = new File(path + File.separator + m.getType().getName()); // name instead of to string
 
-            if(!catogoryPath.exists()) {
-                catogoryPath.mkdir();
+            if(!f.exists()) {
+                f.mkdir();
             }
-            File mod = new File(catogoryPath.getAbsolutePath(), m.getName() + ".txt");
-            if(!mod.exists() && catogoryPath.exists()) {
+            File mod = new File(f.getAbsolutePath(), m.getName() + ".txt");
+            if(!mod.exists() && f.exists()) {
                 try {mod.createNewFile();} catch(Exception ignored) {}
             }
             try {
@@ -86,10 +88,79 @@ public class FileManager {
         }
     }
 
+    public void loadModule() {
+        for(Module m : LeapFrog.getModuleManager().getModules()) {
+            try {
+                File f = new File(path.getAbsolutePath() + File.separator + m.getType().toString());
+                if(!f.exists()) continue;
+                File mod = new File(f.getAbsolutePath(), m.getName() + ".txt");
+                if(!mod.exists()) continue;
+                FileInputStream fileInputStream = new FileInputStream(mod.getAbsolutePath());
+                DataInputStream dataInputStream = new DataInputStream(fileInputStream);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(dataInputStream));
+                reader.lines().forEach(line -> {
+                    String s = line.split(":")[0];
+                    String on = s.split(":")[1];
+                    if(s.equals("Toggled")) {
+                        if(on.equalsIgnoreCase("Enabled")) {
+                            m.setToggled(true);
+                        }
+                    }
+                });
+            } catch (Exception ignored) {}
+        }
+    }
+
+    public void loadBind() {
+        for(Module m : LeapFrog.getModuleManager().getModules()) {
+            try {
+                File f = new File(path.getAbsolutePath() + File.separator + m.getType().toString());
+                if(!f.exists()) continue;
+                File mod = new File(f.getAbsolutePath(), m.getName() + ".txt");
+                if(!mod.exists()) continue;
+                FileInputStream fileInputStream = new FileInputStream(mod.getAbsolutePath());
+                DataInputStream dataInputStream = new DataInputStream(fileInputStream);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(dataInputStream));
+                reader.lines().forEach(line -> {
+                    String s = line.split(":")[0];
+                    String on = s.split(":")[1];
+                    if(s.equalsIgnoreCase("Key")) {
+                        if(on.equalsIgnoreCase("-1") || on.equalsIgnoreCase("0")) {
+                            return;
+                        }
+                        m.setKey(Integer.parseInt(on));
+                    }
+                });
+            } catch (Exception ignored) {}
+        }
+    }
+
+    public void saveSettings() {
+            File f = new File(path.getAbsolutePath() + File.separator + "Settings");
+            if(!f.exists()) {
+                f.mkdir();
+            }
+
+            for(Module m : LeapFrog.getModuleManager().getModules()) {
+
+            }
+    }
+
     public void save() {
         try {
             saveFriends();
             saveModule();
+            saveSettings();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void load() {
+        try {
+         //   loadModule();
+            loadFriend();
+       //     loadBind();
         } catch (Exception e) {
             e.printStackTrace();
         }

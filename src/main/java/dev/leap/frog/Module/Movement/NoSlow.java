@@ -1,5 +1,7 @@
 package dev.leap.frog.Module.Movement;
 
+import dev.leap.frog.Event.LeapFrogEvent;
+import dev.leap.frog.Event.Movement.EventPlayerMotionUpdate;
 import dev.leap.frog.Event.Movement.EventPlayerStoppedUsingItem;
 import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Module.Module;
@@ -10,6 +12,7 @@ import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemPotion;
+import net.minecraft.network.play.client.CPacketClickWindow;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
@@ -27,8 +30,7 @@ public class NoSlow extends Module {
 
     Setting<Mode> mode = create("Mode", Mode.Normal);
     Setting<Boolean> run = create("Eat run", true);
-
-    private boolean sneaking = false;
+    Setting<Boolean> web = create("Webs", true);
 
     private enum Mode {
         Normal,
@@ -47,10 +49,12 @@ public class NoSlow extends Module {
             }
         }
 
-        if(mode.getValue() == Mode.Packet) {
-            if(this.sneaking && !mc.player.isHandActive()) {
-                mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
-                this.sneaking = false;
+        if(web.getValue()) {
+            if(mc.player.isInWeb) {
+                mc.player.onGround = false;
+                mc.player.isInWeb = false;
+                mc.player.motionX *= 0.84;
+                mc.player.motionZ *= 0.84;
             }
         }
     }
@@ -58,7 +62,7 @@ public class NoSlow extends Module {
     @EventHandler
     private Listener<InputUpdateEvent> inputUpdateEventListener = new Listener<>(event-> {
 
-        if(mode.getValue() == Mode.Normal) {
+        if(mode.getValue() == Mode.Normal && run.getValue()) {
             if (mc.player.isHandActive() && !mc.player.isRiding() && !mc.player.isElytraFlying()) {
                 event.getMovementInput().moveStrafe *= 5;
                 event.getMovementInput().moveForward *= 5;
@@ -67,29 +71,26 @@ public class NoSlow extends Module {
     });
 
     @EventHandler
-    private Listener<LivingEntityUseItemEvent> itemEventListener = new Listener<>(event -> {
-        if(mode.getValue() == Mode.Packet && !this.sneaking && mc.player.getActiveItemStack().getItem() instanceof ItemFood || mc.player.getActiveItemStack().getItem() instanceof ItemBow || mc.player.getActiveItemStack().getItem() instanceof ItemPotion) {
-            mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SNEAKING));
-            sneaking = true;
+    private Listener<EventPlayerMotionUpdate> updateListener = new Listener<>(event -> {
+        if(event.getEra().equals(LeapFrogEvent.Era.POST) && mode.getValue() == Mode.Packet) {
+            if(run.getValue() && mc.player.isHandActive() && !mc.player.isRiding()) {
+                mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, BlockPos.ORIGIN, EnumFacing.DOWN));
+            }
         }
-    });
-
-    @EventHandler
-    private Listener<EventPlayerStoppedUsingItem> itemListener = new Listener<>(event -> {
-       if(mode.getValue() == Mode.Packet) {
-           event.cancel();
-       }
     });
 
     @EventHandler
     private Listener<EventPacket.SendPacket> packetListener = new Listener<>(event -> {
 
-        if(event.getPacket() instanceof CPacketPlayer && mc.player.isHandActive() && !mc.player.isRiding()) {
-            if(mode.getValue() == Mode.Packet) {
-                mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, new BlockPos(Math.floor(mc.player.posX), Math.floor(mc.player.posY), Math.floor(mc.player.posZ)), EnumFacing.DOWN));
+        if (event.getPacket() instanceof CPacketClickWindow && mode.getValue() == Mode.Packet && run.getValue()) {
+                if (mc.player.isActiveItemStackBlocking()) {
+                    mc.playerController.onStoppedUsingItem(mc.player);
+                }
+                if (mc.player.isSneaking())
+                    mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
+                if (mc.player.isSprinting())
+                    mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SPRINTING));
             }
-        }
-
     });
 
 }

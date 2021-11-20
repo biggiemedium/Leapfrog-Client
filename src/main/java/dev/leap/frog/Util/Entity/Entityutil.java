@@ -2,6 +2,7 @@ package dev.leap.frog.Util.Entity;
 
 import dev.leap.frog.Manager.UtilManager;
 import dev.leap.frog.Util.Math.Mathutil;
+import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -13,6 +14,7 @@ import net.minecraft.entity.passive.*;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
 public class Entityutil extends UtilManager {
