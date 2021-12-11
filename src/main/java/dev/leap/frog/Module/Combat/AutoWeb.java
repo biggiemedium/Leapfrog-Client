@@ -167,6 +167,10 @@ public class AutoWeb extends Module {
         return -1;
     }
 
+    public EntityPlayer getTarget() {
+        return this.target;
+    }
+
     private Vec3d[] feet = {
         new Vec3d(0, 2, 0),
             new Vec3d(0, 1, 0)

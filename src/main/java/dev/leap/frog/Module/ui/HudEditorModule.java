@@ -2,6 +2,9 @@ package dev.leap.frog.Module.ui;
 
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
+import dev.leap.frog.Settings.Setting;
+
+import java.util.ArrayList;
 
 public class HudEditorModule extends Module {
 
@@ -11,11 +14,9 @@ public class HudEditorModule extends Module {
 
     @Override
     public void onEnable() {
-        LeapFrog.getModuleManager().getModule(ClickGUIModule.class).setToggled(false);
     }
 
     @Override
     public void onDisable() {
-        LeapFrog.getModuleManager().getModule(ClickGUIModule.class).setToggled(true);
     }
 }

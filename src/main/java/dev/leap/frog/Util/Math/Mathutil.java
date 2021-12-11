@@ -35,8 +35,7 @@ public class Mathutil extends UtilManager {
         final double cos = Math.cos(Math.toRadians(yaw + 90));
         final double posX = (forward * speed * cos + side * speed * sin);
         final double posZ = (forward * speed * sin - side * speed * cos);
-        return new double[]
-                { posX, posZ };
+        return new double[] { posX, posZ };
     }
 
     public static Vec3d process(Entity entity, double x, double y, double z) {
@@ -49,5 +48,10 @@ public class Mathutil extends UtilManager {
     public static Vec3d getInterpolatedPos(Entity entity, double ticks) { // render event
         return new Vec3d(entity.lastTickPosX, entity.lastTickPosY, entity.lastTickPosZ).add(process(entity, ticks, ticks, ticks)); // x, y, z.
     }
+
+    public static Vec3d[] feet = {
+            new Vec3d(0, 2, 0),
+            new Vec3d(0, 1, 0)
+    };
 
 }

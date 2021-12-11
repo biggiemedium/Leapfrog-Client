@@ -35,11 +35,13 @@ public class TotemPopCounter extends Module {
 
     @Override
     public void onUpdate() {
-        if(pops == null && !UtilManager.nullCheck()) {
+        if(UtilManager.nullCheck()) return;
+        if(pops == null) {
             pops = new HashMap<>();
         }
 
         for (EntityPlayer player : mc.world.playerEntities) {
+            if(ignoreFriends.getValue() && FriendManager.isFriend(player.getName())) continue;
             assert pops != null;
             if(!pops.containsKey(player.getName())) continue;
             if(player.getHealth() <= 0 || player.isDead) {

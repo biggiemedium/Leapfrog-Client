@@ -5,6 +5,7 @@ import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
+import net.minecraft.entity.item.EntityFireworkRocket;
 import net.minecraft.init.MobEffects;
 import net.minecraftforge.client.event.RenderBlockOverlayEvent;
 
@@ -23,6 +24,7 @@ public class NoRender extends Module {
     Setting<Boolean> bossbar = create("BossBar", false);
     Setting<Boolean> weather = create("Weather", true);
     Setting<Boolean> nametags = create("NameTags", false);
+    Setting<Boolean> fireWorks = create("FireWorks", true);
 
     @Override
     public void onUpdate() {
@@ -69,6 +71,13 @@ public class NoRender extends Module {
             event.cancel();
         }
 
+    });
+
+    @EventHandler
+    private Listener<EventRenderEntity> entityListener = new Listener<>(event -> {
+        if(event.getEntity() instanceof EntityFireworkRocket && fireWorks.getValue()) {
+            event.cancel();
+        }
     });
 
     @EventHandler

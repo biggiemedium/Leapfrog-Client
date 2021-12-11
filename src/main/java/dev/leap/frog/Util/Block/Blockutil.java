@@ -43,6 +43,15 @@ public class Blockutil extends UtilManager {
         }
     }
 
+    public static BlockPos[] surroundOffset ={
+            new BlockPos(0, -1, 0), // down
+            new BlockPos(0, 0, -1), // north
+            new BlockPos(1, 0, 0), // east
+            new BlockPos(0, 0, 1), // south
+            new BlockPos(-1, 0, 0) // west
+    };
+
+
     public static void faceVectorPacketInstant(Vec3d vec) {
         float[] rotations = getNeededRotations2(vec);
 

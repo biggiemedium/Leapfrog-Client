@@ -1,6 +1,7 @@
 package dev.leap.frog.GUI.ClickGUI;
 
 import dev.leap.frog.GUI.ClickGUI.Components.*;
+import dev.leap.frog.GUI.ClickGUI.Components.Types.DoubleSlider;
 import dev.leap.frog.GUI.ClickGUI.Components.Types.FloatSlider;
 import dev.leap.frog.GUI.ClickGUI.Components.Types.IntSlider;
 import dev.leap.frog.LeapFrog;
@@ -63,10 +64,12 @@ public class ModuleButton {
                 continue;
             }
             if (s.getValue() instanceof Double) {
-
+                this.components.add(new DoubleSlider(s, x, y + height + offsetY, this));
+                offsetY += 13;
+                continue;
             }
 
-            if (s.getValue() instanceof Enum || s.getValue() instanceof ArrayList) {
+            if (s.getValue() instanceof Enum) {
                 this.components.add(new EnumButton(s, x, y + height + offsetY, this));
                 offsetY += 13;
                 continue;

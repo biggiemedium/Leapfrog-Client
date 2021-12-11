@@ -18,7 +18,7 @@
     "MixinWorld",
     "MixinRenderItem",
     "MixinRenderPlayer",
-    "MixinRenderFluid",
-    "MixinMovementInputOptions"
+    "MixinMovementInputOptions",
+    "MixinRenderManager"
   ]
 }

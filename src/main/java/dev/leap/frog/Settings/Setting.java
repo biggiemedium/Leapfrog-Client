@@ -21,18 +21,12 @@ public class Setting<T> {
     private Predicate<T> visible;
 
     public Setting(String name, Module module, T value) {
-        //if(value == null) {
-        //    throw new IllegalArgumentException("Cannot determine value type from null");
-        //}
         this.name = name;
         this.module = module;
         this.value = value;
     }
 
     public Setting(String name, Module module, T value, T min, T max) {
-        //if(value == null || min == null || max == null) {
-        //    throw new IllegalArgumentException("Cannot determine value type from null");
-        //}
         this.name = name;
         this.module = module;
         this.value = value;

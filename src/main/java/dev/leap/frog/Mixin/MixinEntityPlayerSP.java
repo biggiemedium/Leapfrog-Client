@@ -16,11 +16,11 @@ public class MixinEntityPlayerSP {
     @Inject(method = "move", at = @At("HEAD"), cancellable = true)
     public void playerUpdate(MoverType type, double x, double y, double z, CallbackInfo ci) {
 
-        EventPlayerMove event = new EventPlayerMove(type, x, y, z);
-        LeapFrog.EVENT_BUS.post(event);
+        EventPlayerMove packet = new EventPlayerMove(type, x, y, z);
+        LeapFrog.EVENT_BUS.post(packet);
 
-        if(ci.isCancelled()) {
-            event.cancel();
+        if(packet.isCancelled()) {
+            ci.cancel();
         }
 
     }

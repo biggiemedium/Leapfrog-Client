@@ -66,7 +66,7 @@ public class Nofall extends Module {
 
                         mc.player.setPosition(Math.floor(mc.player.posX) + 0.5d, mc.player.posY, Math.floor(mc.player.posZ) + 0.5d);
                         mc.player.rotationPitch = 90;
-
+                        mc.playerController.processRightClickBlock(mc.player, mc.world, new BlockPos(mc.player.posX, mc.player.posY, mc.player.posZ).down(), EnumFacing.DOWN, new Vec3d(mc.player.posX, mc.player.posY, mc.player.posZ).subtract(0, 0, 0), EnumHand.MAIN_HAND);
                     }
                     break;
                 case WaterBucket:

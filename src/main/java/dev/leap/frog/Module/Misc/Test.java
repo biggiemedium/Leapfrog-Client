@@ -12,6 +12,7 @@ import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.BaritoneHandler;
 import dev.leap.frog.Util.Entity.Playerutil;
 import dev.leap.frog.Util.Render.Chatutil;
+import dev.leap.frog.Util.Render.Renderutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.client.renderer.culling.ICamera;
@@ -25,8 +26,11 @@ import net.minecraft.network.play.server.SPacketEntityStatus;
 import net.minecraft.network.status.server.SPacketServerInfo;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import org.lwjgl.input.Keyboard;
+
+import java.awt.*;
 
 public class Test extends Module {
 
@@ -68,7 +72,13 @@ public class Test extends Module {
 
     @Override
     public void onRender(RenderEvent event) {
+        if(s.getValue()) {
+            Renderutil.drawBoundingBoxBlockPos(Playerutil.getPlayerPos().down(), 1, 255, 255, 255, 255);
+        }
 
+        if(example.getValue() && s.getValue()) {
+
+        }
     }
 
     @EventHandler

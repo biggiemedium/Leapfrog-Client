@@ -92,6 +92,7 @@ public class FileManager {
         for(Module m : LeapFrog.getModuleManager().getModules()) {
             try {
                 File f = new File(path.getAbsolutePath() + File.separator + m.getType().toString());
+                System.out.println("Module path: " + f);
                 if(!f.exists()) continue;
                 File mod = new File(f.getAbsolutePath(), m.getName() + ".txt");
                 if(!mod.exists()) continue;
@@ -115,6 +116,7 @@ public class FileManager {
         for(Module m : LeapFrog.getModuleManager().getModules()) {
             try {
                 File f = new File(path.getAbsolutePath() + File.separator + m.getType().toString());
+                System.out.println("Bind path: " + f);
                 if(!f.exists()) continue;
                 File mod = new File(f.getAbsolutePath(), m.getName() + ".txt");
                 if(!mod.exists()) continue;
@@ -158,9 +160,9 @@ public class FileManager {
 
     public void load() {
         try {
-         //   loadModule();
+            loadModule();
             loadFriend();
-       //     loadBind();
+            loadBind();
         } catch (Exception e) {
             e.printStackTrace();
         }

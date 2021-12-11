@@ -31,8 +31,8 @@ public class Click extends GuiScreen {
         }
         circles = new ArrayList<>();
 
-        for (int i = 0; i < 100; ++i) {
-            for (int y = 0; y < 3; ++y) {
+        for (int i = 0; i < 100; i++) {
+            for (int y = 0; y < 3; y++) {
                 Falling falling = new Falling(25 * i, y * -50);
                 circles.add(falling);
             }

@@ -41,6 +41,11 @@ public class Entityutil extends UtilManager {
         return new BlockPos(Math.floor(e.posX), Math.floor(e.posY), Math.floor(e.posZ));
     }
 
+    public static boolean canEntityFeetBeSeen(final Entity entityIn) {
+        return mc.world.rayTraceBlocks(new Vec3d(mc.player.posX, mc.player.posX + mc.player.getEyeHeight(), mc.player.posZ), new Vec3d(entityIn.posX, entityIn.posY, entityIn.posZ), false, true, false) == null;
+    }
+
+
     public static boolean isPlayerInHole(Entity e) {
         BlockPos pos = getPositionEntity(e);
 
@@ -89,6 +94,13 @@ public class Entityutil extends UtilManager {
     }
     public static Vec3d getInterpolatedAmount(Entity entity, double ticks) {
         return getInterpolatedAmount(entity, ticks, ticks, ticks);
+    }
+
+    public static Vec3d getInterpolateOffset(Entity entity){
+        double d1 = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * (double)mc.getRenderPartialTicks();
+        double d2 = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * (double)mc.getRenderPartialTicks();
+        double d3 = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * (double)mc.getRenderPartialTicks();
+        return new Vec3d(-d1, -d2, -d3);
     }
 
     public static boolean IsEntityTrapped(Entity e) {

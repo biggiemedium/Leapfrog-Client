@@ -29,6 +29,7 @@ public class ModuleManager {
     public ModuleManager() {
 
         // Client
+        Add(new ArmorNotify());
         Add(new AutoEZ());
         Add(new AutoReply());
         Add(new Suffix());
@@ -55,6 +56,7 @@ public class ModuleManager {
 
         // Misc
         Add(new AntiSound());
+        Add(new Blink());
         Add(new Test());
         Add(new FastUse());
         Add(new MiddleClickFriends());
@@ -65,30 +67,37 @@ public class ModuleManager {
         Add(new XCarry());
         Add(new CoordExploit());
         Add(new LagBack());
+        Add(new OffhandSwing());
         Add(new ElytraBypass());
         Add(new SpeedMine());
         Add(new TimerModule());
 
         // World
-        Add(new StrengthDetect());
-        Add(new LawnMower());
         Add(new FakePlayer());
+        Add(new LawnMower());
+        Add(new Quiver());
         Add(new SkyColor());
-        Add(new OffhandSwing());
+        Add(new StrengthDetect());
 
         // Render
-        Add(new FullBright());
-        Add(new NoRender());
-        Add(new HoleESP());
+        Add(new BlockHighlight());
+        Add(new BreakESP());
         Add(new Capes());
-        Add(new HandSize());
+        Add(new ChorusPos());
         Add(new ESP());
         Add(new FreeCam());
+        Add(new FullBright());
+        Add(new HandSize());
+        Add(new HoleESP());
+        Add(new NoRender());
+        Add(new OldAnimation());
         Add(new SuperHeroFX());
-        Add(new XRay());
+        Add(new ViewClip());
 
         //Movement
         Add(new Speed());
+        Add(new FastSwim());
+        Add(new FastWeb());
         Add(new Sprint());
         Add(new ElytraFly());
         Add(new Nofall());

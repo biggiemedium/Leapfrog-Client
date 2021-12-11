@@ -22,7 +22,5 @@ public class MixinRenderItem {
         if(packet.isCancelled()) {
             ci.cancel();
         }
-
     }
-
 }

@@ -14,23 +14,42 @@ public class Velocity extends Module {
 
     public Velocity() {
         super("Velocity", "Makes you take no knockback", Type.COMBAT);
-        setKey(Keyboard.KEY_M);
     }
 
     Setting<Boolean> push = create("Push", true);
     Setting<Boolean> explosion = create("explosion", true);
 
+    Setting<Integer> offput = create("Offput", 0, 0, 100);
+
     @EventHandler
     private Listener<EventPacket.ReceivePacket> move = new Listener<>(event -> {
 
         if(explosion.getValue() && event.getPacket() instanceof SPacketExplosion) {
-            event.cancel();
+            SPacketExplosion packet = (SPacketExplosion) event.getPacket();
+            if(offput.getValue() == 0) {
+                event.cancel();
+                return;
+            }
+
+            packet.motionX = packet.motionX / 100 * this.offput.getValue();
+            packet.motionY = packet.motionY / 50 * this.offput.getValue();
+            packet.motionZ = packet.motionZ / 100 * this.offput.getValue();
+
         }
 
         if(explosion.getValue() && event.getPacket() instanceof SPacketEntityVelocity) {
-            event.cancel();
+            SPacketEntityVelocity packet = (SPacketEntityVelocity) event.getPacket();
+            if (packet.getEntityID() == mc.player.getEntityId()) {
+                if (offput.getValue() == 0) {
+                    event.cancel();
+                    return;
+                } else if(offput.getValue() >= 1) {
+                    packet.motionX = packet.motionX / 100 * this.offput.getValue();
+                    packet.motionZ = packet.motionY / 100 * this.offput.getValue();
+                    packet.motionZ = packet.motionZ / 100 * this.offput.getValue();
+                }
+            }
         }
-
     });
 
     @EventHandler
@@ -38,7 +57,6 @@ public class Velocity extends Module {
 
         if(push.getValue())
             event.cancel();
-
     });
 
 }

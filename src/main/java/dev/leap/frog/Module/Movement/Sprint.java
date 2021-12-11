@@ -40,4 +40,9 @@ public class Sprint extends Module {
     public void onDisable() {
         mc.player.setSprinting(false);
     }
+
+    @Override
+    public String getArrayDetails() {
+        return mode.getValue().name();
+    }
 }
