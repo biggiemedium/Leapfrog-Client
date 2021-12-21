@@ -1,21 +1,13 @@
 package dev.leap.frog.Manager;
 
 
-import dev.leap.frog.GUI.Click;
-import dev.leap.frog.GUI.ClickGUI.Frame;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
-import dev.leap.frog.Module.ui.ClickGUIModule;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Entity.Friendutil;
-import dev.leap.frog.Util.Wrapper;
-import org.lwjgl.input.Keyboard;
 
+import java.awt.*;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Iterator;
 
 /*
@@ -23,168 +15,170 @@ import java.util.Iterator;
 
  */
 
-public class FileManager {
+public class FileManager extends UtilManager {
 
-    private String directoryleapfrog = "Leapfrog/";
-    private String directoryModule = "/Module/";
-    private String directoryGUI = "/GUI/";
-    private String directoryFriends = "/Friends/";
-    private String directoryBinds = "/Binds/";
-    private String directorySettings = "/Setting/";
-
-    private File path;
-    private String splitter = "\r\n";
+    public File path;
+    private File settingsPath;
+    private File modulePath;
 
     public FileManager() {
-        path = new File(Wrapper.getMC().mcDataDir + File.separator + LeapFrog.MODID);
-        if(!path.exists())
-            path.mkdir();
+        path = new File(mc.mcDataDir + File.separator + LeapFrog.MODID);
 
-        load();
-    }
-
-    public void saveFriends() throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(path + File.separator + "friends.json"));
-        Iterator iterator = FriendManager.getFriend().iterator();
-        while (iterator.hasNext()) {
-            Friendutil f = (Friendutil) iterator.next();
-            writer.write(f.getName());
-            writer.write("\r\n");
+        if(!path.exists()) {
+            path.mkdirs();
         }
-        writer.close();
-    }
 
-    public void loadFriend() throws IOException {
-        FileInputStream fstream = new FileInputStream(getDirectoryFriends() + "friends.json");
-        DataInputStream in = new DataInputStream(fstream);
-        BufferedReader br = new BufferedReader(new InputStreamReader(in));
-        FriendManager.getFriend().clear();
-        String line;
-        while ((line = br.readLine()) != null) {
-            LeapFrog.getFriendManager().addFriend(line);
+        settingsPath = new File(path + File.separator + "Settings");
+        if(!settingsPath.exists()) {
+            settingsPath.mkdirs();
         }
-        br.close();
-    }
 
-    public void saveModule() {
-        for(Module m : LeapFrog.getModuleManager().getModules()) {
-            File f = new File(path + File.separator + m.getType().getName()); // name instead of to string
-
-            if(!f.exists()) {
-                f.mkdir();
-            }
-            File mod = new File(f.getAbsolutePath(), m.getName() + ".txt");
-            if(!mod.exists() && f.exists()) {
-                try {mod.createNewFile();} catch(Exception ignored) {}
-            }
-            try {
-                BufferedWriter out = new BufferedWriter(new FileWriter(mod));
-                String toggled = m.isToggled() ? "Enabled" : "Disabled";
-                out.write("Toggled:" + toggled);
-                out.write(splitter);
-                out.write("Key:" + m.getKey());
-                out.close();
-            } catch(Exception ignored) {}
+        modulePath = new File(path + File.separator + "Module");
+        if(!modulePath.exists()) {
+            modulePath.mkdirs();
         }
-    }
 
-    public void loadModule() {
-        for(Module m : LeapFrog.getModuleManager().getModules()) {
-            try {
-                File f = new File(path.getAbsolutePath() + File.separator + m.getType().toString());
-                System.out.println("Module path: " + f);
-                if(!f.exists()) continue;
-                File mod = new File(f.getAbsolutePath(), m.getName() + ".txt");
-                if(!mod.exists()) continue;
-                FileInputStream fileInputStream = new FileInputStream(mod.getAbsolutePath());
-                DataInputStream dataInputStream = new DataInputStream(fileInputStream);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(dataInputStream));
-                reader.lines().forEach(line -> {
-                    String s = line.split(":")[0];
-                    String on = s.split(":")[1];
-                    if(s.equals("Toggled")) {
-                        if(on.equalsIgnoreCase("Enabled")) {
-                            m.setToggled(true);
-                        }
-                    }
-                });
-            } catch (Exception ignored) {}
-        }
-    }
-
-    public void loadBind() {
-        for(Module m : LeapFrog.getModuleManager().getModules()) {
-            try {
-                File f = new File(path.getAbsolutePath() + File.separator + m.getType().toString());
-                System.out.println("Bind path: " + f);
-                if(!f.exists()) continue;
-                File mod = new File(f.getAbsolutePath(), m.getName() + ".txt");
-                if(!mod.exists()) continue;
-                FileInputStream fileInputStream = new FileInputStream(mod.getAbsolutePath());
-                DataInputStream dataInputStream = new DataInputStream(fileInputStream);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(dataInputStream));
-                reader.lines().forEach(line -> {
-                    String s = line.split(":")[0];
-                    String on = s.split(":")[1];
-                    if(s.equalsIgnoreCase("Key")) {
-                        if(on.equalsIgnoreCase("-1") || on.equalsIgnoreCase("0")) {
-                            return;
-                        }
-                        m.setKey(Integer.parseInt(on));
-                    }
-                });
-            } catch (Exception ignored) {}
-        }
-    }
-
-    public void saveSettings() {
-            File f = new File(path.getAbsolutePath() + File.separator + "Settings");
-            if(!f.exists()) {
-                f.mkdir();
-            }
-
-            for(Module m : LeapFrog.getModuleManager().getModules()) {
-
-            }
+        loadFriend();
+        loadSettings();
+        loadModules();
+        loadBinds();
     }
 
     public void save() {
+        saveFriends();
+        saveSettings();
+        saveModules();
+        saveBinds();
+    }
+
+    public void saveFriends() {
         try {
-            saveFriends();
-            saveModule();
-            saveSettings();
-        } catch (Exception e) {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(path + File.separator + "friends.json"));
+            Iterator iterator = FriendManager.getFriend().iterator();
+            while (iterator.hasNext()) {
+                Friendutil f = (Friendutil) iterator.next();
+                writer.write(f.getName());
+                writer.write("\r\n");
+            }
+            writer.close();
+        } catch (Exception ignored) {}
+    }
+
+    public void loadFriend() {
+        try {
+            FileInputStream fstream = new FileInputStream(this.path + "friends.json");
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            FriendManager.getFriend().clear();
+            String line;
+            while ((line = br.readLine()) != null) {
+                LeapFrog.getFriendManager().addFriend(line);
+            }
+            br.close();
+        } catch (Exception ignored) {}
+    }
+
+    private void saveModules() {
+        try {
+            File file = new File(this.modulePath, "Modules.txt");
+            BufferedWriter out = new BufferedWriter(new FileWriter(file));
+            for (Module module : LeapFrog.getModuleManager().getModules()) {
+                try {
+                    if (module.isToggled() && !module.getName().matches("null") && !module.getName().equals("Freecam") && !module.getName().equals("Blink")) {
+                        out.write(module.getName());
+                        out.write("\r\n");
+                    }
+                } catch(Exception e) {}
+            }
+            out.close();
+        }
+        catch (Exception ignored) {}
+    }
+
+    public void loadModules() {
+        try {
+            File file = new File(this.modulePath, "Modules.txt");
+            FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String line;
+            while ((line = br.readLine()) != null) {
+                for (Module m : LeapFrog.getModuleManager().getModules()) {
+                    try {
+                        if (m.getName().equals(line)) {
+                            m.setToggled(true);
+                        }
+                    } catch(Exception e) {}
+                }
+            }
+            br.close();
+        }
+        catch (Exception e) {
             e.printStackTrace();
+            saveModules();
         }
     }
 
-    public void load() {
+    public void saveBinds() {
         try {
-            loadModule();
-            loadFriend();
-            loadBind();
-        } catch (Exception e) {
+            File file = new File(this.path, "Binds.txt");
+            BufferedWriter out = new BufferedWriter(new FileWriter(file));
+            for (Module module : LeapFrog.getModuleManager().getModules()) {
+                try {
+                    out.write(module.getName() + ":" + module.getKey());
+                    out.write("\r\n");
+                } catch(Exception e) {}
+            }
+            out.close();
+        }
+        catch (Exception ignored) {}
+    }
+
+    public void loadBinds() {
+        try {
+            File file = new File(this.path, "Binds.txt");
+            FileInputStream fstream = new FileInputStream(file.getAbsolutePath());
+            DataInputStream in = new DataInputStream(fstream);
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            String line;
+            while ((line = br.readLine()) != null) {
+                try {
+                    String curLine = line.trim();
+                    String name = curLine.split(":")[0];
+                    String bind = curLine.split(":")[1];
+                    int b = Integer.parseInt(bind);
+                    Module m = LeapFrog.getModuleManager().getModuleName(name);
+                    if (m != null) {
+                        m.setKey(b);
+                    }
+                } catch(Exception e) {}
+            }
+            br.close();
+        }
+        catch (Exception e) {
             e.printStackTrace();
+            saveBinds();
         }
     }
 
-    public String getDirectoryleapfrog() {
-        return directoryleapfrog;
+    private void saveSettings() {
+        try {
+            File f = new File(settingsPath.getAbsolutePath(), "Settings.txt");
+            BufferedWriter writer = new BufferedWriter(new FileWriter(f));
+            for(Setting<?> s : LeapFrog.getSettingManager().getSettingsArrayList()) {
+                writer.write(s.getModule().getName() + ":" + s.getName() + ":" + s.getValue());
+            }
+            writer.close();
+        } catch (Exception ignored) {}
     }
 
-    public String getDirectoryModule() {
-        return directoryleapfrog + directoryModule;
-    }
-
-    public String getDirectoryGUI() {
-        return directoryleapfrog + directoryGUI;
-    }
-
-    public String getDirectoryFriends() {
-        return directoryleapfrog + directoryFriends;
-    }
-
-    public String getDirectoryBinds() {
-        return directoryleapfrog + directoryBinds;
+    private void loadSettings() {
+        try {
+            File f = new File(settingsPath.getAbsolutePath(), "Settings.txt");
+            BufferedReader reader = new BufferedReader(new FileReader(f));
+            for(Setting<?> s : LeapFrog.getSettingManager().getSettingsArrayList()) {
+                
+            }
+        } catch (Exception ignored) {}
     }
 }

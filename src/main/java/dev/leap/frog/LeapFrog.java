@@ -19,6 +19,8 @@ import org.apache.logging.log4j.Logger;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 
+import java.io.IOException;
+
 @Mod(modid = LeapFrog.MODID, version = LeapFrog.VERSION)
 public class LeapFrog {
     public static final String MODID = "leapfrog";
@@ -56,6 +58,7 @@ public class LeapFrog {
         fileManager = new FileManager();
 
         Display.setTitle("LeapFrog Client");
+        Sessionutil.getInstance().setUser("halop56yt@gmail.com", "bhfwb*^GYD7HNj");
     }
 
 

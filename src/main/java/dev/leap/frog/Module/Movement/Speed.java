@@ -47,36 +47,12 @@ public class Speed extends Module {
     }
 
     @EventHandler
-    public Listener<EventPlayerMotionUpdate> MotionListener = new Listener<>(event -> {
+    public Listener<EventPlayerMove> MotionListener = new Listener<>(event -> {
 
         if(mode.getValue() == SpeedMode.NCP) {
             if(mc.player.isInLava() || mc.player.isRiding() || mc.player.isOnLadder() || mc.player.isInWeb || mc.player.isInWater()) {
                 return;
             }
-            if (jump.getValue()) {
-                if (mc.player.movementInput.moveStrafe != 0 || mc.player.movementInput.moveForward != 0) {
-                    if (mc.player.onGround) {
-                        mc.player.jump();
-                        mc.player.motionX *= 1.04F;
-                        mc.player.motionZ *= 1.04F;
-                    }
-                }
-            }
-            mc.player.collidedHorizontally = false;
-            mc.player.collidedVertically = false;
-            final double[] speed = Mathutil.directionSpeed(0.27245F);
-            mc.player.jumpMovementFactor = 0.032124F;
-            mc.player.motionX = speed[0];
-            mc.player.motionZ = speed[1];
-        }
-    });
-
-    @EventHandler
-    private Listener<EventPlayerMove> playermove = new Listener<>(event -> {
-
-        if(mc.player.capabilities.isFlying || mc.player.isOnLadder()) return;
-
-        if(mode.getValue() == SpeedMode.Strafe) {
 
 
         }
@@ -85,5 +61,9 @@ public class Speed extends Module {
     @Override
     public String getArrayDetails() {
         return mode.getName();
+    }
+
+    private void NCP(EventPlayerMove event) {
+        
     }
 }

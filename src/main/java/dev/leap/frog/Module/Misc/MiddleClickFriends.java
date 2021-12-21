@@ -51,7 +51,7 @@ public class MiddleClickFriends extends Module {
                 Chatutil.sendClientSideMessgage("Player " + player.getName() + " is no longer your" + ChatFormatting.RED + " " + "friend");
                 try {
                     LeapFrog.getFileManager().saveFriends();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
@@ -59,7 +59,7 @@ public class MiddleClickFriends extends Module {
                 Chatutil.sendClientSideMessgage("Player " + player.getName() + " is now your" + ChatFormatting.GREEN + " " +  "friend");
                 try {
                     LeapFrog.getFileManager().saveFriends();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

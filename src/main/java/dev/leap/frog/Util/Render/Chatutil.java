@@ -11,6 +11,9 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Chatutil extends UtilManager {
 
     public static ChatFormatting red = ChatFormatting.RED;
@@ -37,5 +40,12 @@ public class Chatutil extends UtilManager {
             ITextComponent text = new TextComponentString(prefix + message).setStyle(new Style().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponentString("Leap Frog"))));
             Wrapper.getMC().ingameGUI.getChatGUI().printChatMessageWithOptionalDeletion(text, 5936);
         }
+    }
+
+    public static String getTimeTXT() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy-HH-mm");
+        Date date = new Date();
+
+        return formatter.format(date) + "LeapFrogChat.txt";
     }
 }

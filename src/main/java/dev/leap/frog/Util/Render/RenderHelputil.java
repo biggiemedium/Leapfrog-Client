@@ -110,7 +110,7 @@ public class RenderHelputil extends Tessellator {
         return INSTANCE.getBuffer();
     }
 
-    public static void drawCube(final BufferBuilder buffer, float x, float y, float z, float w, float h, float d, int r, int g, int b, int a, String sides) {
+    public static void drawCube(BufferBuilder buffer, float x, float y, float z, float w, float h, float d, int r, int g, int b, int a, String sides) {
         if (((boolean) Arrays.asList(sides.split("-")).contains("down")) || sides.equalsIgnoreCase("all")) {
             buffer.pos(x + w, y, z).color(r, g, b, a).endVertex();
             buffer.pos(x + w, y, z + d).color(r, g, b, a).endVertex();
@@ -154,7 +154,7 @@ public class RenderHelputil extends Tessellator {
         }
     }
 
-    public static void drawCubeLine(final BufferBuilder buffer, float x, float y, float z, float w, float h, float d, int r, int g, int b, int a, String sides) {
+    public static void drawCubeLine(BufferBuilder buffer, float x, float y, float z, float w, float h, float d, int r, int g, int b, int a, String sides) {
         if (((boolean) Arrays.asList(sides.split("-")).contains("downwest")) || sides.equalsIgnoreCase("all")) {
             buffer.pos(x, y, z).color(r, g, b, a).endVertex();
             buffer.pos(x, y, z + d).color(r, g, b, a).endVertex();

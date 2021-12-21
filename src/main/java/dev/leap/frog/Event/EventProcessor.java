@@ -92,4 +92,9 @@ public class EventProcessor {
         LeapFrog.EVENT_BUS.post(event);
     }
 
+    @SubscribeEvent
+    public void pushEvent(PlayerSPPushOutOfBlocksEvent event) {
+        LeapFrog.EVENT_BUS.post(event);
+    }
+
 }

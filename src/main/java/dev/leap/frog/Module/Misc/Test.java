@@ -67,18 +67,10 @@ public class Test extends Module {
     @Override
     public void onUpdate() {
         if(UtilManager.nullCheck() || mc.currentScreen instanceof Click) return;
-
     }
 
     @Override
     public void onRender(RenderEvent event) {
-        if(s.getValue()) {
-            Renderutil.drawBoundingBoxBlockPos(Playerutil.getPlayerPos().down(), 1, 255, 255, 255, 255);
-        }
-
-        if(example.getValue() && s.getValue()) {
-
-        }
     }
 
     @EventHandler

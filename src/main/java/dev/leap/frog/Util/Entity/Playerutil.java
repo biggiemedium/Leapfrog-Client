@@ -39,6 +39,10 @@ public class Playerutil extends UtilManager {
         return Wrapper.getMC().player.getHealth() + Wrapper.getMC().player.getAbsorptionAmount();
     }
 
+    public static Vec3d getPlayerPosVec3d() {
+        return new Vec3d(mc.player.posX, mc.player.posY, mc.player.posZ);
+    }
+
     public static BlockPos getPlayerPosFloored() {
         return new BlockPos(Math.floor(Wrapper.getMC().player.posX), Math.floor(Wrapper.getMC().player.posY), Math.floor(Wrapper.getMC().player.posZ));
     }

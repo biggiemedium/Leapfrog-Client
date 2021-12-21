@@ -37,6 +37,7 @@ public class MiddleClickPearl extends Module {
         if(Mouse.isButtonDown(2)) {
             if(!inventory.getValue() && !spoof.getValue()) {
                 RayTraceResult ray = mc.objectMouseOver;
+                if(mc.objectMouseOver == null) return;
                 if(ray.typeOfHit == RayTraceResult.Type.MISS) {
                     int startHand = mc.player.inventory.currentItem;
                     assert getPearlSlotHotbar() != -1;

@@ -19,7 +19,5 @@ public class OldAnimation extends Module {
             mc.entityRenderer.itemRenderer.equippedProgressMainHand = 1.0f;
             mc.entityRenderer.itemRenderer.itemStackMainHand = mc.player.getHeldItemMainhand();
         }
-
-
     }
 }

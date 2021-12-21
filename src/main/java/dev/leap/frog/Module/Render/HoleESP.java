@@ -6,12 +6,22 @@ import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Block.Blockutil;
 import dev.leap.frog.Util.Entity.Playerutil;
+import dev.leap.frog.Util.Math.Mathutil;
+import dev.leap.frog.Util.Render.RenderHelputil;
 import dev.leap.frog.Util.Render.Renderutil;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.RenderGlobal;
+import net.minecraft.client.renderer.culling.Frustum;
+import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.Vec3i;
+import net.minecraft.world.IBlockAccess;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -37,8 +47,7 @@ public class HoleESP extends Module {
     Setting<Integer> bB = create("BedRock Blue", 255, 0, 255);
     Setting<Integer> bA = create("BedRock Alpha", 255, 0, 255);
 
-    Setting<Float> glowHeight = create("Glow Height", 0.5f, 0.0f, 10.0f);
-
+    Setting<Float> glowHeight = create("Glow Height", 0.5f, 0.0f, 5.0f);
     Setting<Boolean> renderSelf = create("Render Self", true);
 
     private enum RenderMode {
@@ -110,18 +119,31 @@ public class HoleESP extends Module {
                 int alpha = bedrock ? bA.getValue() : obbyAlpha.getValue();
 
                 if(renderMode.getValue() == RenderMode.Full) {
-
+                    RenderHelputil.prepare("quads");
+                    RenderHelputil.drawCube(hole, red, green, blue, alpha, "all");
+                    RenderHelputil.release();
                 }
                if(renderMode.getValue() == RenderMode.Outline) {
                    Renderutil.drawBoundingBoxBlockPos(hole, 1, red, green, blue, alpha);
                }
 
                if(renderMode.getValue() == RenderMode.Flat) {
-
+                   
                }
 
                if(renderMode.getValue() == RenderMode.Glow) {
 
+                   AxisAlignedBB axisAlignedBB = new AxisAlignedBB(hole.getX() - mc.getRenderManager().viewerPosX, hole.getY() - mc.getRenderManager().viewerPosY, hole.getZ() - mc.getRenderManager().viewerPosZ, hole.getX() + 1 - mc.getRenderManager().viewerPosX, hole.getY() + 1 - mc.getRenderManager().viewerPosY, hole.getZ() + 1 - mc.getRenderManager().viewerPosZ);
+
+                   GlStateManager.disableCull();
+                   GlStateManager.disableAlpha();
+                   GlStateManager.shadeModel(GL11.GL_SMOOTH);
+
+                   Renderutil.drawSelectionGlowFilledBox(axisAlignedBB, glowHeight.getValue(), 0, 0, new Color(red, green, blue, alpha / 2), new Color(red, green, blue, 0));
+
+                   GlStateManager.enableCull();
+                   GlStateManager.enableAlpha();
+                   GlStateManager.shadeModel(GL11.GL_FLAT);
                }
         });
     }

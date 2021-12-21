@@ -53,7 +53,8 @@ public class ESP extends Module {
         ESP,
         SKELETON,
         R6,
-        BOX
+        BOX,
+        CSGO
     }
 
     @Override
@@ -104,14 +105,21 @@ public class ESP extends Module {
 
     @Override
     public void onRender(RenderEvent event) {
-        startEnd(true);
-        GL11.glEnable(2903);
-        GL11.glDisable(2848);
-        entityPlayerHashMap.keySet().removeIf(this::containsEntity);
-        mc.world.playerEntities.forEach(e -> renderSkeleton(event, e));
 
-        Gui.drawRect(0, 0, 0, 0, 0);
-        startEnd(false);
+        if(mode.getValue() == ESPMode.SKELETON) {
+            startEnd(true);
+            GL11.glEnable(2903);
+            GL11.glDisable(2848);
+            entityPlayerHashMap.keySet().removeIf(this::containsEntity);
+            mc.world.playerEntities.forEach(e -> renderSkeleton(event, e));
+
+            Gui.drawRect(0, 0, 0, 0, 0);
+            startEnd(false);
+        } else if(mode.getValue() == ESPMode.R6) {
+            mc.world.playerEntities.forEach(e -> renderR6ESP(event, e));
+        } else if(mode.getValue() == ESPMode.CSGO) {
+            mc.world.playerEntities.forEach(e -> renderCSGO(event, e));
+        }
     }
 
     private void renderSkeleton(RenderEvent event, EntityPlayer player) {
@@ -275,7 +283,15 @@ public class ESP extends Module {
     }
 
     private void renderR6ESP(RenderEvent event, EntityPlayer e) {
+        GL11.glPushMatrix();
 
+    }
+
+    private void renderCSGO(RenderEvent event, EntityPlayer player) { // TODO: Finish ESP
+        GL11.glPushMatrix();
+        if(player != null && !player.isDead && player != mc.player) {
+
+        }
     }
 
     private boolean containsEntity(EntityPlayer player) {

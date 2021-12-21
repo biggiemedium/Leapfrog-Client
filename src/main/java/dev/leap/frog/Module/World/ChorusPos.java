@@ -32,32 +32,32 @@ public class ChorusPos extends Module {
     public void onEnable() {
     }
 
-    @Override
-    public void onUpdate() {
-        if(timer.passed(2000L) && playerPos != null) {
-            playerPos = null;
-            return;
-        }
-    }
-
     @EventHandler
     private Listener<EventPacket.ReceivePacket> packetListener = new Listener<>(event -> {
-
         if(event.getPacket() instanceof SPacketSoundEffect) {
-            final SPacketSoundEffect packet = (SPacketSoundEffect) event.getPacket();
+            SPacketSoundEffect packet = (SPacketSoundEffect) event.getPacket();
             if(packet.getSound() == SoundEvents.ITEM_CHORUS_FRUIT_TELEPORT) {
                 playerPos = new BlockPos(packet.getX(), packet.getY(), packet.getZ());
-                Chatutil.sendClientSideMessgage("Player has used a chorus and is now at " + "X: " + Math.floor(packet.getX()) +"Y:" + Math.floor(packet.getY()) + " Z: " + Math.floor(packet.getZ()));
+                if(notify.getValue()) {
+                    Chatutil.sendClientSideMessgage("Player teleported to X:" + packet.getX() + " Y: " + packet.getY() + " Z: " + packet.getZ());
+                }
                 timer.reset();
             }
         }
-
     });
 
     @Override
     public void onRender(RenderEvent event) {
         if(playerPos != null) {
-            Renderutil.drawBoundingBoxBlockPos(playerPos, 1, 255, 0, 0, 200);
+            Renderutil.drawBoundingBoxBlockPos(playerPos, 1, 255, 255, 255, 255);
+        }
+    }
+
+    @Override
+    public void onUpdate() {
+        if(timer.passed(2000)) {
+            playerPos = null;
+            return;
         }
     }
 }

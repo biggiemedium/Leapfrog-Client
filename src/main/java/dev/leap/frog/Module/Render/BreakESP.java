@@ -6,6 +6,7 @@ import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Math.Mathutil;
 import dev.leap.frog.Util.Math.PairUtil;
+import dev.leap.frog.Util.Render.RenderHelputil;
 import dev.leap.frog.Util.Render.Renderutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
@@ -31,7 +32,7 @@ public class BreakESP extends Module {
     Setting<Integer> green = create("Green", 255, 0, 255);
     Setting<Integer> blue = create("Blue", 255, 0, 255);
 
-    Setting<Integer> alpha = create("Alpha", 255, 0, 255);
+    Setting<Integer> alpha = create("Alpha", 150, 0, 255);
     Setting<Boolean> transparency = create("Fade", true);
     Setting<Integer> transparencyLevel = create("Fade level", 250, 0, 255, v -> transparency.getValue());
 
@@ -50,21 +51,24 @@ public class BreakESP extends Module {
     }
 
     @Override
-    public void onUpdate() {
-        for(EntityPlayer player : mc.world.playerEntities) {
-
-        }
-    }
-
-    @Override
     public void onRender(RenderEvent event) {
         int fade = transparency.getValue() ? transparencyLevel.getValue() : 0;
         mc.renderGlobal.damagedBlocks.forEach((integer, damage) -> {
             if(damage != null && integer != null) {
-                if(mode.getValue() == Mode.Outline) {
+                if(mode.getValue() == Mode.Full) {
                     IBlockState state = mc.world.getBlockState(damage.getPosition());
                     Vec3d interpos = Mathutil.getInterpolatedPos(mc.player, mc.getRenderPartialTicks());
                     Renderutil.drawFullBox(state.getSelectedBoundingBox(mc.world, damage.getPosition()).grow(0.0020000000949949026).offset(-interpos.x, -interpos.y, -interpos.z), damage.getPosition(), 1.5f, red.getValue(), green.getValue(), blue.getValue(), alpha.getValue(), fade);
+                    RenderHelputil.prepare("quads");
+                    RenderHelputil.drawCube(damage.getPosition(), red.getValue(), green.getValue(), blue.getValue(), alpha.getValue(), "all");
+                    RenderHelputil.release();
+                } else {
+                    IBlockState state = mc.world.getBlockState(damage.getPosition());
+                    Vec3d interpos = Mathutil.getInterpolatedPos(mc.player, mc.getRenderPartialTicks());
+                    Renderutil.drawFullBox(state.getSelectedBoundingBox(mc.world, damage.getPosition()).grow(0.0020000000949949026).offset(-interpos.x, -interpos.y, -interpos.z), damage.getPosition(), 1.5f, red.getValue(), green.getValue(), blue.getValue(), alpha.getValue(), fade);
+                    RenderHelputil.prepare("lines");
+                    RenderHelputil.drawCube(damage.getPosition(), red.getValue(), green.getValue(), blue.getValue(), alpha.getValue(), "all");
+                    RenderHelputil.release();
                 }
             }
         });

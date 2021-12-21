@@ -29,81 +29,84 @@ public class ModuleManager {
     public ModuleManager() {
 
         // Client
-        Add(new ArmorNotify());
+        Add(new ArmorNotify()); // done
         Add(new AutoEZ());
-        Add(new AutoReply());
-        Add(new Suffix());
-        Add(new Blur());
-        Add(new ToggleMessage());
+        Add(new AutoReply()); // done
+        Add(new Blur()); // done
+        Add(new ChatLogger());
+        Add(new NewGUI());
+        Add(new Suffix()); // done
+        Add(new ToggleMessage()); // null error in module class
 
         //// Combat
         Add(new AutoTotem());
-        Add(new AutoWeb());
-        Add(new AutoLog());
-        Add(new AutoXP());
+        Add(new AutoWeb()); // done
+        Add(new AutoLog()); // done
+        Add(new AutoXP()); // done
         Add(new BedAura());
         Add(new Burrow());
         Add(new CrystalAura());
-        Add(new Criticals());
+        Add(new Criticals()); // done
         Add(new KillAura());
         Add(new OffHand());
-        Add(new Velocity());
+        Add(new Trigger());
+        Add(new Velocity()); // done
 
 
         ////GUI
-        Add(new ClickGUIModule());
+        Add(new ClickGUIModule()); // done
         Add(new HudEditorModule());
 
         // Misc
-        Add(new AntiSound());
-        Add(new Blink());
+        Add(new AntiSound()); // done
+        Add(new Blink()); // done
         Add(new Test());
-        Add(new FastUse());
-        Add(new MiddleClickFriends());
-        Add(new MiddleClickPearl());
-        Add(new TotemPopCounter());
+        Add(new FastUse()); // done
+        Add(new MiddleClickFriends()); // done
+        Add(new MiddleClickPearl()); // done
+        Add(new TotemPopCounter()); // done
 
         // Exploit
-        Add(new XCarry());
-        Add(new CoordExploit());
-        Add(new LagBack());
-        Add(new OffhandSwing());
-        Add(new ElytraBypass());
-        Add(new SpeedMine());
-        Add(new TimerModule());
+        Add(new ElytraBypass()); // Finish
+        Add(new LagBack()); // done
+        Add(new OffhandSwing()); // done
+        Add(new SpeedMine()); // Finish
+        Add(new TimerModule()); // done
+        Add(new XCarry()); // done
 
         // World
-        Add(new FakePlayer());
-        Add(new LawnMower());
-        Add(new Quiver());
-        Add(new SkyColor());
+        Add(new AntiSuicide());
+        Add(new ChorusPos()); // Finish Render
+        Add(new Copy()); // done
+        Add(new FakePlayer()); // done
+        Add(new Quiver()); // Fix null errors
         Add(new StrengthDetect());
 
         // Render
-        Add(new BlockHighlight());
-        Add(new BreakESP());
-        Add(new Capes());
-        Add(new ChorusPos());
-        Add(new ESP());
-        Add(new FreeCam());
-        Add(new FullBright());
-        Add(new HandSize());
-        Add(new HoleESP());
-        Add(new NoRender());
-        Add(new OldAnimation());
+        Add(new BlockHighlight()); // done
+        Add(new BreadCrums()); // done
+        Add(new BreakESP()); // done
+        Add(new Capes()); // done
+        Add(new ESP()); // Finish modes
+        Add(new FullBright()); // done
+        Add(new HandSize()); // done
+        Add(new HoleESP()); // Finsih Render
+        Add(new NoRender()); // done
+        Add(new OldAnimation()); // done
         Add(new SuperHeroFX());
-        Add(new ViewClip());
+        Add(new ViewClip()); // done
 
         //Movement
+        Add(new AntiAim());
         Add(new Speed());
         Add(new FastSwim());
-        Add(new FastWeb());
-        Add(new Sprint());
+        Add(new FastWeb()); // done
+        Add(new Sprint()); // done
         Add(new ElytraFly());
-        Add(new Nofall());
-        Add(new NoSlow());
-        Add(new NoRotate());
-        Add(new ReverseStep());
+        Add(new Nofall()); // done
+        Add(new NoSlow()); // Finish Packet
+        Add(new NoRotate()); // done
+        Add(new ReverseStep()); // done
     }
 
     public void Add(Module m) {

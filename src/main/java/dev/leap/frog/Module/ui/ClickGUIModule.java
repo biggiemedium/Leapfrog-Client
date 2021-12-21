@@ -1,6 +1,7 @@
 package dev.leap.frog.Module.ui;
 
 import dev.leap.frog.GUI.Click;
+import dev.leap.frog.GUI.ClickGUI2.ClickGUI;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import net.minecraft.client.gui.Gui;
@@ -23,7 +24,6 @@ public class ClickGUIModule extends Module {
 
     public Setting<Boolean> descriptionn = create("Description", true);
     public Setting<Boolean> clickSound = create("ClickSound", false);
-    public Setting<Boolean> watermark = create("WaterMark", true);
     public Setting<Boolean> falling = create("Falling", false);
     public Setting<Boolean> sideProfile = create("SideBars", true);
     public Setting<Boolean> FOVAdjustments = create("FOV Change", false);
@@ -42,26 +42,10 @@ public class ClickGUIModule extends Module {
     public Setting<Float> buttonblue = create("Button blue", 0.0f, 0.0f, 1.0f, v -> GUIColors.getValue() && !rainbow.getValue());
     public Setting<Float> buttonalpha = create(" Button Alpha", 0.5f, 0.1f, 1.0f, v -> GUIColors.getValue() && !rainbow.getValue()); // 0.0f, 1, 0.0f, 0.5f
 
-    private ResourceLocation waterMark = new ResourceLocation("Leapfrog.png");
-
     @Override
     public void onUpdate() {
-        if(watermark.getValue()) {
-            ScaledResolution sr = new ScaledResolution(mc);
-            mc.renderEngine.bindTexture(waterMark);
-            Gui.drawScaledCustomSizeModalRect(0, sr.getScaledHeight() - 80, 0, 0, 80, 80, 80, 80, 80, 80);
-        }
         if(FOVAdjustments.getValue()) {
             mc.gameSettings.fovSetting = FOV.getValue();
-        }
-    }
-
-    @Override
-    public void onRender() {
-        if(watermark.getValue()) {
-            ScaledResolution sr = new ScaledResolution(mc);
-            mc.renderEngine.bindTexture(waterMark);
-            Gui.drawScaledCustomSizeModalRect(0, sr.getScaledHeight() - 80, 0, 0, 80, 80, 80, 80, 80, 80);
         }
     }
 

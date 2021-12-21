@@ -19,7 +19,7 @@ public class Velocity extends Module {
     Setting<Boolean> push = create("Push", true);
     Setting<Boolean> explosion = create("explosion", true);
 
-    Setting<Integer> offput = create("Offput", 0, 0, 100);
+    Setting<Integer> offput = create("Offset", 0, 0, 100);
 
     @EventHandler
     private Listener<EventPacket.ReceivePacket> move = new Listener<>(event -> {

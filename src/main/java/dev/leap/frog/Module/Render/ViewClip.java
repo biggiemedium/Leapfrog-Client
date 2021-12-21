@@ -8,4 +8,8 @@ public class ViewClip extends Module {
         super("View Clip", "Changes vanilla f5 screen", Type.RENDER);
     }
 
+    /**
+     * @see dev.leap.frog.Mixin.MixinEntityRenderer
+     */
+
 }

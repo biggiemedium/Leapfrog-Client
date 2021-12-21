@@ -12,13 +12,11 @@ public class RenderEvent extends LeapFrogEvent {
 
     private final ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
     private final Tessellator tessellator;
-    private final Vec3d       render_pos;
+    private final Vec3d renderPos;
 
     public RenderEvent(Tessellator tessellator, Vec3d pos) {
-        super();
-
         this.tessellator = tessellator;
-        this.render_pos  = pos;
+        this.renderPos = pos;
     }
 
     public Tessellator getTessellator() {
@@ -26,7 +24,7 @@ public class RenderEvent extends LeapFrogEvent {
     }
 
     public Vec3d getRenderPos() {
-        return render_pos;
+        return renderPos;
     }
 
     public BufferBuilder getBufferBuild() {
@@ -34,11 +32,11 @@ public class RenderEvent extends LeapFrogEvent {
     }
 
     public void setTranslation(Vec3d pos) {
-        getBufferBuild().setTranslation(- pos.x, - pos.y, - pos.z);
+        getBufferBuild().setTranslation(-pos.x, -pos.y, -pos.z);
     }
 
     public void resetTranslation() {
-        setTranslation(render_pos);
+        setTranslation(renderPos);
     }
 
     public double getScreenWidth() {

@@ -22,15 +22,6 @@ public class HUD extends GuiScreen {
         return false;
     }
 
-    public HUDFrame getframeByName(String in) {
-        for (HUDFrame f : getFrames()) {
-            if (f.getName().equalsIgnoreCase(in)) {
-                return f;
-            }
-        }
-        return null;
-    }
-
     public ArrayList<HUDFrame> getFrames() {
         return frames;
     }
