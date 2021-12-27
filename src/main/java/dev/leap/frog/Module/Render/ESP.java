@@ -119,6 +119,8 @@ public class ESP extends Module {
             mc.world.playerEntities.forEach(e -> renderR6ESP(event, e));
         } else if(mode.getValue() == ESPMode.CSGO) {
             mc.world.playerEntities.forEach(e -> renderCSGO(event, e));
+        } else if(mode.getValue() == ESPMode.ESP) {
+
         }
     }
 

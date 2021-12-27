@@ -59,6 +59,8 @@ public class CrystalAura extends Module {
     @Override
     public void onUpdate() {
         if (UtilManager.nullCheck()) return;
+        if(shouldStop()) return;
+
 
         findTarget(distance.getValue());
     }
@@ -88,7 +90,13 @@ public class CrystalAura extends Module {
             return true;
         }
 
+        if(LeapFrog.getModuleManager().getModule(AutoWeb.class).isToggled() && smartStop.getValue()) {
+            return true;
+        }
 
+        if(LeapFrog.getModuleManager().getModule(BedAura.class).isToggled() && smartStop.getValue()) {
+            return true;
+        }
 
         return false;
     }
@@ -102,6 +110,11 @@ public class CrystalAura extends Module {
 
         return true;
     }
+
+    @EventHandler
+    private Listener<EventPacket.ReceivePacket> receivePacketListener = new Listener<>(event -> {
+
+    });
 
     @Override
     public String getArrayDetails() {
