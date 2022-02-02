@@ -9,6 +9,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
@@ -97,4 +98,13 @@ public class EventProcessor {
         LeapFrog.EVENT_BUS.post(event);
     }
 
+    @SubscribeEvent
+    public void hurtEvent(LivingHurtEvent event) {
+        LeapFrog.EVENT_BUS.post(event);
+    }
+
+    public static <T> T postEvent(T event) {
+        LeapFrog.EVENT_BUS.post(event);
+        return event;
+    }
 }

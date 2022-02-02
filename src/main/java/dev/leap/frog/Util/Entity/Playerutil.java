@@ -112,5 +112,7 @@ public class Playerutil extends UtilManager {
         return new double[]{yaw,pitch};
     }
 
-
+    public static boolean isHoldingItem(Item item) {
+        return mc.player.getHeldItemMainhand().getItem() == item || mc.player.getHeldItemOffhand().getItem() == item;
+    }
 }

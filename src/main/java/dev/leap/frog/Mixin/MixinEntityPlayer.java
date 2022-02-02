@@ -19,7 +19,5 @@ public class MixinEntityPlayer {
         if(packet.isCancelled()) {
             ci.cancel();
         }
-
     }
-
 }

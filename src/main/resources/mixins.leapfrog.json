@@ -5,20 +5,20 @@
   "refmap": "mixins.leapfrog.refmap.json",
   "mixins": [
     "MixinAbstractClientPlayer",
-    "MixinMainMenuGUI",
+    "Render.MixinMainMenuGUI",
     "MixinNetworkManager",
-    "MixinPlayerSP",
     "SessionUtil",
     "MixinMinecraft",
     "MixinEntity",
     "MixinEntityPlayerSP",
     "MixinPlayerControllerMP",
     "MixinEntityRenderer",
-    "MixinGuiBossBar",
+    "Render.MixinGuiBossBar",
     "MixinWorld",
-    "MixinRenderItem",
-    "MixinRenderPlayer",
+    "Render.MixinRenderItem",
+    "Render.MixinRenderPlayer",
     "MixinMovementInputOptions",
-    "MixinRenderManager"
+    "Render.MixinRenderManager",
+    "Render.MixinRenderLiving"
   ]
 }

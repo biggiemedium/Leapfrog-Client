@@ -18,7 +18,7 @@ public class AutoLog extends Module {
         super("Auto Log", "Logs you out of the game if you are at a certain health", Type.COMBAT);
     }
 
-    int totems = AutoTotem.Get.totems;
+    private int totems = AutoTotem.Get.totems;
 
     Setting<Integer> disconnect = create("Disconnection health", 10, 0, 35);
 

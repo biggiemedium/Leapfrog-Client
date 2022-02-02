@@ -17,6 +17,13 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.Scanner;
+import java.util.UUID;
+
 public class Entityutil extends UtilManager {
 
     private static final Minecraft mc = Minecraft.getMinecraft();
@@ -135,4 +142,32 @@ public class Entityutil extends UtilManager {
         return false;
     }
 
+    public static String requestName(UUID uuid) {
+        try {
+            String query = "https://api.mojang.com/user/profiles/" + uuid + "/names";
+            URL url = new URL(query);
+            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("GET");
+            InputStream in = new BufferedInputStream(conn.getInputStream());
+            String res = convertStreamToString(in);
+            in.close();
+            conn.disconnect();
+            return res;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private static String convertStreamToString(final InputStream is) {
+        Scanner s = new Scanner(is).useDelimiter("\\A");
+        String r = s.hasNext() ? s.next() : "/";
+        return r;
+    }
+
+    public static boolean canSeePlayer(EntityPlayer target) {
+        return mc.player.canEntityBeSeen(target);
+    }
 }

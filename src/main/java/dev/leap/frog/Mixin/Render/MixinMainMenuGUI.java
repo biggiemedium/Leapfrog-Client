@@ -1,4 +1,4 @@
-package dev.leap.frog.Mixin;
+package dev.leap.frog.Mixin.Render;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.leap.frog.LeapFrog;

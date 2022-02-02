@@ -1,6 +1,9 @@
 package dev.leap.frog.Module.Movement;
 
+import dev.leap.frog.Event.Movement.EventPlayerMotionUpdate;
+import dev.leap.frog.Event.Movement.EventPlayerTravel;
 import dev.leap.frog.Event.Network.EventPacket;
+import dev.leap.frog.Event.Network.EventPacketUpdate;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Render.Chatutil;
@@ -18,19 +21,18 @@ public class AntiAim extends Module { // TODO: Finish this
 
     Setting<Integer> speed = create("Speed", 5, 1, 10);
 
-    private int timer;
+    private float yaw;
 
-    @Override
-    public void onEnable() {
-        timer = 0;
-    }
+    @EventHandler
+    private Listener<EventPacketUpdate> updateListener = new Listener<>(event -> {
+        this.yaw = mc.player.rotationYaw;
+        this.yaw += speed.getValue();
+    });
 
-    @Override
-    public void onUpdate() {
-        timer++;
-        mc.player.rotationYaw = timer * speed.getValue();
-        if(timer >= 360) {
-            timer = 0;
+    @EventHandler
+    private Listener<EventPacket.SendPacket> rotationlistener = new Listener<>(event -> {
+        if(event.getPacket() instanceof CPacketPlayer.Rotation) {
+            CPacketPlayer.Rotation packet = (CPacketPlayer.Rotation) event.getPacket();
         }
-    }
+    });
 }

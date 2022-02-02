@@ -3,6 +3,7 @@ package dev.leap.frog.Module.World;
 import com.mojang.authlib.GameProfile;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
+import dev.leap.frog.Util.Render.Chatutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
@@ -14,6 +15,7 @@ import net.minecraft.item.ItemEndCrystal;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.GameType;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent;
 
 import java.util.UUID;
@@ -26,6 +28,7 @@ public class FakePlayer extends Module {
     private EntityOtherPlayerMP player;
 
     Setting<Boolean> copyInventory = create("Copy Inventory", false);
+    Setting<Boolean> notifyHit = create("Notify hit", true);
 
     @Override
     public void onEnable() {

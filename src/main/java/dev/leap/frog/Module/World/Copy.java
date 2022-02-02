@@ -15,9 +15,11 @@ public class Copy extends Module {
     public Copy() {
         super("Copy", "Copys ingame stats", Type.WORLD);
     }
+
     Setting<Mode> mode = create("Mode", Mode.Coords);
 
     Setting<Boolean> notify = create("Notify", true);
+
     private enum Mode {
         Coords,
         ServerIP,

@@ -4,6 +4,7 @@ import dev.leap.frog.Event.Movement.EventPlayerBreakBlock;
 import dev.leap.frog.Event.Movement.EventPlayerRightClick;
 import dev.leap.frog.Event.Movement.EventPlayerStoppedUsingItem;
 import dev.leap.frog.LeapFrog;
+import dev.leap.frog.Module.Exploit.Reach;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumActionResult;
@@ -39,7 +40,13 @@ public class MixinPlayerControllerMP {
         if(packet.isCancelled()) {
             cir.cancel();
         }
+    }
 
+    @Inject(method = "getBlockReachDistance", at = @At("HEAD"), cancellable = true)
+    public void reach(CallbackInfoReturnable<Float> cir) {
+        if(LeapFrog.getModuleManager() != null && LeapFrog.getModuleManager().getModule(Reach.class).isToggled()) {
+            cir.setReturnValue(Reach.INSTANCE.distance.getValue());
+        }
     }
 
     @Inject(method = "onPlayerDamageBlock", at = @At("HEAD"), cancellable = true)

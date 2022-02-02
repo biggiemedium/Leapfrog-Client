@@ -1,6 +1,7 @@
 package dev.leap.frog.Util.Block;
 
 import dev.leap.frog.Manager.UtilManager;
+import dev.leap.frog.Module.Module;
 import dev.leap.frog.Util.Wrapper;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -40,6 +41,49 @@ public class Blockutil extends UtilManager {
 
 
             mc.player.inventory.currentItem = prev;
+        }
+    }
+
+    public static void placeBlock(BlockPos pos, int distance, int slot, Module m, boolean sneaking, boolean rotate) {
+        if (!mc.world.getBlockState(pos).getMaterial().isReplaceable()) {
+            return;
+        }
+        if (!Blockutil.checkForNeighbours(pos)) {
+            return;
+        }
+
+        Vec3d eyesPos = new Vec3d(mc.player.posX, mc.player.posY + mc.player.getEyeHeight(), mc.player.posZ);
+
+        for(EnumFacing side : EnumFacing.values()) {
+            BlockPos neighbour = pos.offset(side);
+            EnumFacing side2 = side.getOpposite();
+            if (mc.world.getBlockState(neighbour).getBlock().canCollideCheck(mc.world.getBlockState(neighbour), false)) {
+                Vec3d hitVec = new Vec3d((Vec3i) neighbour).add(new Vec3d(0.5, 0.5, 0.5)).add(new Vec3d(side2.getDirectionVec()).scale(0.5));
+                if (eyesPos.distanceTo(hitVec) <= distance) {
+                    int web = slot;
+                    if(web == -1) {
+                        m.toggle();
+                        return;
+                    }
+
+                    int oldSlot = mc.player.inventory.currentItem;
+                    if(oldSlot != web) {
+                        mc.player.inventory.currentItem = web;
+                    }
+
+                    if(!mc.player.isSneaking() && Blockutil.blackList.contains(neighbour)) {
+                        mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SNEAKING));
+                        sneaking = true;
+                    }
+
+                    if(rotate) {
+                        Blockutil.faceVectorPacketInstant(hitVec);
+                    }
+
+                    mc.playerController.processRightClickBlock(mc.player, mc.world, neighbour, side2, hitVec, EnumHand.MAIN_HAND);
+                    mc.player.swingArm(EnumHand.MAIN_HAND);
+                }
+            }
         }
     }
 

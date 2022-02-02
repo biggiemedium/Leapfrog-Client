@@ -42,11 +42,15 @@ public class TotemPopCounter extends Module {
 
         for (EntityPlayer player : mc.world.playerEntities) {
             if(ignoreFriends.getValue() && FriendManager.isFriend(player.getName())) continue;
-            assert pops != null;
+            if(pops == null) { pops = new HashMap<>(); }
             if(!pops.containsKey(player.getName())) continue;
             if(player.getHealth() <= 0 || player.isDead) {
                 if(pops.containsKey(player.getName())) {
-                    Chatutil.sendClientSideMessgage(player.getName() + " " + "has died after popping " + pops.get(player.getName()) + " " + "totems");
+                    if(suffix.getValue()) {
+                        Chatutil.sendClientSideMessgage(player.getName() + " " + "has died after popping " + pops.get(player.getName()) + " " + "totems");
+                    } else {
+                        Chatutil.sendClientSideMessgage(player.getName() + " " + "has died after popping " + pops.get(player.getName()) + " " + "totems " + UtilManager.getSuffix());
+                    }
                     pops.remove(player.getName());
                 }
             }
@@ -71,9 +75,9 @@ public class TotemPopCounter extends Module {
                 if(e == mc.player) return;
                 if(ignoreFriends.getValue() && FriendManager.isFriend(e.getName())) return;
                 if(suffix.getValue()) {
-                    Chatutil.sendMessage("Player " + ChatFormatting.RED + e.getName() + ChatFormatting.RESET + " " + "has popped " + totalpops + " times!" + UtilManager.getSuffix());
+                    Chatutil.sendClientSideMessgage("Player " + ChatFormatting.RED + e.getName() + ChatFormatting.RESET + " " + "has popped " + totalpops + " times!" + UtilManager.getSuffix());
                 } else {
-                    Chatutil.sendMessage("Player " + ChatFormatting.RED + e.getName() + ChatFormatting.RESET + " " + "has popped " + totalpops + " times!");
+                    Chatutil.sendClientSideMessgage("Player " + ChatFormatting.RED + e.getName() + ChatFormatting.RESET + " " + "has popped " + totalpops + " times!");
                 }
             }
         }

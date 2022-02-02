@@ -26,6 +26,10 @@ public class LeapFrogEvent extends Cancellable implements Listenable {
         return era;
     }
 
+    public void setEra(Era era) {
+        this.era = era;
+    }
+
     public float getPartialTicks() {
         return partialTicks;
     }

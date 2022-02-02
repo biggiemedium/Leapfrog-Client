@@ -20,6 +20,8 @@ public class SuperHeroFX extends Module {
     Setting<Integer> timetoErase = create("Erase time", 50, 0, 500);
     Setting<Integer> distance = create("Distance", 5, 0, 20);
 
+
+
     @EventHandler
     private Listener<EventPacket.ReceivePacket> SpacketHitEffect = new Listener<>(event -> {
         if(event.getPacket() instanceof SPacketEntityStatus) {

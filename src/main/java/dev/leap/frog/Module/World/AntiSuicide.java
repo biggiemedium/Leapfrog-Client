@@ -31,7 +31,7 @@ public class AntiSuicide extends Module {
     private Listener<EventPlayerMove> moveListener = new Listener<>(event -> {
         if(fall.getValue() && !mc.player.isSneaking()) {
             if(mc.player.fallDistance > 5) {
-
+                
             }
         }
     });

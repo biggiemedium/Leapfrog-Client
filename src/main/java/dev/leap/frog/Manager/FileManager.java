@@ -1,25 +1,19 @@
 package dev.leap.frog.Manager;
 
-
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Entity.Friendutil;
 
-import java.awt.*;
 import java.io.*;
 import java.util.Iterator;
-
-/*
-    The concept for this file reader was taken from aurora and prestigeBase
-
- */
 
 public class FileManager extends UtilManager {
 
     public File path;
     private File settingsPath;
     private File modulePath;
+    private File GUIPath;
 
     public FileManager() {
         path = new File(mc.mcDataDir + File.separator + LeapFrog.MODID);
@@ -38,6 +32,11 @@ public class FileManager extends UtilManager {
             modulePath.mkdirs();
         }
 
+        GUIPath = new File(path + File.separator + "GUI");
+        if(!GUIPath.exists()) {
+            GUIPath.mkdirs();
+        }
+
         loadFriend();
         loadSettings();
         loadModules();
@@ -53,7 +52,7 @@ public class FileManager extends UtilManager {
 
     public void saveFriends() {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter(path + File.separator + "friends.json"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(this.path + File.separator + "friends.json"));
             Iterator iterator = FriendManager.getFriend().iterator();
             while (iterator.hasNext()) {
                 Friendutil f = (Friendutil) iterator.next();
@@ -177,8 +176,14 @@ public class FileManager extends UtilManager {
             File f = new File(settingsPath.getAbsolutePath(), "Settings.txt");
             BufferedReader reader = new BufferedReader(new FileReader(f));
             for(Setting<?> s : LeapFrog.getSettingManager().getSettingsArrayList()) {
-                
+
             }
+        } catch (Exception ignored) {}
+    }
+
+    private void saveGUI() {
+        try {
+
         } catch (Exception ignored) {}
     }
 }

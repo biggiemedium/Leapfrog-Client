@@ -34,7 +34,8 @@ public class Nofall extends Module {
     private enum Mode {
         Packet,
         Web,
-        WaterBucket
+        WaterBucket,
+        TP
     }
 
     public int findWebsInHotbar() {
@@ -82,6 +83,9 @@ public class Nofall extends Module {
 
                     mc.player.rotationPitch = 90;
                     mc.playerController.processRightClick(mc.player, mc.world, EnumHand.MAIN_HAND);
+                    break;
+                case TP:
+                    mc.player.connection.sendPacket(new CPacketPlayer.Position(mc.player.posX, 1000, mc.player.posZ, mc.player.onGround));
                     break;
             }
         }

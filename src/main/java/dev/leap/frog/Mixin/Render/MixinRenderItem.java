@@ -1,4 +1,4 @@
-package dev.leap.frog.Mixin;
+package dev.leap.frog.Mixin.Render;
 
 import dev.leap.frog.Event.Render.EventRenderArmor;
 import dev.leap.frog.LeapFrog;

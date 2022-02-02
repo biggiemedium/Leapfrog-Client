@@ -1,24 +1,16 @@
 package dev.leap.frog.Module.Render;
 
-import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Event.Render.RenderEvent;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Math.Mathutil;
-import dev.leap.frog.Util.Math.PairUtil;
 import dev.leap.frog.Util.Render.RenderHelputil;
 import dev.leap.frog.Util.Render.Renderutil;
-import me.zero.alpine.fork.listener.EventHandler;
-import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.play.server.SPacketBlockBreakAnim;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class BreakESP extends Module {
 

@@ -1,7 +1,11 @@
 package dev.leap.frog.Module.Movement;
 
 import dev.leap.frog.Event.Movement.EventPlayerMotionUpdate;
+import dev.leap.frog.Event.Movement.EventPlayerMove;
 import dev.leap.frog.Event.Movement.EventPlayerTravel;
+import dev.leap.frog.LeapFrog;
+import dev.leap.frog.Manager.UtilManager;
+import dev.leap.frog.Module.Exploit.TimerModule;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Entity.Playerutil;
@@ -19,6 +23,7 @@ public class ElytraFly extends Module {
     }
 
     Setting<Mode> mode = create("Mode", Mode.Control);
+    Setting<Boolean> timerTakeoff = create("Timer Takeoff", true);
 
     private enum Mode {
         Control,
@@ -27,35 +32,29 @@ public class ElytraFly extends Module {
 
     @Override
     public void onUpdate() {
-        getArrayDetails();
     }
 
     @EventHandler
-   public Listener<EventPlayerMotionUpdate> MotionListener = new Listener<>(event-> {
-
-       if(mc.player.isElytraFlying()){
-           mc.player.motionY = 0;
-           mc.player.moveForward = 1.32F;
-           if (Playerutil.isMoving(mc.player)) {
-
-
-
-           }
+   public Listener<EventPlayerMove> moveListener = new Listener<>(event-> {
+       if(this.mode.getValue() == Mode.Control) {
+           
        }
    });
 
     @EventHandler
     private Listener<EventPlayerTravel> travelListener = new Listener<>(event -> {
 
-        if(mc.player == null || !mc.player.isElytraFlying() || mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() != Items.ELYTRA || mc.player.isDead) return;
-
-
-
+        if(UtilManager.nullCheck()) return;
+        if(!hasElytra()) return;
 
     });
 
+    private boolean hasElytra() {
+        return mc.player.getItemStackFromSlot(EntityEquipmentSlot.CHEST).getItem() == Items.ELYTRA;
+    }
+
     @Override
-    public String getDescription() {
+    public String getArrayDetails() {
         return mode.getName();
     }
 }

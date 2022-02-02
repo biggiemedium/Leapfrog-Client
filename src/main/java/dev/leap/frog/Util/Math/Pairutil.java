@@ -2,12 +2,12 @@ package dev.leap.frog.Util.Math;
 
 import dev.leap.frog.Manager.UtilManager;
 
-public class PairUtil<T, E> extends UtilManager {
+public class Pairutil<T, E> extends UtilManager {
 
     private T value;
     private E key;
 
-    public PairUtil(T value, E key) {
+    public Pairutil(T value, E key) {
         this.value = value;
         this.key = key;
     }

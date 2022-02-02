@@ -1,5 +1,6 @@
 package dev.leap.frog.Mixin;
 
+import dev.leap.frog.Event.Movement.EventPlayerMotionUpdate;
 import dev.leap.frog.Event.Movement.EventPlayerMove;
 import dev.leap.frog.Event.Network.EventPacketUpdate;
 import dev.leap.frog.LeapFrog;
@@ -30,6 +31,24 @@ public class MixinEntityPlayerSP {
         EventPacketUpdate packet = new EventPacketUpdate();
         LeapFrog.EVENT_BUS.post(packet);
 
+        if(packet.isCancelled()) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "onUpdateWalkingPlayer", at = @At("HEAD"), cancellable = true)
+    public void onMotionUpdatePre(CallbackInfo ci) {
+        EventPlayerMotionUpdate packet = new EventPlayerMotionUpdate(0);
+        LeapFrog.EVENT_BUS.post(packet);
+        if(packet.isCancelled()) {
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "onUpdateWalkingPlayer", at = @At("RETURN"), cancellable = true)
+    public void onMotionUpdatePost(CallbackInfo ci) {
+        EventPlayerMotionUpdate packet = new EventPlayerMotionUpdate(1);
+        LeapFrog.EVENT_BUS.post(packet);
         if(packet.isCancelled()) {
             ci.cancel();
         }

@@ -44,10 +44,9 @@ public class ModuleManager {
         Add(new AutoLog()); // done
         Add(new AutoXP()); // done
         Add(new BedAura());
-        Add(new Burrow());
         Add(new CrystalAura());
         Add(new Criticals()); // done
-        Add(new KillAura());
+        Add(new KillAura()); // done
         Add(new OffHand());
         Add(new Trigger());
         Add(new Velocity()); // done
@@ -67,18 +66,21 @@ public class ModuleManager {
         Add(new TotemPopCounter()); // done
 
         // Exploit
+        Add(new AntiLog4J()); // done
+        Add(new Crash()); // done
         Add(new ElytraBypass()); // Finish
         Add(new LagBack()); // done
         Add(new OffhandSwing()); // done
+        Add(new Reach()); // done
         Add(new SpeedMine()); // Finish
         Add(new TimerModule()); // done
         Add(new XCarry()); // done
 
         // World
-        Add(new AntiSuicide());
-        Add(new ChorusPos()); // Finish Render
+        Add(new AntiSuicide()); // add more
         Add(new Copy()); // done
         Add(new FakePlayer()); // done
+        Add(new MobOwner());
         Add(new Quiver()); // Fix null errors
         Add(new StrengthDetect());
 

@@ -4,7 +4,7 @@ import dev.leap.frog.Manager.UtilManager;
 
 public class Friendutil extends UtilManager {
 
-    String name;
+    private String name;
 
     public Friendutil(String name) {
         this.name = name;
