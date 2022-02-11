@@ -10,6 +10,7 @@ import me.zero.alpine.fork.listener.Listenable;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.common.MinecraftForge;
 
+import java.awt.*;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -121,6 +122,10 @@ public class Module implements Listenable {
 
     protected Setting create(String name, String value, List<String> values) {
         return LeapFrog.getSettingManager().Build(new Setting<>(name, this, value, values));
+    }
+
+    protected Setting create(String name, Color value) {
+        return LeapFrog.getSettingManager().Build(new Setting(name, this, value));
     }
 
     protected <T> Setting create(Setting<T> value) {

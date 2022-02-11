@@ -58,6 +58,5 @@ public class MixinPlayerControllerMP {
         if(packet.isCancelled()) {
             cir.cancel();
         }
-
     }
 }

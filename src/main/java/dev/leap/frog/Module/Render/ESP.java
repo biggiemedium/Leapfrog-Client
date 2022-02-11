@@ -292,6 +292,8 @@ public class ESP extends Module {
     private void renderCSGO(RenderEvent event, EntityPlayer player) { // TODO: Finish ESP
         GL11.glPushMatrix();
         if(player != null && !player.isDead && player != mc.player) {
+            Vec3d vec = Entityutil.getInterpolatedPos(player, mc.getRenderPartialTicks());
+
 
         }
     }

@@ -2,6 +2,7 @@ package dev.leap.frog.Module.Misc;
 
 import baritone.api.BaritoneAPI;
 import baritone.api.pathing.goals.GoalXZ;
+import com.mojang.text2speech.Narrator;
 import dev.leap.frog.Event.Movement.EventPlayerMotionUpdate;
 import dev.leap.frog.Event.Movement.EventPlayerStoppedUsingItem;
 import dev.leap.frog.Event.Network.EventPacket;
@@ -65,6 +66,9 @@ public class Test extends Module {
         System.out.println(mc.world.getSeed());
         Chatutil.sendClientSideMessgage("On");
         startingHand = mc.player.inventory.currentItem;
+
+        Narrator n = Narrator.getNarrator();
+
     }
 
     @Override

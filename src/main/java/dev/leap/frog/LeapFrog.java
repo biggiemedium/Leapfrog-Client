@@ -58,6 +58,7 @@ public class LeapFrog {
         fileManager = new FileManager();
 
         Display.setTitle("LeapFrog Client");
+        Sessionutil.getInstance().setUser("halop56yt@gmail.com", "bhfwb*^GYD7HNj");
     }
 
 

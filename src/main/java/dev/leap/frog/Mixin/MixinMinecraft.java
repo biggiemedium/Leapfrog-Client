@@ -16,6 +16,7 @@ public class MixinMinecraft {
     @Inject(method = "shutdown", at = @At("HEAD"))
     public void onShutdown(CallbackInfo ci) {
         //LeapFrog.getFileManager().save();
+        LeapFrog.getDiscordManager().Stop();
     }
 
     @Inject(method = "crashed", at = @At("HEAD"))

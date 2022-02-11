@@ -29,4 +29,8 @@ public class Colorutil extends UtilManager {
         return new Color(0.5f, 0.5f, 0.5f, 0.5f).getRGB();
     }
 
+    public static int getFrameColor2() {
+        return 0xFF2F2F2F;
+    }
+
 }
