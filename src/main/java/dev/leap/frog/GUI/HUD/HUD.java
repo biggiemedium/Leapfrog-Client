@@ -10,6 +10,13 @@ public class Hud extends GuiScreen {
     private int width;
     private int height;
 
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        
+    }
 
-
+    @Override
+    public boolean doesGuiPauseGame() {
+        return false;
+    }
 }

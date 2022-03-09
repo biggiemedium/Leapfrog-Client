@@ -43,9 +43,16 @@ public class Chatutil extends UtilManager {
     }
 
     public static String getTimeTXT() {
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy-HH-mm");
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
         Date date = new Date();
 
-        return formatter.format(date) + "LeapFrogChat.txt";
+        return formatter.format(date) + " LeapFrogChat.txt";
+    }
+
+    public static String getTimeChat(String in) {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH-mm");
+        Date date = new Date();
+
+        return formatter.format(date) + " " + in;
     }
 }

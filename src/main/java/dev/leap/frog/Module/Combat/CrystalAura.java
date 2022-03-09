@@ -33,91 +33,10 @@ import java.util.Comparator;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class CrystalAura extends Module {
+    
     public CrystalAura() {
         super("CrystalAura", "Places Crystals To Kill Players", Type.COMBAT);
     }
 
-    Setting<Float> distance = create("Distance", 5.0f, 1.0f, 10.0f); // general distance to engage with target
 
-    Setting<Boolean> smartStop = create("Smart stop", true);
-    Setting<Integer> healthStop = create("Health stop", 15, 1, 35, v -> smartStop.getValue());
-
-    // targeting mode
-    Setting<TargetMode> targetMode = create("TargetMode", TargetMode.Normal);
-    Setting<Boolean> hostiles = create("Hostiles", false);
-
-    private ConcurrentHashMap<EntityEnderCrystal, Integer> crystalMap = new ConcurrentHashMap<>();
-    private Entity target;
-
-    private enum TargetMode {
-        Nearest,
-        Priority,
-        Weakest,
-        Normal
-    }
-
-    @Override
-    public void onUpdate() {
-        if (UtilManager.nullCheck()) return;
-        if(shouldStop()) return;
-
-
-        findTarget(distance.getValue());
-    }
-
-    @EventHandler
-    private Listener<EventEntityRemoved> removedListener = new Listener<>(e -> {
-        if(e.getEntity() instanceof  EntityEnderCrystal) {
-            crystalMap.remove((EntityEnderCrystal) e.getEntity());
-        }
-    });
-
-    private void findTarget(float range) {
-        for(Entity player : mc.world.loadedEntityList) {
-            if(player == null) continue;
-            if(player == mc.player) continue;
-            if(mc.player.getDistance(player) > range) continue;
-            if(!hostiles.getValue() && player instanceof EntityMob) continue;
-
-
-            target = player;
-        }
-    }
-
-    private boolean shouldStop() {
-
-        if(LeapFrog.getModuleManager().getModule(KillAura.class).isToggled() && smartStop.getValue()) {
-            return true;
-        }
-
-        if(LeapFrog.getModuleManager().getModule(AutoWeb.class).isToggled() && smartStop.getValue()) {
-            return true;
-        }
-
-        if(LeapFrog.getModuleManager().getModule(BedAura.class).isToggled() && smartStop.getValue()) {
-            return true;
-        }
-
-        return false;
-    }
-
-    private boolean validCrystal(EntityEnderCrystal crystal) {
-
-        if(crystal == null ||crystal.isDead) {
-            return false;
-        }
-
-
-        return true;
-    }
-
-    @EventHandler
-    private Listener<EventPacket.ReceivePacket> receivePacketListener = new Listener<>(event -> {
-
-    });
-
-    @Override
-    public String getArrayDetails() {
-        return target.getName();
-    }
 }

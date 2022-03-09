@@ -5,11 +5,9 @@ import net.minecraft.network.Packet;
 
 public class EventPacket extends LeapFrogEvent {
 
-    private final Packet packet;
+    private Packet packet;
 
     public EventPacket(Packet packet) {
-        super();
-
         this.packet = packet;
     }
 
@@ -17,7 +15,7 @@ public class EventPacket extends LeapFrogEvent {
         return packet;
     }
 
-    public static class SendPacket extends  EventPacket{
+    public static class SendPacket extends EventPacket {
 
         public SendPacket(Packet packet) {
             super(packet);
@@ -25,10 +23,11 @@ public class EventPacket extends LeapFrogEvent {
 
     }
 
-    public static class ReceivePacket extends  EventPacket {
+    public static class ReceivePacket extends EventPacket {
+
         public ReceivePacket(Packet packet) {
             super(packet);
         }
-    }
 
+    }
 }

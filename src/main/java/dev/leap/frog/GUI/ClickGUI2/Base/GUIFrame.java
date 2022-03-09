@@ -22,6 +22,9 @@ public class GUIFrame implements Util, IComponent {
     private int width;
     private int height;
 
+    private int mouseX;
+    private int mouseY;
+
     private boolean open;
     private boolean dragging;
 
@@ -36,6 +39,8 @@ public class GUIFrame implements Util, IComponent {
         this.y = y;
         this.name = type.getName();
         this.buttonModules = new ArrayList<>();
+        this.dragging = false;
+        this.open = false;
         init();
     }
 
@@ -50,10 +55,17 @@ public class GUIFrame implements Util, IComponent {
 
     @Override
     public void draw(int mouseX, int mouseY) {
+
         Renderutil.drawRect(x, y, x + width, y + height, Colorutil.getFrameColor2());
         Renderutil.drawRect(x, y + height, (x + width), y + height + 1, Colorutil.getToggledColor());
 
         mc.fontRenderer.drawStringWithShadow(this.name, (x + ((x + width) - x) / 2 - mc.fontRenderer.getStringWidth(name) / 2), y + 3, -1);
+
+        if(dragging) {
+            this.x = mouseX - this.mouseX;
+            this.y = mouseY - this.mouseY;
+        }
+        //if(!open) return;
         initModuleButtons(mouseX, mouseY);
     }
 
@@ -65,6 +77,19 @@ public class GUIFrame implements Util, IComponent {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int button) throws IOException {
+
+        if(button == 1) {
+            if (mouseX >= this.x && mouseX <= this.x + this.width && mouseY >= this.y && mouseY <= this.y + height) {
+                if (!open) {
+                    open = true;
+                } else if (open) {
+                    open = false;
+                }
+            }
+        }
+
+        if(!open) return;
+
         for(ButtonModule m : this.buttonModules) {
             m.mouseClicked(mouseX, mouseY, button);
         }
@@ -72,7 +97,7 @@ public class GUIFrame implements Util, IComponent {
 
     @Override
     public void mouseReleased(int mouseX, int mouseY, int state) {
-
+        this.dragging = false;
     }
 
     @Override

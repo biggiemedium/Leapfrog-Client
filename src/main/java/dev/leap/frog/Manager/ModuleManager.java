@@ -12,6 +12,7 @@ import dev.leap.frog.Module.Render.*;
 import dev.leap.frog.Module.ui.ClickGUIModule;
 import dev.leap.frog.Module.World.*;
 import dev.leap.frog.Module.ui.HudEditorModule;
+import dev.leap.frog.Module.ui.NewGUI;
 import dev.leap.frog.Util.Math.Mathutil;
 import dev.leap.frog.Util.Render.RenderHelputil;
 import dev.leap.frog.Util.Wrapper;
@@ -93,6 +94,7 @@ public class ModuleManager {
         Add(new FullBright()); // done
         Add(new HandSize()); // done
         Add(new HoleESP()); // Finsih Render
+        Add(new NameTags());
         Add(new NoRender()); // done
         Add(new OldAnimation()); // done
         Add(new SuperHeroFX());

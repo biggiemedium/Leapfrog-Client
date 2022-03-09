@@ -7,20 +7,4 @@ import dev.leap.frog.Module.Module;
 
 public class Toggle extends Command {
 
-    public Toggle() {
-        super("Toggle", "Toggles Module for you", new String[0]);
-    }
-
-    @Override
-    public void execute(String[] args) {
-
-        if(args.length <= 1) {
-            sendMessage("Module not specified!");
-        }
-
-        if(LeapFrog.getModuleManager().getModuleName(args[1]) != null) {
-            Module m = LeapFrog.getModuleManager().getModuleName(args[1]);
-            m.toggle();
-        }
-    }
 }

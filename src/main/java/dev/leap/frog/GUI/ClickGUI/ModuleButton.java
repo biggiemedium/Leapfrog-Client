@@ -202,6 +202,15 @@ public class ModuleButton {
             return;
         }
 
+        /*
+        This is to ensure that only one module button stays open at a time so that they dont overlap each other
+         */
+        if(button == 1) {
+            if(this.components.size() > 0) {
+                this.opened = false;
+            }
+        }
+
         if(opened){
             for(Component b : components){
                 b.mouseClicked(mouseX, mouseY, button);

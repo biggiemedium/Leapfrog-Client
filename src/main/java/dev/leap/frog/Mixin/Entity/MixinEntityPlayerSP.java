@@ -1,4 +1,4 @@
-package dev.leap.frog.Mixin;
+package dev.leap.frog.Mixin.Entity;
 
 import dev.leap.frog.Event.Movement.EventPlayerMotionUpdate;
 import dev.leap.frog.Event.Movement.EventPlayerMove;

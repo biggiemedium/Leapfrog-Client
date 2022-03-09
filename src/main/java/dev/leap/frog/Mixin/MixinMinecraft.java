@@ -2,6 +2,7 @@ package dev.leap.frog.Mixin;
 
 import dev.leap.frog.GUI.Effects.CustomBackground;
 import dev.leap.frog.LeapFrog;
+import dev.leap.frog.Module.Client.ChatLogger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
@@ -17,6 +18,7 @@ public class MixinMinecraft {
     public void onShutdown(CallbackInfo ci) {
         //LeapFrog.getFileManager().save();
         LeapFrog.getDiscordManager().Stop();
+        ChatLogger.INSTANCE.close(ChatLogger.INSTANCE.getWriter());
     }
 
     @Inject(method = "crashed", at = @At("HEAD"))

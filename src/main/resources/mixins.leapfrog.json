@@ -9,16 +9,17 @@
     "MixinNetworkManager",
     "SessionUtil",
     "MixinMinecraft",
-    "MixinEntity",
-    "MixinEntityPlayerSP",
+    "Entity.MixinEntity",
+    "Entity.MixinEntityPlayerSP",
     "MixinPlayerControllerMP",
-    "MixinEntityRenderer",
+    "Entity.MixinEntityRenderer",
     "Render.MixinGuiBossBar",
     "MixinWorld",
     "Render.MixinRenderItem",
     "Render.MixinRenderPlayer",
     "MixinMovementInputOptions",
     "Render.MixinRenderManager",
-    "Render.MixinRenderLiving"
+    "Render.MixinRenderLiving",
+    "Render.MixinGuiChat"
   ]
 }

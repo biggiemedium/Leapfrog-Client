@@ -1,4 +1,4 @@
-package dev.leap.frog.Module.Client;
+package dev.leap.frog.Module.ui;
 
 import dev.leap.frog.GUI.ClickGUI2.ClickGUI;
 import dev.leap.frog.LeapFrog;
@@ -20,5 +20,6 @@ public class NewGUI extends Module {
         }
 
         mc.displayGuiScreen(new ClickGUI());
+        toggle();
     }
 }

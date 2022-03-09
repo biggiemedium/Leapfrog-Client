@@ -1,5 +1,6 @@
 package dev.leap.frog.Module.Render;
 
+import dev.leap.frog.Mixin.Entity.MixinEntityRenderer;
 import dev.leap.frog.Module.Module;
 
 public class ViewClip extends Module {
@@ -9,7 +10,7 @@ public class ViewClip extends Module {
     }
 
     /**
-     * @see dev.leap.frog.Mixin.MixinEntityRenderer
+     * @see MixinEntityRenderer
      */
 
 }

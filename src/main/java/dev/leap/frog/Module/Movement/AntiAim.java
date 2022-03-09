@@ -6,6 +6,8 @@ import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Event.Network.EventPacketUpdate;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
+import dev.leap.frog.Util.Entity.Entityutil;
+import dev.leap.frog.Util.Entity.Playerutil;
 import dev.leap.frog.Util.Render.Chatutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
@@ -23,16 +25,15 @@ public class AntiAim extends Module { // TODO: Finish this
 
     private float yaw;
 
-    @EventHandler
-    private Listener<EventPacketUpdate> updateListener = new Listener<>(event -> {
-        this.yaw = mc.player.rotationYaw;
+    @Override
+    public void onUpdate() {
         this.yaw += speed.getValue();
-    });
+    }
 
     @EventHandler
     private Listener<EventPacket.SendPacket> rotationlistener = new Listener<>(event -> {
-        if(event.getPacket() instanceof CPacketPlayer.Rotation) {
-            CPacketPlayer.Rotation packet = (CPacketPlayer.Rotation) event.getPacket();
+        if(event.getPacket() instanceof CPacketPlayer) {
+            ((CPacketPlayer) event.getPacket()).yaw = this.yaw;
         }
     });
 }

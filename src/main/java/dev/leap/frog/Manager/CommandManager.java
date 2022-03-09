@@ -19,52 +19,14 @@ import java.util.List;
 
 public class CommandManager implements Listenable, Util {
 
-    public static List<Command> commands = new ArrayList<>();
-    public String PREFIX = ".";
+   private ArrayList<Command> commands = new ArrayList<>();
 
-    public CommandManager() {
-        if(commands == null) {
-            commands = new ArrayList<>();
-        }
+   public CommandManager() {
 
-        Add(new Toggle());
-        MinecraftForge.EVENT_BUS.register(this);
-    }
+   }
 
-    public void Add(Command command) {
-        commands.add(command);
-    }
-
-    @SubscribeEvent
-    public void onChat(ClientChatEvent event) {
-        if (event.getMessage().startsWith(this.PREFIX)) {
-            String sub = event.getMessage().substring(1);
-            String[] args = sub.split(" ");
-
-            if (args.length > 0) {
-                Iterator iterator = this.commands.iterator();
-
-                while (iterator.hasNext()) {
-                    Command command = (Command) iterator.next();
-                    String[] astring = command.getSyntax();
-                    int i = astring.length;
-
-                    for (int j = 0; j < i; ++j) {
-                        String s = astring[j];
-
-                        if (s.equalsIgnoreCase(args[0])) {
-                            command.execute(args);
-                            break;
-                        }
-                    }
-                }
-            } else {
-                Chatutil.sendClientSideMessgage("Invalid command");
-            }
-
-            event.setCanceled(true);
-        }
-
-    }
+   private void Add(Command command) {
+       this.commands.add(command);
+   }
 
 }

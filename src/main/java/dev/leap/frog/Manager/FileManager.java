@@ -162,12 +162,7 @@ public class FileManager extends UtilManager {
 
     private void saveSettings() {
         try {
-            File f = new File(settingsPath.getAbsolutePath(), "Settings.txt");
-            BufferedWriter writer = new BufferedWriter(new FileWriter(f));
-            for(Setting<?> s : LeapFrog.getSettingManager().getSettingsArrayList()) {
-                writer.write(s.getModule().getName() + ":" + s.getName() + ":" + s.getValue());
-            }
-            writer.close();
+           
         } catch (Exception ignored) {}
     }
 
@@ -175,7 +170,9 @@ public class FileManager extends UtilManager {
         try {
             File f = new File(settingsPath.getAbsolutePath(), "Settings.txt");
             BufferedReader reader = new BufferedReader(new FileReader(f));
-            for(Setting<?> s : LeapFrog.getSettingManager().getSettingsArrayList()) {
+
+            String line;
+            while((line = reader.readLine()) != null) {
 
             }
         } catch (Exception ignored) {}
@@ -186,4 +183,6 @@ public class FileManager extends UtilManager {
 
         } catch (Exception ignored) {}
     }
+
+
 }
