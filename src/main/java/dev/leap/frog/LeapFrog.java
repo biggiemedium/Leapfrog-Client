@@ -34,7 +34,7 @@ public class LeapFrog {
     private static DiscordManager discordManager;
     private static CommandManager commandManager;
     private static CapeManager capeManager;
-    public static FriendManager friendManager;
+    private static FriendManager friendManager;
     private static EventProcessor eventManager;
     private static FileManager fileManager;
     private static HudManager hudManager;

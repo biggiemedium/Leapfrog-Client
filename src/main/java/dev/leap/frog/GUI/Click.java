@@ -86,4 +86,13 @@ public class Click extends GuiScreen {
     public ArrayList<Frame> getFrame() {
         return frame;
     }
+
+    public Frame getFramebyName(String name) {
+        for(Frame f : this.frame) {
+            if(f.getName().equalsIgnoreCase(name)) {
+                return f;
+            }
+        }
+        return null;
+    }
 }

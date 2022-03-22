@@ -2,6 +2,7 @@ package dev.leap.frog.Settings;
 
 import dev.leap.frog.Module.Module;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -119,6 +120,30 @@ public class Setting<T> {
         return -1;
     }
 
+    public boolean isEnum() {
+        return this.value instanceof Enum;
+    }
+
+    public boolean isBoolean() {
+        return this.value instanceof Boolean;
+    }
+
+    public boolean isInteger() {
+        return this.value instanceof Integer;
+    }
+
+    public boolean isFloat() {
+        return this.value instanceof Float;
+    }
+
+    public boolean isDouble() {
+        return this.value instanceof Double;
+    }
+
+    public boolean isColor() {
+        return this.value instanceof Color;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -139,8 +164,14 @@ public class Setting<T> {
         return visible == null || visible.test(getValue());
     }
 
-    public boolean is(String mode, Enum e) {
-        return e.name().equalsIgnoreCase(mode);
+    public boolean is(String mode) {
+        if(this.value instanceof Enum) {
+            Enum<?> e = (Enum<?>) this.value;
+            if(e.name().equalsIgnoreCase(mode)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public boolean in(String val) {

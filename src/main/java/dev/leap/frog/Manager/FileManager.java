@@ -1,11 +1,15 @@
 package dev.leap.frog.Manager;
 
+import dev.leap.frog.GUI.Click;
+import dev.leap.frog.GUI.ClickGUI.Frame;
+import dev.leap.frog.GUI.ClickGUI2.ClickGUI;
 import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Entity.Friendutil;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.Iterator;
 
 public class FileManager extends UtilManager {
@@ -38,16 +42,26 @@ public class FileManager extends UtilManager {
         }
 
         loadFriend();
-        loadSettings();
+        //loadSettings();
         loadModules();
         loadBinds();
+        loadGUI();
     }
+
+    /*
+    What works:
+    Module toggle
+    Binds
+    Friends
+    GUI
+     */
 
     public void save() {
         saveFriends();
-        saveSettings();
+        //saveSettings();
         saveModules();
         saveBinds();
+        saveGUI();
     }
 
     public void saveFriends() {
@@ -162,7 +176,20 @@ public class FileManager extends UtilManager {
 
     private void saveSettings() {
         try {
-           
+           for(Setting<?> s : LeapFrog.getSettingManager().getSettingsArrayList()) {
+               if(s.isBoolean()) {
+                   File f = new File(this.settingsPath.getAbsolutePath(), "Values.txt");
+                   if(!f.exists()) {
+                       f.createNewFile();
+                   }
+
+                   BufferedWriter writer = new BufferedWriter(new FileWriter(f));
+                   writer.write(s.getModule().getName() + ":" + s.getModule() + ":" + s.getValue());
+                   writer.write("\r\n");
+                   writer.close();
+               }
+
+           }
         } catch (Exception ignored) {}
     }
 
@@ -179,10 +206,54 @@ public class FileManager extends UtilManager {
     }
 
     private void saveGUI() {
+        if(UtilManager.nullCheck()) return;
         try {
+            File file = new File(this.GUIPath, "GUI.txt");
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            for(Frame f : Click.INSTANCE.getFrame()) {
+                String s = f.isOpen() ? "open" : "closed";
+                writer.write(f.getName() + ":" + f.getX() + ":" + f.getY() + ":" + s);
+                writer.write("\r\n");
+            }
+            writer.close();
+        } catch (Exception ignored) {}
+    }
+
+    private void loadGUI() {
+        try {
+            File f = new File(this.GUIPath, "GUI.txt");
+            FileInputStream inputStream = new FileInputStream(f);
+            DataInputStream dis = new DataInputStream(inputStream);
+            BufferedReader writer = new BufferedReader(new InputStreamReader(dis));
+            String line;
+            int xesd = 0;
+            while ((line = writer.readLine()) != null) {
+                String cl = line.trim();
+                String name = cl.split(":")[0];
+                String x = cl.split(":")[1];
+                String y = cl.split(":")[2];
+                String open = cl.split(":")[3];
+
+                if(Click.INSTANCE.getFramebyName(name) == null) { // || !f.exists()
+                    continue;
+                }
+
+                boolean openTab = open.equalsIgnoreCase("open") ? true : false;
+                Click.INSTANCE.getFramebyName(name).setX(Integer.parseInt(x));
+                Click.INSTANCE.getFramebyName(name).setY(Integer.parseInt(y));
+                Click.INSTANCE.getFramebyName(name).setOpen(openTab);
+            }
 
         } catch (Exception ignored) {}
     }
 
+    private <T> void writeNumberSetting(File f, T type) {
+        if(type instanceof Integer) {
+            if(!f.exists()) {
+                try {f.createNewFile(); } catch (Exception ignored) {}
 
+
+            }
+        }
+    }
 }
