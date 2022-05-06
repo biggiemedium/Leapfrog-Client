@@ -14,7 +14,7 @@ import dev.leap.frog.Module.World.*;
 import dev.leap.frog.Module.ui.HudEditorModule;
 import dev.leap.frog.Module.ui.NewGUI;
 import dev.leap.frog.Util.Math.Mathutil;
-import dev.leap.frog.Util.Render.RenderHelputil;
+import dev.leap.frog.Util.Render.RenderTessellatorutil;
 import dev.leap.frog.Util.Wrapper;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.math.Vec3d;
@@ -40,7 +40,7 @@ public class ModuleManager {
         Add(new ToggleMessage()); // null error in module class
 
         //// Combat
-        Add(new AutoTotem());
+        Add(new AutoTotem()); // done
         Add(new AutoWeb()); // done
         Add(new AutoLog()); // done
         Add(new AutoXP()); // done
@@ -48,8 +48,8 @@ public class ModuleManager {
         Add(new CrystalAura());
         Add(new Criticals()); // done
         Add(new KillAura()); // done
-        Add(new OffHand());
-        Add(new Trigger());
+        Add(new OffHand()); // done
+        Add(new Trigger()); // done
         Add(new Velocity()); // done
 
 
@@ -79,11 +79,12 @@ public class ModuleManager {
 
         // World
         Add(new AntiSuicide()); // add more
+        Add(new AutoTool());
         Add(new Copy()); // done
         Add(new FakePlayer()); // done
         Add(new MobOwner());
         Add(new Quiver()); // Fix null errors
-        Add(new StrengthDetect());
+        Add(new StrengthDetect()); // havent checked if done, I think it spams chat
 
         // Render
         Add(new BlockHighlight()); // done
@@ -142,14 +143,32 @@ public class ModuleManager {
     }
 
     public Module getModule(Class clazz) {
-
         for(Module m : getModules()) {
             if(m.getClass() == clazz) {
                 return m;
             }
         }
-
         return null;
+    }
+
+    public ArrayList<Module> getEnabledModules() {
+        ArrayList<Module> modulez = new ArrayList<>();
+        for(Module m : this.getModules()) {
+            if(m.isToggled()) {
+                modulez.add(m);
+            }
+        }
+        return modulez;
+    }
+
+    public ArrayList<Module> getDisbaledModules() {
+        ArrayList<Module> modulez = new ArrayList<>();
+        for(Module m : this.getModules()) {
+            if(!m.isToggled()) {
+                modulez.add(m);
+            }
+        }
+        return modulez;
     }
 
     public static void onRender(RenderWorldLastEvent event) {
@@ -166,7 +185,7 @@ public class ModuleManager {
         GlStateManager.glLineWidth(1f);
 
         Vec3d pos = Mathutil.getInterpolatedPos(Wrapper.getPlayer(), event.getPartialTicks());
-        RenderEvent renderEvent = new RenderEvent(RenderHelputil.INSTANCE, pos);
+        RenderEvent renderEvent = new RenderEvent(RenderTessellatorutil.INSTANCE, pos);
         renderEvent.resetTranslation();
         Wrapper.getMC().mcProfiler.endSection();
 

@@ -10,20 +10,20 @@ import java.util.Arrays;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public class RenderHelputil extends Tessellator {
+public class RenderTessellatorutil extends Tessellator {
 
-    public static RenderHelputil INSTANCE = new RenderHelputil();
+    public static RenderTessellatorutil INSTANCE = new RenderTessellatorutil();
 
-    public RenderHelputil() {
+    public RenderTessellatorutil() {
         super(0x200000);
     }
 
-    public static void prepare(String mode_requested) {
+    public static void prepare(String type) {
         int mode = 0;
 
-        if (mode_requested.equalsIgnoreCase("quads")) {
+        if (type.equalsIgnoreCase("quads")) {
             mode = GL_QUADS;
-        } else if (mode_requested.equalsIgnoreCase("lines")) {
+        } else if (type.equalsIgnoreCase("lines")) {
             mode = GL_LINES;
         }
 
@@ -151,6 +151,57 @@ public class RenderHelputil extends Tessellator {
             buffer.pos(x + w, y, z).color(r, g, b, a).endVertex();
             buffer.pos(x + w, y + h, z).color(r, g, b, a).endVertex();
             buffer.pos(x + w, y + h, z + d).color(r, g, b, a).endVertex();
+        }
+    }
+
+    public static void drawForgehaxLines(final BufferBuilder buffer, final double x0, final double y0, final double z0, final double x1, final double y1, final double z1, final int sides, final int a, final int r, final int g, final int b) {
+        if ((sides & 0x11) != 0x0) {
+            buffer.pos(x0, y0, z0).color(r, g, b, a).endVertex();
+            buffer.pos(x0, y0, z1).color(r, g, b, a).endVertex();
+        }
+        if ((sides & 0x12) != 0x0) {
+            buffer.pos(x0, y1, z0).color(r, g, b, a).endVertex();
+            buffer.pos(x0, y1, z1).color(r, g, b, a).endVertex();
+        }
+        if ((sides & 0x21) != 0x0) {
+            buffer.pos(x1, y0, z0).color(r, g, b, a).endVertex();
+            buffer.pos(x1, y0, z1).color(r, g, b, a).endVertex();
+        }
+        if ((sides & 0x22) != 0x0) {
+            buffer.pos(x1, y1, z0).color(r, g, b, a).endVertex();
+            buffer.pos(x1, y1, z1).color(r, g, b, a).endVertex();
+        }
+        if ((sides & 0x5) != 0x0) {
+            buffer.pos(x0, y0, z0).color(r, g, b, a).endVertex();
+            buffer.pos(x1, y0, z0).color(r, g, b, a).endVertex();
+        }
+        if ((sides & 0x6) != 0x0) {
+            buffer.pos(x0, y1, z0).color(r, g, b, a).endVertex();
+            buffer.pos(x1, y1, z0).color(r, g, b, a).endVertex();
+        }
+        if ((sides & 0x9) != 0x0) {
+            buffer.pos(x0, y0, z1).color(r, g, b, a).endVertex();
+            buffer.pos(x1, y0, z1).color(r, g, b, a).endVertex();
+        }
+        if ((sides & 0xA) != 0x0) {
+            buffer.pos(x0, y1, z1).color(r, g, b, a).endVertex();
+            buffer.pos(x1, y1, z1).color(r, g, b, a).endVertex();
+        }
+        if ((sides & 0x14) != 0x0) {
+            buffer.pos(x0, y0, z0).color(r, g, b, a).endVertex();
+            buffer.pos(x0, y1, z0).color(r, g, b, a).endVertex();
+        }
+        if ((sides & 0x24) != 0x0) {
+            buffer.pos(x1, y0, z0).color(r, g, b, a).endVertex();
+            buffer.pos(x1, y1, z0).color(r, g, b, a).endVertex();
+        }
+        if ((sides & 0x18) != 0x0) {
+            buffer.pos(x0, y0, z1).color(r, g, b, a).endVertex();
+            buffer.pos(x0, y1, z1).color(r, g, b, a).endVertex();
+        }
+        if ((sides & 0x28) != 0x0) {
+            buffer.pos(x1, y0, z1).color(r, g, b, a).endVertex();
+            buffer.pos(x1, y1, z1).color(r, g, b, a).endVertex();
         }
     }
 

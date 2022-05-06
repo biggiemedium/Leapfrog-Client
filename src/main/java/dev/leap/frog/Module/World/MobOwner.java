@@ -54,7 +54,7 @@ public class MobOwner extends Module {
                         mob.setCustomNameTag("Owner: None");
                     } else {
                         String tag = name.toString().replace("-", "");
-                        
+                        mob.setCustomNameTag("Owner: ");
                     }
                 });
             }

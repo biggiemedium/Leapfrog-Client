@@ -164,6 +164,13 @@ public class Setting<T> {
         return visible == null || visible.test(getValue());
     }
 
+    public boolean isVisible() {
+        if (this.visible == null) {
+            return true;
+        }
+        return this.visible.test(this.getValue());
+    }
+
     public boolean is(String mode) {
         if(this.value instanceof Enum) {
             Enum<?> e = (Enum<?>) this.value;

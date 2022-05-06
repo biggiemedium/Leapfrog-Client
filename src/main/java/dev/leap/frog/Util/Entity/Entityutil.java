@@ -21,6 +21,8 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -112,8 +114,7 @@ public class Entityutil extends UtilManager {
 
     public static boolean IsEntityTrapped(Entity e) {
         BlockPos playerlayerPos = EntityPosToFloorBlockPos(e);
-
-        final BlockPos[] trapPos = {
+        BlockPos[] trapPos = {
                 playerlayerPos.up().up(),
                 playerlayerPos.north(),
                 playerlayerPos.south(),
@@ -125,10 +126,8 @@ public class Entityutil extends UtilManager {
                 playerlayerPos.west().up(),
         };
 
-        for (BlockPos l_Pos : trapPos) {
-            IBlockState l_State = mc.world.getBlockState(l_Pos);
-
-            if (l_State.getBlock() != Blocks.OBSIDIAN && mc.world.getBlockState(l_Pos).getBlock() != Blocks.BEDROCK)
+        for (BlockPos pos : trapPos) {
+            if (mc.world.getBlockState(pos).getBlock() != Blocks.OBSIDIAN && mc.world.getBlockState(pos).getBlock() != Blocks.BEDROCK)
                 return false;
         }
 
@@ -142,32 +141,30 @@ public class Entityutil extends UtilManager {
         return false;
     }
 
-    public static String requestName(UUID uuid) {
-        try {
-            String query = "https://api.mojang.com/user/profiles/" + uuid + "/names";
-            URL url = new URL(query);
-            HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-            conn.setConnectTimeout(5000);
-            conn.setRequestMethod("GET");
-            InputStream in = new BufferedInputStream(conn.getInputStream());
-            String res = convertStreamToString(in);
-            in.close();
-            conn.disconnect();
-            return res;
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private static String convertStreamToString(final InputStream is) {
-        Scanner s = new Scanner(is).useDelimiter("\\A");
-        String r = s.hasNext() ? s.next() : "/";
-        return r;
-    }
-
     public static boolean canSeePlayer(EntityPlayer target) {
         return mc.player.canEntityBeSeen(target);
+    }
+
+    public static Entity findTarget(double range, boolean playersOnly) {
+        for(Entity e : mc.world.loadedEntityList) {
+            if(e == null) {
+                continue;
+            }
+            if(e == mc.player) {
+                continue;
+            }
+            if(playersOnly && !(e instanceof EntityPlayer)) {
+                continue;
+            }
+            if(mc.player.getDistance(e) > range) {
+                continue;
+            }
+            if(e.isDead) {
+                continue;
+            }
+
+            return e;
+        }
+        return null;
     }
 }

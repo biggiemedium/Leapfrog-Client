@@ -1,6 +1,7 @@
 package dev.leap.frog.GUI.ClickGUI.Components;
 
 import dev.leap.frog.GUI.ClickGUI.ModuleButton;
+import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Listeners.IComponent;
 import dev.leap.frog.Util.Render.Colorutil;
 import net.minecraft.client.Minecraft;
@@ -19,6 +20,7 @@ public class Component implements IComponent {
     private ModuleButton moduleButton;
 
     public boolean shown;
+    protected Setting<?> setting;
 
     public Component(ModuleButton button, int x, int y, int width, int height) {
         this.moduleButton = button;
@@ -26,6 +28,15 @@ public class Component implements IComponent {
         this.y = y;
         this. width = width;
         this.height = height;
+    }
+
+    public Component(Setting<?> setting, ModuleButton button, int x, int y, int width, int height) {
+        this.moduleButton = button;
+        this.x = x;
+        this.y = y;
+        this. width = width;
+        this.height = height;
+        this.setting = setting;
     }
 
     public void draw(int mouseX, int mouseY) {
@@ -105,5 +116,12 @@ public class Component implements IComponent {
 
     public ModuleButton getModuleButton() {
         return moduleButton;
+    }
+
+    public boolean isVisible() {
+        if(this.setting == null) {
+            return false;
+        }
+        return this.setting.isVisible();
     }
 }

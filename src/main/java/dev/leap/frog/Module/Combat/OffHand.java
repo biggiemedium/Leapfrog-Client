@@ -52,7 +52,7 @@ public class OffHand extends Module {
         if (item.getValue() == itemOffhand.Gapple) {
             if (!shouldTotem()) {
                 if (!(mc.player.getHeldItemOffhand() != ItemStack.EMPTY && mc.player.getHeldItemOffhand().getItem() == Items.GOLDEN_APPLE)) {
-                    final int slotGapple = getGapSlot() < 9 ? getGapSlot() + 36 : getGapSlot();
+                    int slotGapple = getGapSlot() < 9 ? getGapSlot() + 36 : getGapSlot();
                     if (getGapSlot() != -1) {
                         mc.playerController.windowClick(0, slotGapple, 0, ClickType.PICKUP, mc.player);
                         mc.playerController.windowClick(0, 45, 0, ClickType.PICKUP, mc.player);
@@ -60,7 +60,7 @@ public class OffHand extends Module {
                     }
                 }
             } else if (!(mc.player.getHeldItemOffhand() != ItemStack.EMPTY && mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING)) {
-                final int slot = getTotemSlot() < 9 ? getTotemSlot() + 36 : getTotemSlot();
+                int slot = getTotemSlot() < 9 ? getTotemSlot() + 36 : getTotemSlot();
                 if (getTotemSlot() != -1) {
                     mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
                     mc.playerController.windowClick(0, 45, 0, ClickType.PICKUP, mc.player);
@@ -72,7 +72,7 @@ public class OffHand extends Module {
         if (item.getValue() == itemOffhand.Pearl) {
             if (!shouldTotem()) {
                 if (!(mc.player.getHeldItemOffhand() != ItemStack.EMPTY && mc.player.getHeldItemOffhand().getItem() == Items.ENDER_PEARL)) {
-                    final int pearlSlot = getPearlSlot() < 9 ? getPearlSlot() + 36 : getPearlSlot();
+                    int pearlSlot = getPearlSlot() < 9 ? getPearlSlot() + 36 : getPearlSlot();
                     if (getPearlSlot() != -1) {
                         mc.playerController.windowClick(0, pearlSlot, 0, ClickType.PICKUP, mc.player);
                         mc.playerController.windowClick(0, 45, 0, ClickType.PICKUP, mc.player);
@@ -80,7 +80,7 @@ public class OffHand extends Module {
                     }
                 }
             } else if (!(mc.player.getHeldItemOffhand() != ItemStack.EMPTY && mc.player.getHeldItemOffhand().getItem() == Items.TOTEM_OF_UNDYING)) {
-                final int slot = getPearlSlot() < 9 ? getPearlSlot() + 36 : getPearlSlot();
+                int slot = getPearlSlot() < 9 ? getPearlSlot() + 36 : getPearlSlot();
                 if (getPearlSlot() != -1) {
                     mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
                     mc.playerController.windowClick(0, 45, 0, ClickType.PICKUP, mc.player);
@@ -156,7 +156,7 @@ public class OffHand extends Module {
     @Override
     public void onDisable() {
 
-            final int slot = getTotemSlot() < 9 ? getTotemSlot() + 36 : getTotemSlot();
+        int slot = getTotemSlot() < 9 ? getTotemSlot() + 36 : getTotemSlot();
             if (getTotemSlot() != -1) {
                 mc.playerController.windowClick(0, slot, 0, ClickType.PICKUP, mc.player);
                 mc.playerController.windowClick(0, 45, 0, ClickType.PICKUP, mc.player);
@@ -225,18 +225,6 @@ public class OffHand extends Module {
         }
         return crystalSlot;
     }
-
-    int getOffhandSlot(Item item) {
-        int slot = -1;
-        for(int i = 0; i < 45; i++) {
-            if(mc.player.inventory.getStackInSlot(i).getItem() == item) {
-                slot = i;
-                break;
-            }
-        }
-        return slot;
-    }
-
 
     int getTotemSlot() {
         int totemSlot = -1;
