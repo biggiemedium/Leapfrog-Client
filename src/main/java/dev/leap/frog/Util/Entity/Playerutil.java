@@ -9,6 +9,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
@@ -114,5 +115,9 @@ public class Playerutil extends UtilManager {
 
     public static boolean isHoldingItem(Item item) {
         return mc.player.getHeldItemMainhand().getItem() == item || mc.player.getHeldItemOffhand().getItem() == item;
+    }
+
+    public static EnumHand getHand() {
+        return mc.player.getHeldItemMainhand().getItem() == Items.GOLDEN_APPLE ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
     }
 }

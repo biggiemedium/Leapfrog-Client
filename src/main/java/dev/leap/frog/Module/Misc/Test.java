@@ -28,6 +28,7 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemChorusFruit;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.CPacketHeldItemChange;
 import net.minecraft.network.play.client.CPacketPlayerDigging;
@@ -79,7 +80,16 @@ public class Test extends Module {
     @Override
     public void onUpdate() {
         if(UtilManager.nullCheck() || mc.currentScreen instanceof Click) return;
-        
+
+
+            EnumHand getHand = mc.player.getHeldItemMainhand().getItem() == Items.GOLDEN_APPLE ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
+
+            if(mc.player.canEat(true)) {
+                if(!(mc.player.getHeldItemMainhand().getItem() == Items.GOLDEN_APPLE)) {
+                    
+                }
+            }
+
     }
 
     @Override
