@@ -33,4 +33,16 @@ public class Colorutil extends UtilManager {
         return 0xFF2F2F2F;
     }
 
+    /*
+    Credits to Xulu
+     */
+
+    public static int changeAlpha(int origColor, int inputedalpha) {
+        origColor &= 0xFFFFFF;
+        return inputedalpha << 24 | origColor;
+    }
+
+    public static int toRGBA(int r, int g, int b, int a) {
+        return (r << 16) + (g << 8) + (b << 0) + (a << 24);
+    }
 }

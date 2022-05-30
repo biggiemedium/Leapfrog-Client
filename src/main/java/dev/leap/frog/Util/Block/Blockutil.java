@@ -169,4 +169,9 @@ public class Blockutil extends UtilManager {
         }
         return circleblocks;
     }
+
+    public static Block getBlockStandingOn() {
+        BlockPos pos = new BlockPos(mc.player.posX, mc.player.posY - 1.0, mc.player.posZ);
+        return mc.world.getBlockState(pos).getBlock();
+    }
 }

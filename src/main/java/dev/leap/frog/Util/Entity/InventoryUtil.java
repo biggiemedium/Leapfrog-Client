@@ -32,5 +32,4 @@ public class InventoryUtil extends UtilManager {
     public static int getTotems() {
         return mc.player.inventory.mainInventory.stream().filter(itemStack -> itemStack.getItem() == Items.TOTEM_OF_UNDYING).mapToInt(ItemStack::getCount).sum();
     }
-
 }

@@ -40,7 +40,10 @@ public class Blink extends Module {
 
         if(showPlayer.getValue()) {
             player = new EntityOtherPlayerMP(mc.world, new GameProfile(mc.player.getUniqueID(), mc.player.getName()));
-            player.copyLocationAndAnglesFrom(mc.player);
+            player.setLocationAndAngles(mc.player.posX, mc.player.posY, mc.player.posZ, mc.player.rotationYaw, mc.player.rotationPitch);
+            //player.rotationYaw = mc.player.rotationYaw;
+            //player.rotationPitch = mc.player.rotationYaw;
+            //player.setPosition(mc.player.posX, mc.player.posY, mc.player.posZ);
             player.inventory = mc.player.inventory;
             mc.player.setPlayerSPHealth(20.0f);
             mc.world.addEntityToWorld(-100, player);

@@ -140,24 +140,20 @@ public class ModuleButton {
     }
 
     public void draw(int mouseX, int mouseY)  {
+
+        if(this.isHovered(mouseX, mouseY) && ClickGUIModule.INSTANCE.descriptionn.getValue()) {
+            String value = this.module.description == null ? "" : this.module.getDescription();
+            Wrapper.getMC().fontRenderer.drawStringWithShadow(value, mouseX + 10, mouseY + 10, -1);
+        }
+
         Renderutil.drawRect(x , y, x + width, y + 12, getColor(mouseX, mouseY));
         Renderutil.drawRect(x, y + 12, x + width, y + 13, new Color(10, 10, 10, 200).getRGB());
         Wrapper.getMC().fontRenderer.drawStringWithShadow(module.getName(), x + 2, y + 2, -1);
+
         if(components.size() > 2) { // checking for hidden button
             Wrapper.getMC().fontRenderer.drawStringWithShadow(opened ? "v" : "^", getX() + this.getWidth() - 10, getY() + 5, -1);
         }
         height = Wrapper.getMC().fontRenderer.FONT_HEIGHT + 4;
-
-        if(ClickGUIModule.INSTANCE.descriptionn.getValue() && isHovered(mouseX, mouseY) && LeapFrog.getModuleManager().getModule(ClickGUIModule.class).isToggled()) {
-            Wrapper.getMC().fontRenderer.drawStringWithShadow(module.getDescription(), 1, 1, -1);
-        }
-
-        if(ClickGUIModule.INSTANCE.sideProfile.getValue() && isHovered(mouseX, mouseY) && LeapFrog.getModuleManager().getModule(ClickGUIModule.class).isToggled()) {
-            int offset = getWidth() - 1;
-            int offset2 = 99;
-            Renderutil.drawRect(getX(), getY(), this.x + this.width - offset, getY() + this.height, -1);
-            Renderutil.drawRect(getX(), getY(), this.x + this.width - offset2, getY() + this.height, -1);
-        }
 
         if (frame.dragging) {
             setX(mouseX - frame.getPlusX());
@@ -173,9 +169,6 @@ public class ModuleButton {
                     if (c.getY() != y) {
                         c.setY(y + height);
                     }
-                    if (ClickGUIModule.INSTANCE.sideProfile.getValue() && LeapFrog.getModuleManager().getModule(ClickGUIModule.class).isToggled() && isHovered(mouseX, mouseY) || mouseX > c.getX() && mouseY > c.getY() && mouseX < c.getX() + width && mouseY < c.getY() + 13) {
-                        Renderutil.drawRect(getX(), getY(), this.x + this.width - 99, getY() + this.height, -1);
-                    }
                     c.draw(mouseX, mouseY);
                     height += c.getHeight();
 
@@ -184,7 +177,7 @@ public class ModuleButton {
     }
 
     private int getColor(int mouseX, int mouseY){
-        Color color = module.isToggled() ? Colorutil.getToggledC() : new Color(50, 50, 50, 200);
+        Color color = module.isToggled() ? Colorutil.subComponentColor() : new Color(50, 50, 50, 200);
         return isHovered(mouseX, mouseY) ? (module.isToggled() ? color.darker().darker().getRGB() : color.brighter().brighter().getRGB()) : color.getRGB();
     }
 

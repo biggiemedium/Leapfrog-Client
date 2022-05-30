@@ -63,7 +63,7 @@ public class ChatLogger extends Module {
             dir.mkdirs();
         }
 
-        f = new File(dir + File.separator + Chatutil.getTimeTXT());
+        f = new File(dir + File.separator + Chatutil.getTimeTXT() + ".txt");
         if(!f.exists() || f == null) {
             try {
                 assert f != null;

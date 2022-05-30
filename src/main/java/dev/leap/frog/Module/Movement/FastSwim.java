@@ -14,7 +14,7 @@ public class FastSwim extends Module {
 
     Setting<Mode> mode = create("Mode", Mode.Normal);
 
-    Setting<Double> boost = create("Boost", 0.0, 0.0, 10.0, v -> mode.getValue() == Mode.AAC);
+    Setting<Double> boost = create("Boost", 0.0, 0.0, 5.0, v -> mode.getValue() == Mode.AAC);
     Setting<Double> lavaBoost = create("Lava boost", 0.0, 0.0, 5.0, v -> mode.getValue() == Mode.AAC);
 
     Setting<Boolean> yawSpoof = create("YawSpoof", false);

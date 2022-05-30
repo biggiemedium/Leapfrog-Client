@@ -59,4 +59,8 @@ public class Velocity extends Module {
             event.cancel();
     });
 
+    @Override
+    public String getArrayDetails() {
+        return "" + offput.getValue().toString();
+    }
 }

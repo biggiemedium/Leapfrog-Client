@@ -20,9 +20,9 @@ public class HiddenButton extends Component {
 
     @Override
     public void draw(int mouseX, int mouseY) {
-        Renderutil.drawRect(getX(), getY(), getX() + 2, getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
-        Renderutil.drawRect(getX() + 2, getY(), getX() + 2 + getWidth(), getY() + getHeight() - 1, handleColor(mouseX, mouseY));
-        Renderutil.drawRect(getX() + 2, getY() + getHeight() - 1, getX() + 2 + getWidth(), getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
+        Renderutil.drawRect(getX(), getY(), getX(), getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
+        Renderutil.drawRect(getX(), getY(), getX() + getWidth(), getY() + getHeight() - 1, handleColor(mouseX, mouseY));
+        Renderutil.drawRect(getX(), getY() + getHeight() - 1, getX() + getWidth(), getY() + getHeight(), new Color(10, 10, 10, 200).getRGB()); // seperator Line
         Wrapper.getMC().fontRenderer.drawStringWithShadow(getModuleButton().getModule().isHidden() ? "UnHide" : "Hide", getX() + 4, getY() + 2, -1);
     }
 

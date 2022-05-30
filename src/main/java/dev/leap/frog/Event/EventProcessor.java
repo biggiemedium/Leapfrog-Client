@@ -103,6 +103,11 @@ public class EventProcessor {
         LeapFrog.EVENT_BUS.post(event);
     }
 
+    @SubscribeEvent
+    public void guiScreenEvent(GuiScreenEvent event) {
+        LeapFrog.EVENT_BUS.post(event);
+    }
+
     public static <T> T postEvent(T event) {
         LeapFrog.EVENT_BUS.post(event);
         return event;

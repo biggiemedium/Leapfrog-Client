@@ -29,9 +29,9 @@ public class IntSlider extends Component {
     public void draw(int mouseX, int mouseY) {
         adjustSlider(mouseX, mouseY);
 
-        Renderutil.drawRect(getX(), getY(), getX() + 2, getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
-        Renderutil.drawRect(getX() + 2, getY(), getX() + 2 + renderWidth, getY() + getHeight() - 1, handleColor(mouseX, mouseY));
-        Renderutil.drawRect(getX() + 2, getY() + getHeight() - 1, getX() + 2 + getWidth(), getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
+        Renderutil.drawRect(getX(), getY(), getX(), getY() + getHeight(), new Color(10, 10, 10, 200).getRGB());
+        Renderutil.drawRect(getX(), getY(), getX() + renderWidth, getY() + getHeight() - 1, handleColor(mouseX, mouseY));
+        Renderutil.drawRect(getX(), getY() + getHeight() - 1, getX() + getWidth(), getY() + getHeight(), new Color(10, 10, 10, 200).getRGB()); // seperator Line
 
         Wrapper.getMC().fontRenderer.drawStringWithShadow(value.getName(), getX() + 4, getY() + 2, -1);
         Wrapper.getMC().fontRenderer.drawStringWithShadow(String.valueOf(value.getValue()), getX() + getWidth() - mc.fontRenderer.getStringWidth(String.valueOf(value.getValue())), getY() + 1, -1);

@@ -16,7 +16,6 @@ public class Sprint extends Module {
 
     private enum Mode {
         Legit,
-        Packet,
         Rage
     }
 
@@ -25,10 +24,6 @@ public class Sprint extends Module {
         if(UtilManager.nullCheck()) return;
         if(mode.getValue() == Mode.Legit && mc.player.moveForward > 0 || mc.player.moveStrafing > 0 && mc.gameSettings.keyBindForward.isKeyDown() || mc.gameSettings.keyBindBack.isKeyDown() && !mc.player.isSneaking()) {
             mc.player.setSprinting(true);
-        }
-
-        if(mode.getValue() == Mode.Packet) {
-            mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.START_SPRINTING));
         }
 
         if(mode.getValue() == Mode.Rage && Playerutil.isMoving(mc.player) || mc.gameSettings.keyBindForward.isKeyDown() || mc.gameSettings.keyBindLeft.isKeyDown() || mc.gameSettings.keyBindRight.isKeyDown()) {

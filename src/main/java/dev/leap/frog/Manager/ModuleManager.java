@@ -84,6 +84,7 @@ public class ModuleManager {
         Add(new FakePlayer()); // done
         Add(new MobOwner());
         Add(new Quiver()); // Fix null errors
+        Add(new SignColor());
         Add(new StrengthDetect()); // havent checked if done, I think it spams chat
 
         // Render

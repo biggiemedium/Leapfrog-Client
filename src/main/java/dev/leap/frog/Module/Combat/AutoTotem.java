@@ -96,4 +96,9 @@ public class AutoTotem extends Module { // TODO: Rewite so return methods + fix 
 
 
     public static AutoTotem Get;
+
+    @Override
+    public String getArrayDetails() {
+        return "" + this.totems;
+    }
 }

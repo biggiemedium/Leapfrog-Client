@@ -42,7 +42,7 @@ public class FileManager extends UtilManager {
         }
 
         loadFriend();
-        //loadSettings();
+        loadSettings();
         loadModules();
         loadBinds();
         loadGUI();
@@ -58,7 +58,7 @@ public class FileManager extends UtilManager {
 
     public void save() {
         saveFriends();
-        //saveSettings();
+        saveSettings();
         saveModules();
         saveBinds();
         saveGUI();
@@ -176,32 +176,166 @@ public class FileManager extends UtilManager {
 
     private void saveSettings() {
         try {
-           for(Setting<?> s : LeapFrog.getSettingManager().getSettingsArrayList()) {
-               if(s.isBoolean()) {
-                   File f = new File(this.settingsPath.getAbsolutePath(), "Values.txt");
-                   if(!f.exists()) {
-                       f.createNewFile();
-                   }
+            File f = new File(this.settingsPath.getAbsolutePath() + File.separator + "Boolean.txt");
+            BufferedWriter writer = new BufferedWriter(new FileWriter(f));
+            for(Setting s : LeapFrog.getSettingManager().getSettingsArrayList()) {
+                if(s.isBoolean()) {
+                    String v = (Boolean) s.getValue() ? "true" : "false";
+                    writer.write(s.getName() + ":" + s.getModule().getName() + ":" + v + "\r\n");
+                }
+            }
+            writer.close();
+        } catch (Exception ignored) {}
 
-                   BufferedWriter writer = new BufferedWriter(new FileWriter(f));
-                   writer.write(s.getModule().getName() + ":" + s.getModule() + ":" + s.getValue());
-                   writer.write("\r\n");
-                   writer.close();
-               }
+        try {
+            File f = new File(this.settingsPath.getAbsolutePath() + File.separator + "Integer.txt");
+            BufferedWriter writer = new BufferedWriter(new FileWriter(f));
+            for(Setting s : LeapFrog.getSettingManager().getSettingsArrayList()) {
+                if(s.isInteger()) {
+                    writer.write(s.getName() + ":" + s.getModule().getName() + ":" + s.getValue() + "\r\n");
+                }
+            }
+            writer.close();
+        } catch (Exception ignored) {}
 
-           }
+        try {
+            File f = new File(this.settingsPath.getAbsolutePath() + File.separator + "Long.txt");
+            BufferedWriter writer = new BufferedWriter(new FileWriter(f));
+            for(Setting s : LeapFrog.getSettingManager().getSettingsArrayList()) {
+                if(s.getValue() instanceof Long) {
+                    writer.write(s.getName() + ":" + s.getModule().getName() + ":" + s.getValue() + "\r\n");
+                }
+            }
+            writer.close();
+        } catch (Exception ignored) {}
+
+        try {
+            File f = new File(this.settingsPath.getAbsolutePath() + File.separator + "Double.txt");
+            BufferedWriter writer = new BufferedWriter(new FileWriter(f));
+            for(Setting s : LeapFrog.getSettingManager().getSettingsArrayList()) {
+                if(s.isDouble()) {
+                    writer.write(s.getName() + ":" + s.getModule().getName() + ":" + s.getValue() + "\r\n");
+                }
+            }
+            writer.close();
+        } catch (Exception ignored) {}
+
+        try {
+            File f = new File(this.settingsPath.getAbsolutePath() + File.separator + "Float.txt");
+            BufferedWriter writer = new BufferedWriter(new FileWriter(f));
+            for(Setting s : LeapFrog.getSettingManager().getSettingsArrayList()) {
+                if(s.isFloat()) {
+                    writer.write(s.getName() + ":" + s.getModule().getName() + ":" + s.getValue() + "\r\n");
+                }
+            }
+            writer.close();
+        } catch (Exception ignored) {}
+
+        try {
+            File f = new File(this.settingsPath.getAbsolutePath() + File.separator + "Enum.txt");
+            BufferedWriter writer = new BufferedWriter(new FileWriter(f));
+            for(Setting s : LeapFrog.getSettingManager().getSettingsArrayList()) {
+                if(s.getValue() instanceof Enum) {
+                    String value = (String) s.getValue();
+                    writer.write(s.getName() + ":" + s.getModule().getName() + ":" + (String) s.getValue() + "\r\n");
+                }
+            }
+            writer.close();
         } catch (Exception ignored) {}
     }
 
     private void loadSettings() {
         try {
-            File f = new File(settingsPath.getAbsolutePath(), "Settings.txt");
+            File f = new File(settingsPath.getAbsolutePath() + File.separator + "Boolean.txt");
+            BufferedReader reader = new BufferedReader(new FileReader(f));
+
+            /*
+            setting name | module name | setting value
+             */
+            String line;
+            while((line = reader.readLine()) != null) {
+                String cl = line.trim();
+                String name = cl.split(":")[0];
+                String modName = cl.split(":")[1];
+                String value = cl.split(":")[2];
+                Setting setting = LeapFrog.getSettingManager().getSetting(name, LeapFrog.getModuleManager().getModuleName(modName));
+
+                boolean val = value.equalsIgnoreCase("true") ? true : false;
+                setting.setValue(val);
+            }
+            reader.close();
+        } catch (Exception ignored) {}
+
+        try {
+            File f = new File(settingsPath.getAbsolutePath() + File.separator + "Integer.txt");
             BufferedReader reader = new BufferedReader(new FileReader(f));
 
             String line;
             while((line = reader.readLine()) != null) {
+                String cl = line.trim();
+                String name = cl.split(":")[0];
+                String modName = cl.split(":")[1];
+                String value = cl.split(":")[2];
+                Setting setting = LeapFrog.getSettingManager().getSetting(name, LeapFrog.getModuleManager().getModuleName(modName));
 
+
+                setting.setValue(Integer.parseInt(value));
             }
+            reader.close();
+        } catch (Exception ignored) {}
+
+        try {
+            File f = new File(settingsPath.getAbsolutePath() + File.separator + "Double.txt");
+            BufferedReader reader = new BufferedReader(new FileReader(f));
+
+            String line;
+            while((line = reader.readLine()) != null) {
+                String cl = line.trim();
+                String name = cl.split(":")[0];
+                String modName = cl.split(":")[1];
+                String value = cl.split(":")[2];
+                Setting setting = LeapFrog.getSettingManager().getSetting(name, LeapFrog.getModuleManager().getModuleName(modName));
+
+
+                setting.setValue(Integer.parseInt(value));
+            }
+            reader.close();
+        } catch (Exception ignored) {}
+
+        try {
+            File f = new File(settingsPath.getAbsolutePath() + File.separator + "Float.txt");
+            BufferedReader reader = new BufferedReader(new FileReader(f));
+
+            String line;
+            while((line = reader.readLine()) != null) {
+                String cl = line.trim();
+                String name = cl.split(":")[0];
+                String modName = cl.split(":")[1];
+                String value = cl.split(":")[2];
+                Setting setting = LeapFrog.getSettingManager().getSetting(name, LeapFrog.getModuleManager().getModuleName(modName));
+
+
+                setting.setValue(Integer.parseInt(value));
+            }
+            reader.close();
+        } catch (Exception ignored) {}
+
+        try {
+            File f = new File(settingsPath.getAbsolutePath() + File.separator + "Long.txt");
+            BufferedReader reader = new BufferedReader(new FileReader(f));
+
+            String line;
+            while((line = reader.readLine()) != null) {
+                String cl = line.trim();
+                String name = cl.split(":")[0];
+                String modName = cl.split(":")[1];
+                String value = cl.split(":")[2];
+                Setting setting = LeapFrog.getSettingManager().getSetting(name, LeapFrog.getModuleManager().getModuleName(modName));
+
+
+                setting.setValue(Integer.parseInt(value));
+            }
+            reader.close();
         } catch (Exception ignored) {}
     }
 
@@ -245,15 +379,5 @@ public class FileManager extends UtilManager {
             }
 
         } catch (Exception ignored) {}
-    }
-
-    private <T> void writeNumberSetting(File f, T type) {
-        if(type instanceof Integer) {
-            if(!f.exists()) {
-                try {f.createNewFile(); } catch (Exception ignored) {}
-
-
-            }
-        }
     }
 }

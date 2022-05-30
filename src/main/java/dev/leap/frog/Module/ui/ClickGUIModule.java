@@ -22,10 +22,9 @@ public class ClickGUIModule extends Module {
 
     public static ClickGUIModule INSTANCE;
 
-    public Setting<Boolean> descriptionn = create("Description", true);
+    public Setting<Boolean> descriptionn = create("Description", false);
     public Setting<Boolean> clickSound = create("ClickSound", false);
     public Setting<Boolean> falling = create("Falling", false);
-    public Setting<Boolean> sideProfile = create("SideBars", true);
     public Setting<Boolean> FOVAdjustments = create("FOV Change", false);
     public Setting<Float> FOV = create("FOV", 60.0f, 0.0f, 180.0f);
 
