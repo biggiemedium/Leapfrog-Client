@@ -10,6 +10,10 @@ import java.util.Arrays;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/*
+@TODO: Rewrite this entire class
+ */
+
 public class RenderTessellatorutil extends Tessellator {
 
     public static RenderTessellatorutil INSTANCE = new RenderTessellatorutil();
@@ -154,7 +158,7 @@ public class RenderTessellatorutil extends Tessellator {
         }
     }
 
-    public static void drawForgehaxLines(final BufferBuilder buffer, final double x0, final double y0, final double z0, final double x1, final double y1, final double z1, final int sides, final int a, final int r, final int g, final int b) {
+    public static void drawForgehaxLines(BufferBuilder buffer, double x0, double y0, double z0, double x1, double y1, double z1, int sides, int a, int r, int g, int b) {
         if ((sides & 0x11) != 0x0) {
             buffer.pos(x0, y0, z0).color(r, g, b, a).endVertex();
             buffer.pos(x0, y0, z1).color(r, g, b, a).endVertex();

@@ -1,49 +1,30 @@
 package dev.leap.frog.Module.Misc;
 
-import baritone.api.BaritoneAPI;
-import baritone.api.pathing.goals.GoalXZ;
 import com.mojang.text2speech.Narrator;
-import dev.leap.frog.Event.Movement.EventPlayerMotionUpdate;
-import dev.leap.frog.Event.Movement.EventPlayerStoppedUsingItem;
 import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Event.Render.RenderEvent;
 import dev.leap.frog.GUI.Click;
 import dev.leap.frog.Manager.UtilManager;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
-import dev.leap.frog.Util.BaritoneHandler;
-import dev.leap.frog.Util.Block.Blockutil;
-import dev.leap.frog.Util.Entity.Playerutil;
 import dev.leap.frog.Util.Render.Chatutil;
-import dev.leap.frog.Util.Render.Renderutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRedstoneTorch;
+import net.minecraft.block.BlockTNT;
 import net.minecraft.block.BlockWeb;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.culling.ICamera;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemChorusFruit;
-import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.play.client.CPacketHeldItemChange;
-import net.minecraft.network.play.client.CPacketPlayerDigging;
-import net.minecraft.network.play.client.CPacketPlayerTryUseItem;
-import net.minecraft.network.play.server.SPacketEntityStatus;
-import net.minecraft.network.status.server.SPacketServerInfo;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import org.lwjgl.input.Keyboard;
-
-import java.awt.*;
+import org.lwjgl.opengl.GL11;
 
 public class Test extends Module {
 
@@ -81,34 +62,48 @@ public class Test extends Module {
     public void onUpdate() {
         if(UtilManager.nullCheck() || mc.currentScreen instanceof Click) return;
 
-
-            EnumHand getHand = mc.player.getHeldItemMainhand().getItem() == Items.GOLDEN_APPLE ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
-
-            if(mc.player.canEat(true)) {
-                if(!(mc.player.getHeldItemMainhand().getItem() == Items.GOLDEN_APPLE)) {
-                    
-                }
-            }
+        testBlockPlace();
 
     }
+
+    @EventHandler
+    private Listener<EventPacket.SendPacket> packetListener = new Listener<>(event -> {
+        
+    });
 
     @Override
     public void onRender(RenderEvent event) {
+
+        double xt = mc.player.lastTickPosX + (mc.player.lastTickPosX - mc.player.posX) * event.getPartialTicks();
+        double yt = mc.player.lastTickPosY + (mc.player.lastTickPosY - mc.player.posY) * event.getPartialTicks();
+        double zt = mc.player.lastTickPosZ + (mc.player.lastTickPosZ - mc.player.posZ) * event.getPartialTicks();
+
+        renderTNTTimer(event);
     }
 
-    public int findObbyinHotbar() {
-        for (int i = 0; i < 9; i++) {
-            final ItemStack stack = mc.player.inventory.getStackInSlot(i);
-            if (stack == ItemStack.EMPTY || !(stack.getItem() instanceof ItemBlock)) {
-                continue;
-            }
-            Block block = ((ItemBlock) stack.getItem()).getBlock();
+    private void testBlockPlace() {
+        BlockPos pos = mc.objectMouseOver.getBlockPos();
 
-            if (block instanceof BlockWeb) {
-                return i;
-            }
+    }
 
+    private void renderTNTTimer(RenderEvent event) {
+        for(Entity e : mc.world.loadedEntityList) {
+            if(e == null) continue;
+            if(e instanceof EntityTNTPrimed) {
+                EntityTNTPrimed entity = (EntityTNTPrimed) e;
+                float timer = entity.getFuse();
+
+                GL11.glPushMatrix();
+
+
+
+                GL11.glPopMatrix();
+            }
         }
-        return -1;
+    }
+
+    private boolean canIgnite(BlockPos pos) {
+
+        return false;
     }
 }

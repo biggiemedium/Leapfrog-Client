@@ -19,7 +19,6 @@ public class ElytraFly extends Module {
 
     public ElytraFly() {
         super("ElytraFly", "Allows you to fly in 2b!", Type.MOVEMENT);
-        setKey(Keyboard.KEY_X);
     }
 
     Setting<Mode> mode = create("Mode", Mode.Control);

@@ -60,11 +60,13 @@ public class KillAura extends Module {
     public Setting<Boolean> rotate = create("Rotate", false);
     public Setting<Boolean> renderTarget = create("Render target", true);
 
+    // target modes
     public Setting<Boolean> ignoreFriends = create("Ignore friends", true);
+    public Setting<Boolean> mobs = create("Mobs", true);
 
     public Setting<Boolean> walls = create("Walls", true);
 
-    private EntityPlayer target;
+    private Entity target;
     private boolean attacking = false;
 
     private float yaw, pitch;
@@ -122,7 +124,7 @@ public class KillAura extends Module {
     }
 
     private void renderNormal2(float n) {
-        for (final Entity entity : mc.world.loadedEntityList) {
+        for (Entity entity : mc.world.loadedEntityList) {
             if (entity != mc.getRenderViewEntity()) {
                 if (!(entity instanceof EntityPlayer)) {
                     continue;
@@ -165,15 +167,16 @@ public class KillAura extends Module {
         return EnumHand.MAIN_HAND;
     }
 
-    private EntityPlayer findTarget(int range) {
-        EntityPlayer player = null;
+    private Entity findTarget(int range) {
+        Entity player = null;
         if(mc.world.playerEntities.isEmpty()) {
             return null;
         }
 
-        for(EntityPlayer targets : mc.world.playerEntities) {
+        for(Entity targets : mc.world.loadedEntityList) {
             if(targets == null) continue;
             if(targets == mc.player) continue;
+            if(targets instanceof EntityMob && !mobs.getValue()) continue;
             if(targets.isDead || !Entityutil.isLiving(targets)) continue;
             if(ignoreFriends.getValue() && FriendManager.isFriend(targets.getName())) continue;
             if(mc.player.getDistance(targets) > range) continue; // check
@@ -188,11 +191,11 @@ public class KillAura extends Module {
         return entity instanceof EntityPlayer && mc.player.getDistance(entity) < this.distance.getValue();
     }
 
-    public EntityPlayer getTarget() {
+    public Entity getTarget() {
         return this.target;
     }
 
-    public EntityLivingBase getTargetLB() {
+    public Entity getTargetLB() {
         return this.target;
     }
 

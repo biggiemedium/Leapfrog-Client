@@ -17,6 +17,7 @@ import net.minecraftforge.client.event.ClientChatReceivedEvent;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
+import java.util.Random;
 
 public class DiscordManager {
 
@@ -70,19 +71,22 @@ public class DiscordManager {
         String back = discordRichPresence.state;
 
         if(mc.player == null)
-            return "Main menu";
+            return "Leapfrog Client by PX";
 
-
-        if(mc.world != null && LeapFrog.getModuleManager().getModuleName("ClickGUI").isToggled()) {
-            return "Configuring Client";
-        }
-
-        if(mc.player.moveStrafing != 0 && mc.player.moveForward != 0) {
+        if(Playerutil.isMoving(mc.player)) {
             return "Moving " + Playerutil.getSpeedInKM() + " KM/H";
         }
 
         if(mc.player.isElytraFlying()) {
-            return "Zooming";
+            return "Elytra flying";
+        }
+
+        if(mc.player != null && !Playerutil.isMoving(mc.player) && !mc.player.isElytraFlying()) {
+            String[] quotes = {"Leapfrog Client on top!", "Join the discord! https://discord.gg/fT5JVKVUyt", "Leapfrog client by PX and Boncorde"};
+
+            Random r = new Random();
+            int index = r.nextInt(quotes.length);
+            return quotes[index];
         }
 
         return back;
@@ -92,7 +96,7 @@ public class DiscordManager {
         String detail = discordRichPresence.details;
 
         if(mc.player == null)
-            return "Leapfrog on top!";
+            return "Main Menu";
 
         if(mc.isSingleplayer()) {
             return mc.player.getName() + " | " + "Singleplayer";
@@ -105,4 +109,7 @@ public class DiscordManager {
         return detail;
     }
 
+    private boolean get2bState() {
+        return LeapFrog.getEventProcessor().getLastChat() != null && LeapFrog.getEventProcessor().getLastChat().startsWith("Position in queue:");
+    }
 }

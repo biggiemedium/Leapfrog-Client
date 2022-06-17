@@ -14,7 +14,7 @@ import java.awt.*;
 public class ClickGUIModule extends Module {
 
     public ClickGUIModule() {
-        super("ClickGUI", "CGUI", Type.RENDER);
+        super("ClickGUI", "CGUI", Type.CLIENT);
         setKey(Keyboard.KEY_RSHIFT);
         INSTANCE = this;
     }

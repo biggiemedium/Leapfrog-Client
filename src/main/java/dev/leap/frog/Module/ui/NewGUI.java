@@ -10,7 +10,6 @@ public class NewGUI extends Module {
 
     public NewGUI() {
         super("New GUI", "New GUI by PX", Type.CLIENT);
-        setKey(Keyboard.KEY_RCONTROL);
     }
 
     @Override

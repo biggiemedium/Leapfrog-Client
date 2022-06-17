@@ -30,4 +30,12 @@ public class EventPacket extends LeapFrogEvent {
         }
 
     }
+
+    public static class SendPacketPost extends EventPacket {
+
+        public SendPacketPost(Packet packet) {
+            super(packet);
+        }
+
+    }
 }

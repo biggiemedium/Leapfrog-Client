@@ -12,6 +12,10 @@ public class UtilManager {
 
     protected static Minecraft mc = Minecraft.getMinecraft();
 
+    public UtilManager() {
+
+    }
+
     public static Minecraft getMc() {
         return mc;
     }

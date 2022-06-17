@@ -1,5 +1,6 @@
 package dev.leap.frog.Mixin;
 
+import dev.leap.frog.Event.LeapFrogEvent;
 import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.LeapFrog;
 import io.netty.channel.ChannelHandlerContext;
@@ -28,6 +29,16 @@ public class MixinNetworkManager {
     private void send(Packet<?> packet, CallbackInfo callback) {
         EventPacket eventPacket = new EventPacket.SendPacket(packet);
 
+        LeapFrog.EVENT_BUS.post(eventPacket);
+
+        if (eventPacket.isCancelled()) {
+            callback.cancel();
+        }
+    }
+
+    @Inject(method = "sendPacket(Lnet/minecraft/network/Packet;)V", at = @At("RETURN"), cancellable = true)
+    private void sendPost(Packet<?> packet, CallbackInfo callback) {
+        EventPacket.SendPacketPost eventPacket = new EventPacket.SendPacketPost(packet);
         LeapFrog.EVENT_BUS.post(eventPacket);
 
         if (eventPacket.isCancelled()) {

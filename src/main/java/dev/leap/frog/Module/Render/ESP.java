@@ -1,11 +1,14 @@
 package dev.leap.frog.Module.Render;
 
+import dev.leap.frog.Event.Render.EventRenderEntityEnderCrystal;
 import dev.leap.frog.Event.Render.RenderEvent;
 import dev.leap.frog.Manager.FriendManager;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Entity.Entityutil;
 import dev.leap.frog.Util.Render.Renderutil;
+import me.zero.alpine.fork.listener.EventHandler;
+import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -121,6 +124,10 @@ public class ESP extends Module {
             mc.world.playerEntities.forEach(e -> renderCSGO(event, e));
         } else if(mode.getValue() == ESPMode.ESP) {
 
+        }
+
+        if(crystals.getValue() && mode.getValue() != ESPMode.Shader) {
+            renderCrystals();
         }
     }
 
@@ -294,7 +301,16 @@ public class ESP extends Module {
         if(player != null && !player.isDead && player != mc.player) {
             Vec3d vec = Entityutil.getInterpolatedPos(player, mc.getRenderPartialTicks());
 
+        }
+    }
 
+    private void renderCrystals() {
+        for(Entity c : mc.world.loadedEntityList) {
+            if(c == null) continue;
+
+            if(c instanceof EntityEnderCrystal) {
+
+            }
         }
     }
 

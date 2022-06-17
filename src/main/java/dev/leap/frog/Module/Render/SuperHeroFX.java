@@ -41,6 +41,6 @@ public class SuperHeroFX extends Module {
     public void onRender() {
         if(mc.getRenderManager() == null || mc.entityRenderer == null) return;
 
-
+        
     }
 }

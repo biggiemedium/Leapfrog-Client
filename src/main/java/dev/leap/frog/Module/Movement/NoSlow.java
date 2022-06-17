@@ -2,6 +2,7 @@ package dev.leap.frog.Module.Movement;
 
 import dev.leap.frog.Event.LeapFrogEvent;
 import dev.leap.frog.Event.Movement.EventPlayerMotionUpdate;
+import dev.leap.frog.Event.Movement.EventPlayerRightClick;
 import dev.leap.frog.Event.Movement.EventPlayerStoppedUsingItem;
 import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Module.Module;
@@ -9,13 +10,11 @@ import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Entity.Playerutil;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemPotion;
-import net.minecraft.network.play.client.CPacketClickWindow;
-import net.minecraft.network.play.client.CPacketEntityAction;
-import net.minecraft.network.play.client.CPacketPlayer;
-import net.minecraft.network.play.client.CPacketPlayerDigging;
+import net.minecraft.network.play.client.*;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.client.event.InputUpdateEvent;
@@ -37,6 +36,7 @@ public class NoSlow extends Module {
         Packet
     }
 
+    private boolean spoofing = false;
 
     @Override
     public void onUpdate() {
@@ -57,6 +57,24 @@ public class NoSlow extends Module {
                 mc.player.motionZ *= 0.84;
             }
         }
+
+        if(mode.getValue() == Mode.Packet) {
+            if(spoofing) {
+                if(((!mc.player.isHandActive() && mc.player.getActiveItemStack().getItem() instanceof ItemFood || mc.player.getActiveItemStack().getItem() instanceof ItemBow || mc.player.getActiveItemStack().getItem() instanceof ItemPotion) || (!(mc.player.getActiveItemStack().getItem() instanceof ItemFood) || !(mc.player.getActiveItemStack().getItem() instanceof ItemBow) || !(mc.player.getActiveItemStack().getItem() instanceof ItemPotion))))
+                spoofing = false;
+            }
+        }
+    }
+
+    @Override
+    public void onDisable() {
+
+        if(spoofing) {
+            if(!mc.player.isSneaking()) {
+                mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
+            }
+            spoofing = false;
+        }
     }
 
     @EventHandler
@@ -71,26 +89,10 @@ public class NoSlow extends Module {
     });
 
     @EventHandler
-    private Listener<EventPlayerMotionUpdate> updateListener = new Listener<>(event -> {
-        if(event.getEra().equals(LeapFrogEvent.Era.POST) && mode.getValue() == Mode.Packet) {
-            if(run.getValue() && mc.player.isHandActive() && !mc.player.isRiding()) {
-                mc.player.connection.sendPacket(new CPacketPlayerDigging(CPacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, BlockPos.ORIGIN, EnumFacing.DOWN));
-            }
+    private Listener<LivingEntityUseItemEvent> itemEventListener = new Listener<>(event -> {
+        if(!spoofing) {
+            mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
+            this.spoofing = true;
         }
     });
-
-    @EventHandler
-    private Listener<EventPacket.SendPacket> packetListener = new Listener<>(event -> {
-
-        if (event.getPacket() instanceof CPacketClickWindow && mode.getValue() == Mode.Packet && run.getValue()) {
-                if (mc.player.isActiveItemStackBlocking()) {
-                    mc.playerController.onStoppedUsingItem(mc.player);
-                }
-                if (mc.player.isSneaking())
-                    mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SNEAKING));
-                if (mc.player.isSprinting())
-                    mc.player.connection.sendPacket(new CPacketEntityAction(mc.player, CPacketEntityAction.Action.STOP_SPRINTING));
-            }
-    });
-
 }

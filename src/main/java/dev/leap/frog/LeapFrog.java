@@ -38,6 +38,7 @@ public class LeapFrog {
     private static EventProcessor eventManager;
     private static FileManager fileManager;
     private static HudManager hudManager;
+    private static UtilManager utilManager;
 
     @EventHandler
     public void init(FMLInitializationEvent event) {
@@ -49,13 +50,14 @@ public class LeapFrog {
         //register managers
         settingManager = new SettingManager(); // settings manager must come BEFORE module manager or returns null
         moduleManager = new ModuleManager();
-        commandManager = new CommandManager();
         eventManager = new EventProcessor();
         hudManager = new HudManager();
         capeManager = new CapeManager();
         discordManager = new DiscordManager();
         friendManager = new FriendManager();
         fileManager = new FileManager();
+        commandManager = new CommandManager();
+        utilManager = new UtilManager();
 
         Display.setTitle("LeapFrog Client");
         Sessionutil.getInstance().setUser("halop56yt@gmail.com", "bhfwb*^GYD7HNj");
@@ -75,6 +77,10 @@ public class LeapFrog {
     public static CapeManager getCapeManager() { return capeManager; }
 
     public static FriendManager getFriendManager() { return friendManager; }
+
+    public static CommandManager getCommandManager() { return commandManager; }
+
+    public static UtilManager getUtilManager() { return utilManager; }
 
     @SubscribeEvent
     public void key(InputEvent e) {

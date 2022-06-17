@@ -18,6 +18,7 @@ public class FileManager extends UtilManager {
     private File settingsPath;
     private File modulePath;
     private File GUIPath;
+    private File systemPath;
 
     public FileManager() {
         path = new File(mc.mcDataDir + File.separator + LeapFrog.MODID);
@@ -39,6 +40,11 @@ public class FileManager extends UtilManager {
         GUIPath = new File(path + File.separator + "GUI");
         if(!GUIPath.exists()) {
             GUIPath.mkdirs();
+        }
+
+        systemPath = new File(path + File.separator + "System");
+        if(!systemPath.exists()) {
+            systemPath.mkdirs();
         }
 
         loadFriend();
@@ -360,7 +366,6 @@ public class FileManager extends UtilManager {
             DataInputStream dis = new DataInputStream(inputStream);
             BufferedReader writer = new BufferedReader(new InputStreamReader(dis));
             String line;
-            int xesd = 0;
             while ((line = writer.readLine()) != null) {
                 String cl = line.trim();
                 String name = cl.split(":")[0];
@@ -379,5 +384,14 @@ public class FileManager extends UtilManager {
             }
 
         } catch (Exception ignored) {}
+    }
+
+    private void saveSystem() {
+
+        try {
+            File f = new File(this.systemPath, "Login.txt");
+            FileWriter writer = new FileWriter(f);
+        } catch (Exception ignored) {}
+
     }
 }

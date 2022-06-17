@@ -1,10 +1,12 @@
 package dev.leap.frog.Module.World;
 
 import dev.leap.frog.Event.Movement.EventPlayerMove;
+import dev.leap.frog.Event.Network.EventPacket;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import me.zero.alpine.fork.listener.EventHandler;
 import me.zero.alpine.fork.listener.Listener;
+import net.minecraft.network.play.client.CPacketPlayer;
 import net.minecraftforge.client.event.ClientChatEvent;
 
 public class AntiSuicide extends Module {
@@ -32,6 +34,15 @@ public class AntiSuicide extends Module {
         if(fall.getValue() && !mc.player.isSneaking()) {
             if(mc.player.fallDistance > 5) {
                 
+            }
+        }
+    });
+
+    @EventHandler
+    private Listener<EventPacket.SendPacket> packetListener = new Listener<>(event -> {
+        if(event.getPacket() instanceof CPacketPlayer) {
+            if(mc.player.fallDistance > 5) {
+                ((CPacketPlayer) event.getPacket()).onGround = true;
             }
         }
     });

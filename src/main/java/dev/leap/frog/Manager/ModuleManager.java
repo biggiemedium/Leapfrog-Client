@@ -31,12 +31,12 @@ public class ModuleManager {
 
         // Client
         Add(new ArmorNotify()); // done
-        Add(new AutoEZ());
         Add(new AutoReply()); // done
         Add(new Blur()); // done
         Add(new ChatLogger());
         Add(new NewGUI());
         Add(new Suffix()); // done
+        //Add(new SyncFriends());
         Add(new ToggleMessage()); // null error in module class
 
         //// Combat
@@ -60,10 +60,11 @@ public class ModuleManager {
         // Misc
         Add(new AntiSound()); // done
         Add(new Blink()); // done
-        Add(new Test());
         Add(new FastUse()); // done
         Add(new MiddleClickFriends()); // done
         Add(new MiddleClickPearl()); // done
+        Add(new PlayerRange()); // done I think try double checking it
+        Add(new Test());
         Add(new TotemPopCounter()); // done
 
         // Exploit
@@ -78,13 +79,13 @@ public class ModuleManager {
         Add(new XCarry()); // done
 
         // World
-        Add(new AntiSuicide()); // add more
+        Add(new AntiSuicide()); // done
+        Add(new AutoEZ());
         Add(new AutoTool());
         Add(new Copy()); // done
         Add(new FakePlayer()); // done
         Add(new MobOwner());
         Add(new Quiver()); // Fix null errors
-        Add(new SignColor());
         Add(new StrengthDetect()); // havent checked if done, I think it spams chat
 
         // Render
@@ -104,15 +105,17 @@ public class ModuleManager {
 
         //Movement
         Add(new AntiAim());
-        Add(new Speed());
+        Add(new Centre());
+        Add(new ElytraFly());
         Add(new FastSwim());
         Add(new FastWeb()); // done
-        Add(new Sprint()); // done
-        Add(new ElytraFly());
+        Add(new Jesus());
         Add(new Nofall()); // done
-        Add(new NoSlow()); // Finish Packet
         Add(new NoRotate()); // done
+        Add(new NoSlow()); // Finish Packet
         Add(new ReverseStep()); // done
+        Add(new Speed());
+        Add(new Sprint()); // done
     }
 
     public void Add(Module m) {

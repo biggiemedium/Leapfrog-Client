@@ -2,11 +2,8 @@ package dev.leap.frog.Module.Misc;
 
 import com.mojang.realmsclient.gui.ChatFormatting;
 import dev.leap.frog.Event.Network.EventPacket;
-import dev.leap.frog.Event.Network.EventPacketUpdate;
-import dev.leap.frog.LeapFrog;
 import dev.leap.frog.Manager.FriendManager;
 import dev.leap.frog.Manager.UtilManager;
-import dev.leap.frog.Module.Client.AutoEZ;
 import dev.leap.frog.Module.Module;
 import dev.leap.frog.Settings.Setting;
 import dev.leap.frog.Util.Render.Chatutil;
@@ -15,12 +12,8 @@ import me.zero.alpine.fork.listener.Listener;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.server.SPacketEntityStatus;
-import net.minecraft.util.text.TextComponentString;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class TotemPopCounter extends Module {
 

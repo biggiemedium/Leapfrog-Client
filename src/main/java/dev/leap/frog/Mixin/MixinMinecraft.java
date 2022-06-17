@@ -18,7 +18,7 @@ public class MixinMinecraft {
 
     @Inject(method = "shutdown", at = @At("HEAD"))
     public void onShutdown(CallbackInfo ci) {
-        //LeapFrog.getFileManager().save();
+        LeapFrog.getFileManager().save();
         LeapFrog.getDiscordManager().Stop();
         ChatLogger.INSTANCE.close(ChatLogger.INSTANCE.getWriter());
     }

@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -119,5 +120,18 @@ public class Playerutil extends UtilManager {
 
     public static EnumHand getHand() {
         return mc.player.getHeldItemMainhand().getItem() == Items.GOLDEN_APPLE ? EnumHand.MAIN_HAND : EnumHand.OFF_HAND;
+    }
+
+    public static boolean isInputKeysPressed() {
+        return mc.gameSettings.keyBindForward.isPressed() || mc.gameSettings.keyBindBack.isKeyDown() || mc.gameSettings.keyBindRight.isKeyDown() || mc.gameSettings.keyBindLeft.isKeyDown();
+    }
+
+    public static double getBaseMotionSpeed() {
+        double baseSpeed = 0.2873D;
+        if (mc.player.isPotionActive(MobEffects.SPEED)) {
+            int amplifier = mc.player.getActivePotionEffect(MobEffects.SPEED).getAmplifier();
+            baseSpeed *= 1.0D + 0.2D * ((double) amplifier + 1);
+        }
+        return baseSpeed;
     }
 }
